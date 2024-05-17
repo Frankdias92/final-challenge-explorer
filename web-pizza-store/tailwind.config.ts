@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './src/**/*.{js,ts,jsx,tsx,mdx}'
+    './src/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
@@ -34,11 +34,10 @@ module.exports = {
       },
       fontFamily: {
         roboto: ['var(--font-roboto)'],
-        poppins: ['var(--font-poppins']
+        poppins: ['var(--font-poppins)']
       },
     },
 
   },
   plugins: [],
 };
-// export default config;

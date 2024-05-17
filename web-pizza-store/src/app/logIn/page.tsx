@@ -3,6 +3,7 @@
 import { ButtonText } from "@/components/buttonText";
 import { LabelInput } from "@/components/forms/inputLabel";
 import { Paragraph } from "@/components/paragraph";
+import { TestComponent } from "@/components/test";
 import { BsFillHexagonFill } from "react-icons/bs";
 
 
@@ -15,6 +16,8 @@ export default function LogIn() {
                 <span className="text-tint-cake-400 text-4xl"><BsFillHexagonFill /></span>
                 food explorer
             </span>
+
+            <TestComponent />
 
             <div className="flex flex-col w-full gap-8 mt-[73px]">
                 <form 
