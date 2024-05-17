@@ -3,7 +3,7 @@
 export default function Store() {
 
     return (
-        <div>
+        <div className="">
             Store
         </div>
     )
