@@ -1,9 +1,7 @@
 'use client'
 
-import { ButtonText } from "@/components/buttonText";
-import { LabelInput } from "@/components/forms/inputLabel";
-import { Paragraph } from "@/components/paragraph";
-import { TestComponent } from "@/components/test";
+
+import { HandleWithLogin } from "@/components/login/handleWithLogin";
 import { BsFillHexagonFill } from "react-icons/bs";
 
 
@@ -17,27 +15,8 @@ export default function LogIn() {
                 food explorer
             </span>
 
-            <TestComponent />
-
             <div className="flex flex-col w-full gap-8 mt-[73px]">
-                <form 
-                    className="flex flex-col"
-                >
-                    <LabelInput 
-                        label="Name" 
-                        type="text"
-                        placeholder="Exemplo: exemplo@exemplo.com.br"
-                        />
-                    <LabelInput 
-                        label="Senha" 
-                        type="text"
-                        placeholder="No mínimo 6 caracteres"
-                    />
-                </form>
-
-                <ButtonText text="Entrar"/>
-
-                <Paragraph text="Criar uma conta"/>
+                <HandleWithLogin />
             </div>
 
         </section>
