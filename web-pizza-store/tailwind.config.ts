@@ -1,13 +1,13 @@
-import type { Config } from "tailwindcss";
-
-const config: Config = {
+/** @type {import('tailwindcss').Config} */
+module.exports = {
   content: [
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    './src/**/*.{js,ts,jsx,tsx,mdx}'
   ],
   theme: {
     extend: {
       colors: {
+        'white': '#ffffff',
+        "light-100": "#FFFFFF",
         "light-200": "#FFFAF1",
         "light-300": "#E1E1E6",
         "light-400": "#C4C4CC",
@@ -35,9 +35,10 @@ const config: Config = {
       fontFamily: {
         roboto: ['var(--font-roboto)'],
         poppins: ['var(--font-poppins']
-      }
+      },
     },
+
   },
   plugins: [],
 };
-export default config;
+// export default config;

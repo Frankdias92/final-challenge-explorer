@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import "./globals.css";
 import { Poppins, Roboto } from 'next/font/google'
+import "./globals.css";
 
-const roboto = Roboto({ subsets: ["latin"], weight: ["300", "400"], variable: '--font-roboto' })
-const poppins = Poppins({ subsets: ["latin"], weight: ["300", "400"], variable: '--font-poppins' })
+const roboto = Roboto({ subsets: ["latin"], weight: ["300","400","700"], variable: '--font-roboto' })
+const poppins = Poppins({  subsets: ["latin-ext"], weight: ["400", "300"], variable: '--font-poppins' })
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,7 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className={`${roboto.variable} ${poppins.variable}`}>{children}</body>
+      <body className={`${poppins.className} ${roboto.variable} ${poppins.variable}`}>
+        {children}
+      </body>
     </html>
   );
 }
