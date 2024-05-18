@@ -15,7 +15,7 @@ export function ListProductsFeatures({ image, title, price, amount }: ListProps)
     const pathImg = 'https://raw.githubusercontent.com/Frankdias92/final-challenge-explorer/main/web-pizza-store/src/assets/menu'
 
     return (
-        <div className="flex flex-col w-[210px] h-[292px] rounded-lg bg-dark-900 border-0 outline-none
+        <div className="flex flex-col m-4 w-[210px] h-[292px] rounded-lg bg-dark-900 border-0 outline-none
             ring-1 ring-dark-800 ">
                 <div className="flex flex-col w-full h-full justify-start items-center gap-3 p-6">
                     <span className="flex size-[88px] bg-cover">

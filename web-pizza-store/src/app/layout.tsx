@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
-import { Poppins, Roboto } from 'next/font/google'
+import { DM_Sans, Poppins, Roboto } from 'next/font/google'
 import { Providers } from './providers'
 import "./globals.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ["300","400","700"], variable: '--font-roboto' })
 const poppins = Poppins({  subsets: ["latin-ext"], weight: ["400", "300"], variable: '--font-poppins' })
+const dmSans = DM_Sans({ subsets: ["latin-ext"], variable: '--font-dmSams' })
 
 export const metadata: Metadata = {
   title: "Login | Food explorer",
@@ -18,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className={`${roboto.variable} ${poppins.variable}`}>
+      <body className={`${roboto.variable} ${poppins.variable} ${dmSans.variable}`}>
         <Providers>
           {children}
         </Providers>

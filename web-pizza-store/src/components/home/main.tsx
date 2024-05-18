@@ -5,7 +5,7 @@ export function Main() {
     const pathImg = 'https://raw.githubusercontent.com/Frankdias92/final-challenge-explorer/main/web-pizza-store/src/assets'
 
     return (
-        <main className="flex w-full px-7"> 
+        <main className="flex w-full px-7 mt-11">
             <div className="grid grid-cols-2 w-full h-[120px] bg-gradient-to-b from-gradient-200-to to-gradient-200-stop rounded-[3px] relative">
                 <div className="flex">
                     <span className="absolute flex bottom-0 left-0 overflow-hidden 
@@ -21,8 +21,8 @@ export function Main() {
                     </span>
                 </div>
 
-                <div className="flex flex-col justify-center font-poppins text-light-300 antialiased">
-                    <h3 className="text-lg font-semibold">
+                <div className="flex flex-col w-full justify-center items-center font-poppins text-light-300 antialiased">
+                    <h3 className="text-lg font-semibold ">
                         Sabores inigualáveis
                     </h3>
                     <p className="text-sm">

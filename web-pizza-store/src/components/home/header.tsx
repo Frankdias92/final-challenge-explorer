@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { BsFillHexagonFill } from "react-icons/bs";
 import { CgClose } from "react-icons/cg";
 import { FiMenu } from "react-icons/fi";
 import { PiReceipt } from "react-icons/pi";
+import { BsFillHexagonFill } from "react-icons/bs";
 
 
 export function Header() {
@@ -27,7 +27,7 @@ export function Header() {
                         <FiMenu/>
                     </button>
 
-                    <span className="flex w-full items-center justify-center font-bold gap-2 text-xl">
+                    <span className="flex w-full items-center justify-center font-bold gap-2 text-xl tex">
                         <span className="text-tint-cake-400 text-4xl"><BsFillHexagonFill /></span>
                         food explorer
                     </span>

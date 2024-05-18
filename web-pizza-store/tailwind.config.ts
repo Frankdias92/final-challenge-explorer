@@ -43,7 +43,8 @@ module.exports = {
       },
       fontFamily: {
         roboto: ['var(--font-roboto)'],
-        poppins: ['var(--font-poppins)']
+        poppins: ['var(--font-poppins)'],
+        dmsams: ['var(--font-dmSams)']
       },
     },
 
