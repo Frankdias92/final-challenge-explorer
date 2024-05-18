@@ -35,6 +35,11 @@ module.exports = {
         "tint-mint-100": "#04D361",
         "tint-cake-100": "#82F3FF",
         "tint-cake-400": "#065E7C",
+
+        "gradient-100-to": "#000A0F",
+        "gradient-100-stop": "#000A0F", //27% opacity
+        "gradient-200-to": "#091E26",
+        "gradient-200-stop": "#00131C",
       },
       fontFamily: {
         roboto: ['var(--font-roboto)'],
