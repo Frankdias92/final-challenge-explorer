@@ -1,12 +1,15 @@
 'use client'
 
 import { Header } from "@/components/home/header";
+import { Main } from "@/components/home/main";
 
 export default function Home() {
 
     return (
-        <section className="flex flex-col min-h-screen w-full justify-between bg-dark-700">
+        <section className="flex flex-col min-h-screen w-full gap-11 bg-dark-700">
             <Header />
+            <Main />
+
         </section>
     )
 }
