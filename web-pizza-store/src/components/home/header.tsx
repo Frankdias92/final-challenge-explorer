@@ -5,28 +5,26 @@ import { CgClose } from "react-icons/cg";
 import { FiMenu } from "react-icons/fi";
 import { PiReceipt } from "react-icons/pi";
 import { BsFillHexagonFill } from "react-icons/bs";
+import { MenuDrop } from "../menuDrop";
 
 
 export function Header() {
     const [menuIsOpen, setMenuOpen] = useState(false)
     
     return (
-        <header className="grid w-full h-28 px-7 pb-8 bg-dark-400 content-end text-white relative">
+        <header className="grid w-full h-28 px-7 pb-8 bg-dark-400 content-end text-white">
             {menuIsOpen ? (
-                <div className="w-full ">
+                <div className="absolute flex flex-col min-w-full z-20 bg-dark-400 -translate-x-7">
                     <button
-                        className="flex w-full h-8 items-center gap-4 text-2xl content-end"
+                        className="flex w-full h-8 items-center gap-4 text-2xl content-end mt-12 px-7"
                         onClick={() => setMenuOpen(false)}
                     >
                         <CgClose/>
-                        Menu 
+                        Menu
                     </button>
 
-                    <div className="absolute flex flex-col w-full min-h-screen overflow-auto bg-red-800 top-28 left-0 z-30">
-                        <div className="flex flex-col w-full h-full">
-                            <span>23</span>
-                            <span>64</span>
-                        </div>
+                    <div className="fixed flex flex-col w-full min-h-screen bg-dark-700 top-28 left-0 ">
+                        <MenuDrop />
                     </div>
                 </div>
             ) : (

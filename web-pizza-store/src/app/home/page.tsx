@@ -7,7 +7,7 @@ import NextImage from "next/image";
 export default function Home() {
 
     return (
-        <section className="flex flex-col min-h-full w-full justify-between gap-6 bg-dark-700 overflow-hidden">
+        <section className="flex flex-col min-h-screen w-full justify-between gap-6 bg-dark-700 overflow-hidden">
             <Main />
             <Features section="Refeições"/>
             <Features section="Pratos principais"/>

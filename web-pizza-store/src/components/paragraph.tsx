@@ -1,5 +1,5 @@
 
-interface ParagraphProps {
+export interface ParagraphProps {
     text: string
 }
 
