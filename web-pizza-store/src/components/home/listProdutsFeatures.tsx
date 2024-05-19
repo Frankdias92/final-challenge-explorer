@@ -9,9 +9,10 @@ interface ListProps {
     title: string 
     price: string 
     amount: string
+    link: string
 }
 
-export function ListProductsFeatures({ image, title, price, amount }: ListProps) {
+export function ListProductsFeatures({ image, title, price, amount, link }: ListProps) {
     const pathImg = 'https://raw.githubusercontent.com/Frankdias92/final-challenge-explorer/main/web-pizza-store/src/assets/menu'
 
     return (
@@ -40,7 +41,7 @@ export function ListProductsFeatures({ image, title, price, amount }: ListProps)
                             <GoPlus />
                         </div>
 
-                        <ButtonText text="incluir"/>
+                        <ButtonText text="incluir" link={`/home/${link}`}/>
                     </div>
                 </div>
             </div>

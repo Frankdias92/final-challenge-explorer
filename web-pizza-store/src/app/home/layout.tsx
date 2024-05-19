@@ -12,10 +12,8 @@ export const metadata: Metadata = {
     children: React.ReactNode;
   }>) {
     return (
-      <html lang="pt-BR">
-        <body>
+        <section >
           {children}
-        </body>
-      </html>
+        </section>
     );
   }

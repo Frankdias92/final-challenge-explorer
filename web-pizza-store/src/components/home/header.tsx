@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from "react";
 import { CgClose } from "react-icons/cg";
 import { FiMenu } from "react-icons/fi";

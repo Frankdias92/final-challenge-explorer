@@ -1,3 +1,5 @@
+'use client'
+
 import { useRef } from "react";
 import { ListProductsFeatures } from "./listProdutsFeatures";
 import Slider from "react-slick"
@@ -65,6 +67,7 @@ export function Features({ section }: FeaturesProps) {
                                         title="Salada Ravanello"
                                         price="49,97"
                                         amount="1"
+                                        link={String(item.id)}
                                     />
                                 </div>
                             )
