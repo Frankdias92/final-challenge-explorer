@@ -34,8 +34,14 @@ export function Header() {
                         food explorer
                     </span>
 
-                    <span className="size-8">
-                        <PiReceipt className="text-3xl"/>
+                    <span className="size-8 relative">
+                        <PiReceipt className="text-3xl text-center"/>
+                        <span className="flex w-6 h-6 p-2 justify-center items-center rounded-full bg-tint-tomato-400 absolute
+                        top-0 right-0 translate-x-1/2 -translate-y-1/4">
+                            <span className="flex items-center justify-center font-medium text-sm">
+                                5
+                            </span>
+                        </span>
                     </span>
                 </div>
                 
