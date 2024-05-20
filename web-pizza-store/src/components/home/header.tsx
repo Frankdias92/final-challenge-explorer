@@ -1,16 +1,20 @@
 'use client'
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CgClose } from "react-icons/cg";
 import { FiMenu } from "react-icons/fi";
 import { PiReceipt } from "react-icons/pi";
 import { BsFillHexagonFill } from "react-icons/bs";
 import { MenuDrop } from "../menuDrop";
+import { useProducts } from "@/hooks/stateProducts";
 
 
 export function Header() {
+    const { card } = useProducts()
     const [menuIsOpen, setMenuOpen] = useState(false)
-    
+
+
+
     return (
         <header className="grid w-full h-28 px-7 pb-8 bg-dark-400 content-end text-white">
             {menuIsOpen ? (
@@ -46,7 +50,7 @@ export function Header() {
                         <span className="flex w-6 h-6 p-2 justify-center items-center rounded-full bg-tint-tomato-400 absolute
                         top-0 right-0 translate-x-1/2 -translate-y-1/4">
                             <span className="flex items-center justify-center font-medium text-sm">
-                                5   
+                                {Number(card)}
                             </span>
                         </span>
                     </span>

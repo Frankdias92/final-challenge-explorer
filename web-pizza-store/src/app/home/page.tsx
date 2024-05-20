@@ -1,7 +1,5 @@
 import { Features } from "@/components/home/features";
 import { Main } from "@/components/home/main";
-import NextImage from "next/image";
-
 
 
 export default function Home() {
