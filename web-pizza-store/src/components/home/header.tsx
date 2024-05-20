@@ -11,8 +11,14 @@ import { useProducts } from "@/hooks/stateProducts";
 
 export function Header() {
     const { card } = useProducts()
+    const [cardItem, setCardItem] = useState(0)
     const [menuIsOpen, setMenuOpen] = useState(false)
 
+    useEffect(() => {
+        if (card) {
+            setCardItem(card.card)
+        }
+    }, [card])
 
 
     return (
@@ -50,7 +56,7 @@ export function Header() {
                         <span className="flex w-6 h-6 p-2 justify-center items-center rounded-full bg-tint-tomato-400 absolute
                         top-0 right-0 translate-x-1/2 -translate-y-1/4">
                             <span className="flex items-center justify-center font-medium text-sm">
-                                {Number(card)}
+                                {cardItem}
                             </span>
                         </span>
                     </span>

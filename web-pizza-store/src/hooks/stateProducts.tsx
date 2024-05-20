@@ -1,5 +1,6 @@
-import { createContext, useContext, useEffect, useState } from "react"
+'use client'
 
+import { createContext, useContext, useEffect, useState } from "react"
 
 export interface Product {
     id: number,
@@ -45,6 +46,7 @@ function ProductProvider({children}: any) {
     const [product, setProduct] = useState<Product | null>(null)
     const [card, setCard] = useState<CardAmountProps | null>(null)
     
+    console.log('card', card)
 
     function updateProduct(updatedProduct: Product) {
         try {

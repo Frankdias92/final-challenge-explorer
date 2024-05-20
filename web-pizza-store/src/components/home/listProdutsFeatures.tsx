@@ -1,10 +1,15 @@
-import { Image } from "@nextui-org/react";
+
+import { Image, card } from "@nextui-org/react";
 import NextImage from "next/image";
 import { ButtonText } from "../buttonText";
 import { GoDash, GoPlus } from "react-icons/go";
+import { useProducts } from "@/hooks/stateProducts";
+import { useState } from "react";
+import Link from "next/link";
 
 
 interface ListProps {
+    id: number
     image: string 
     title: string 
     price: string 
@@ -12,7 +17,10 @@ interface ListProps {
     link: string
 }
 
-export function ListProductsFeatures({ image, title, price, amount, link }: ListProps) {
+export function ListProductsFeatures({ image, title, price, amount, link, id }: ListProps) {
+    const { handleUpdateCard } = useProducts()
+    const [itemValue, setItemValue] = useState<number>(1)
+    
     const pathImg = 'https://raw.githubusercontent.com/Frankdias92/final-challenge-explorer/main/web-pizza-store/src/assets/menu'
 
     return (
@@ -32,16 +40,16 @@ export function ListProductsFeatures({ image, title, price, amount, link }: List
 
                     
                     <div className="flex flex-col items-center w-full h-full gap-3">
-                        <h2>{title} {`>`}</h2>
+                        <Link href={`/home/${id}`}>{title} {`>`}</Link>
                         <span>R$ {price}</span>
 
-                        <div className="flex justify-center items-center gap-x-4 text-lg text-white">
-                            <GoDash />
-                            <span className="text-light-300">{amount}</span>
-                            <GoPlus />
+                        <div className="flex justify-center items-center gap-x-4 text-lg text-white z-20">
+                            <GoDash onClick={() => setItemValue(itemValue -1)}/>
+                            <span className="text-light-300">{itemValue}</span>
+                            <GoPlus onClick={() => setItemValue(itemValue +1)}/>
                         </div>
 
-                        <ButtonText text="incluir" link={`/home/${link}`}/>
+                        <ButtonText text="incluir" onclick={() => handleUpdateCard({ card: itemValue})}/>
                     </div>
                 </div>
             </div>

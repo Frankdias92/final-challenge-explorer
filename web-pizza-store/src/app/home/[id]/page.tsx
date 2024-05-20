@@ -1,10 +1,12 @@
 'use client'
 
 import { ButtonText } from "@/components/buttonText";
+import { useProducts } from "@/hooks/stateProducts";
 import { Image } from "@nextui-org/react"
 import NextImage from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation"
+import { useState } from "react";
 import { GoDash, GoPlus } from "react-icons/go";
 import { IoIosArrowBack } from "react-icons/io";
 import { PiReceipt } from "react-icons/pi";
@@ -24,6 +26,8 @@ interface ProductsProps {
 
 
 export default function ProductId({ id }: ProductIdProps) {
+    const { handleUpdateCard } = useProducts()
+    const [itemValue, setItemValue] = useState<number>(1)
     const params = useParams()
     const productId = Number(params.id)
     const pathImg = 'https://raw.githubusercontent.com/Frankdias92/final-challenge-explorer/main/web-pizza-store/src/assets/menu'
@@ -61,14 +65,23 @@ export default function ProductId({ id }: ProductIdProps) {
     const filteredProductId = products.find(item => item.id === productId)
     const item = filteredProductId
 
+    
+
+    function itemIsAtCard() {
+        
+    }
+
 
     return (
         <section className="flex flex-col px-7 w-full items-center min-h-full font-poppins antialiased text-light-200 bg-dark-700 pb-9">
              
             <div className="flex flex-col items-center w-full h-full pt-9">
-                <button className="flex items-center text-left mr-auto text-2xl font-medium hover:text-light-400 duration-75">
-                <IoIosArrowBack className="size-8"/> voltar
-                </button>
+                <Link
+                    href='/home'
+                    className="flex items-center text-left mr-auto text-2xl font-medium hover:text-light-400 duration-75"
+                >
+                    <IoIosArrowBack className="size-8"/> voltar
+                </Link>
                 <span className="flex size-[264px] bg-cover my-4 drop-shadow-2xl">
                     <Image
                         as={NextImage}
@@ -109,11 +122,14 @@ export default function ProductId({ id }: ProductIdProps) {
             </div>
             
             <div className="flex w-full justify-center items-center gap-x-4 text-lg text-white pt-12">
-                <GoDash className="text-6xl"/>
-                <span className="text-light-300 font-roboto font-bold text-2xl">01</span>
-                <GoPlus className="text-6xl"/>
+                <GoDash className="text-6xl" onClick={() => setItemValue(itemValue -1)}/>
+                <span className="text-light-300 font-roboto font-bold text-2xl">{itemValue}</span>
+                <GoPlus className="text-6xl"
+                    onClick={() => setItemValue(itemValue+1)}
+                />
 
                 <Link href={''}
+                    onClick={() => handleUpdateCard({card: itemValue})}
                     className="flex w-full items-center justify-center h-11 gap-2 rounded-md text-white text-xs bg-tint-tomato-400 hover:bg-tint-tomato-300 duration-75"
                 >
                     <PiReceipt className="text-xl"/> 
