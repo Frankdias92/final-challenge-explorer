@@ -3,12 +3,7 @@
 import { createContext, useContext, useEffect, useState } from "react"
 
 export interface Product {
-    id: number,
-    image: string 
-    title: string 
-    price: string 
-    amount: string
-    link: string
+    amount: number
 }
 
 interface ProductsContextProps {
@@ -19,12 +14,9 @@ interface ProductsContextProps {
 }
 
 interface UpdateProductProps {
-    id: number
-    image: string 
-    title: string 
-    price: string 
-    amount: string
-    link: string
+    product: {
+        amount: number
+    }
 }
 
 interface CardAmountProps {
@@ -43,16 +35,15 @@ export const ProductsContext = createContext<ProductsContextProps>({
 
 
 function ProductProvider({children}: any) {
-    const [product, setProduct] = useState<Product | null>(null)
+    const [data, setData] = useState<{ product: Product | null}>({ product: null })
     const [card, setCard] = useState<CardAmountProps | null>(null)
     
-    console.log('card', card)
+    console.log(data.product)
 
-    function updateProduct(updatedProduct: Product) {
+    function updateProduct({ product }: UpdateProductProps) {
         try {
-            if (updatedProduct) {
-                setProduct(updatedProduct)
-                console.log('something')
+            if (product) {
+                setData({ product: product})
             }
         } catch (error) {
             if (error) {
@@ -63,17 +54,33 @@ function ProductProvider({children}: any) {
 
     function handleUpdateCard({ card }: CardAmountProps) {
         try {
-            setCard({ card: card})
+            setCard({ card: data.product})
         } catch (error) {
             alert('Something went wrong with updating the card amount')
         }
     }
+    console.log('card: ', card)
+
+    // useEffect(() => {
+    //     function handleUpdateCard() {
+    //         try {
+    //             if (data) {
+    //                 // setCard({ card: data.product?.amount })
+    //             }
+    //         } catch (error) {
+    //             alert('Something went wrong with updating the card amount')
+    //         }
+    //     }
+    //     handleUpdateCard()
+    // }, [data])
+    
+    
     
 
     return (
         <ProductsContext.Provider value={{
             updateProduct,
-            product,
+            product: data.product,
             card,
             handleUpdateCard,
         }}>

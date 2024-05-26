@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import { ListProductsFeatures } from "./listProdutsFeatures";
 import Slider from "react-slick"
-import Link from "next/link";
 
 
 interface FeaturesProps {
@@ -19,21 +18,18 @@ export function Features({ section }: FeaturesProps) {
             image: "Mask%20group-6.png",
             title: "Salada Ravanello",
             price: "49,97",
-            amount: "1"
         },
         {
             id: 2,
             image: "Mask%20group-1.png",
             title: "Salada Ravanello",
             price: "49,97",
-            amount: "1"
         },
         {
             id: 3,
             image: "Mask%20group-2.png",
             title: "Salada Ravanello",
             price: "49,97",
-            amount: "1"
         },
     ]
 
@@ -64,12 +60,13 @@ export function Features({ section }: FeaturesProps) {
                             return (
                                 <div className="flex gap-4 z-0" key={item.id}>
                                     <ListProductsFeatures
-                                        id={item.id}
-                                        image={item.image}
-                                        title="Salada Ravanello"
-                                        price="49,97"
-                                        amount="1"
-                                        link={String(item.id)}
+                                        productList={{
+                                            id: item.id,
+                                            image: item.image,
+                                            title: item.title,
+                                            price: item.price,
+                                        }}
+
                                     />
                                 </div>
                             )
