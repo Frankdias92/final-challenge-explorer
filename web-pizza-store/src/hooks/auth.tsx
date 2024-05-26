@@ -1,6 +1,10 @@
 import { createContext, useContext, useState } from "react";
 
-
+interface SingInProps {
+    email: string
+    password: string
+    role: string
+}
 interface User {
     name: string
     email: string
@@ -8,14 +12,16 @@ interface User {
     role: string
 }
 
+
+
 interface AuthContextProps {
     user: User | null
+    singIn: (SingInProps: SingInProps) => void
 }
 
-
-
 const AuthContext = createContext<AuthContextProps>({
-    user: null
+    user: null,
+    singIn: () => {}
 })
 
 function AuthProvider({ children }:any) {
@@ -24,12 +30,15 @@ function AuthProvider({ children }:any) {
         token: string | null
     }>({ user: null, token: null })
     
-    
+    function singIn({ email, password, role }: SingInProps) {
+        
+    }
 
     return (
         <AuthContext.Provider
             value={{
-                user: data.user
+                user: data.user,
+                singIn
             }}
         >
             {children}
