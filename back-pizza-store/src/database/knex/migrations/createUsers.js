@@ -5,7 +5,7 @@ exports.up = knex => knex.schema.createTable("users", table => {
   table.text("password").notNullable()
 
   table
-    .enum("role", ["admin", "customer"], { useNative: true, enumBase: "roles" })
+    .enum("role", ["admin", "customer"], { useNative: true, enumName: "roles" })
     .notNullable()
     .defaultTo("customer")
 

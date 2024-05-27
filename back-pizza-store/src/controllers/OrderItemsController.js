@@ -17,6 +17,8 @@ class OrderItemsController {
 
     async index(req, res) {
         try {
+            const orderItems = await knex("order_items")
+            
             if (orderItems) {
                 const orderItems = await knex("order_items").select("*")
                 res.status(200).json({orderItems})
