@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { ListProductsFeatures } from "./listProdutsFeatures";
 import Slider from "react-slick"
+import { UseAuth } from "@/hooks/auth";
 
 
 interface FeaturesProps {
@@ -11,6 +12,11 @@ interface FeaturesProps {
 
 export function Features({ section }: FeaturesProps) {
     const sliderRef = useRef<Slider | null>(null)
+
+
+    const feature = UseAuth()
+    
+    console.log('feature: ', feature)
 
     const products = [
         {

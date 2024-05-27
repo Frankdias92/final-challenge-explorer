@@ -6,26 +6,26 @@ import { Paragraph } from "@/components/paragraph";
 import { useState } from "react";
 
 import { api } from '../../services/api'
+import { UseAuth } from "@/hooks/auth";
 
 
 export function HandleWithLogin() {
     const [isActive, setIsActive] = useState(true)
 
     const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [email, setEmail] = useState<string>('')
+    const [password, setPassword] = useState<string>('')
+
+    const { singIn } = UseAuth()
     
-    function handleSignIn() {
-        console.log(email, password)
-        
+    function handleSignIn() {  
+        singIn({ email, password })
     }
     
     async function handleSignUp() {
-        console.log(name, email, password)
         if (!name || !email || !password) {
             return alert('Preencha os dados')
         }
-        
 
         try {
             const data = await api.post('users', { name, email, password })
@@ -34,7 +34,6 @@ export function HandleWithLogin() {
         } catch (error: any) {
             alert(error.response.data.message)
         }
-            
     }
     
     return (

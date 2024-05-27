@@ -1,12 +1,14 @@
-import { createContext, useContext, useState } from "react";
+'use client'
+
+import { api } from "@/services/api";
+import { useRouter } from "next/navigation";
+import { createContext, useContext, useEffect, useState } from "react";
 
 interface SingInProps {
     email: string
     password: string
-    role: string
 }
 interface User {
-    name: string
     email: string
     password: string
     role: string
@@ -19,20 +21,39 @@ interface AuthContextProps {
     singIn: (SingInProps: SingInProps) => void
 }
 
-const AuthContext = createContext<AuthContextProps>({
+export const AuthContext = createContext<AuthContextProps>({
     user: null,
     singIn: () => {}
 })
 
 function AuthProvider({ children }:any) {
     const [data, setData] = useState<{
-        user: User | null,
-        token: string | null
-    }>({ user: null, token: null })
+        user: User | null
+        // token: string | null
+    }>({ user: null })
     
-    function singIn({ email, password, role }: SingInProps) {
-        
+    const router = useRouter()
+
+
+    async function singIn({ email, password }: SingInProps) {
+        try {
+            const response = await api.post('/sessions', 
+                { email, password },
+                { withCredentials: true }
+            )
+            const { user  } = response.data
+
+            localStorage.setItem("@estock:user", JSON.stringify(user))
+            
+            setData({  user }) 
+        } catch (error: any) {
+            alert(error.response.data.message)
+        }
     }
+
+    useEffect(() => {
+       
+    })
 
     return (
         <AuthContext.Provider
@@ -47,8 +68,10 @@ function AuthProvider({ children }:any) {
 }
 
 
-function useAuth() {
+function UseAuth() {
     const context = useContext(AuthContext)
+
+    return context
 }
 
-export { AuthProvider, useAuth, AuthContext }
+export { AuthProvider, UseAuth }

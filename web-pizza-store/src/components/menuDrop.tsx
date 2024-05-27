@@ -2,8 +2,13 @@
 
 import { GoSearch } from "react-icons/go"
 import { ParagraphDivision } from "./paragraphDivision"
+import { UseAuth } from "@/hooks/auth"
 
 export function MenuDrop() {
+
+    const  user  = UseAuth()
+
+    console.log('user auth: ' , user)
 
     return (
         <div className="flex flex-col w-full min-h-full px-7 pt-12">
