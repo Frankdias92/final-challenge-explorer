@@ -59,7 +59,7 @@ export function HandleWithLogin() {
                     />
                 </form>
 
-                <ButtonText text="Entrar" onclick={handleSignIn}/>
+                <ButtonText text="Entrar" onclick={handleSignIn} size={48}/>
 
                 <button onClick={() => setIsActive(false)}>
                     <Paragraph text="Criar uma conta"/>
@@ -93,7 +93,7 @@ export function HandleWithLogin() {
                     />
                 </form>
 
-                <ButtonText text="Criar conta" onclick={handleSignUp}/>
+                <ButtonText text="Criar conta" onclick={handleSignUp} size={48}/>
 
                 <button onClick={() => setIsActive(!false)}>
                     <Paragraph text="Já tenho uma conta"/>
