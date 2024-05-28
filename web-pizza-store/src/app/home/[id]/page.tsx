@@ -6,7 +6,7 @@ import { useProducts } from "@/hooks/stateProducts";
 import { Image } from "@nextui-org/react"
 import NextImage from "next/image";
 import Link from "next/link";
-import { useParams } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { useState } from "react";
 import { GoDash, GoPlus } from "react-icons/go";
 import { IoIosArrowBack } from "react-icons/io";
@@ -33,6 +33,7 @@ export default function ProductId({ id }: ProductIdProps) {
     const productId = Number(params.id)
     const pathImg = 'https://raw.githubusercontent.com/Frankdias92/final-challenge-explorer/main/web-pizza-store/src/assets/menu'
 
+    const router = useRouter()
 
 
     const products: ProductsProps[] = [
@@ -118,15 +119,13 @@ export default function ProductId({ id }: ProductIdProps) {
                 </div>
             </div>
             
-            {user && user.role === 'admin' ? <span className="flex w-full pt-12"><ButtonText text="Editar prato" size={48}/></span>  : (
+            {user && user.role === 'admin' ? <span className="flex w-full pt-12"><ButtonText text="Editar prato" size={48} onclick={() => router.push('/home/new')}/></span>  : (
                 <div className="flex w-full justify-center items-center gap-x-4 text-lg text-white pt-12 mb-12">
                     <GoDash className="text-6xl" onClick={() => setItemValue(itemValue -1)}/>
                     <span className="text-light-300 font-roboto font-bold text-2xl">{itemValue}</span>
                     <GoPlus className="text-6xl"
                         onClick={() => setItemValue(itemValue+1)}
                     />
-
-                    
                     <Link href={''}
                         onClick={() => handleUpdateCard({card: itemValue})}
                         className="flex w-full items-center justify-center h-11 gap-2 rounded-md text-white text-xs bg-tint-tomato-400 hover:bg-tint-tomato-300 duration-75"

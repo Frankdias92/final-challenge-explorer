@@ -9,6 +9,8 @@ interface SingInProps {
     password: string
 }
 interface User {
+    id: number
+    name: string
     email: string
     password: string
     role: string

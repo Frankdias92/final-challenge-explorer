@@ -5,14 +5,17 @@ interface ButtonTextProps {
     // link?: string
     onclick?: () => void
     size?: number
+    isDisable?: boolean
 }
 
-export function ButtonText({ text, onclick, size }: ButtonTextProps) {
+export function ButtonText({ text, onclick, size, isDisable }: ButtonTextProps) {
     
     return (
         <button
             onClick={onclick}
-            className={`flex w-full items-center justify-center ${size === 48 ? 'h-11' : 'h-8' }  py-1 rounded-md text-white bg-tint-tomato-400 hover:bg-tint-tomato-300 duration-75`}
+            type="button"
+            className={`flex w-full items-center justify-center ${size === 48 ? 'h-11' : 'h-8' }  py-1 rounded-md text-white  duration-75
+                ${isDisable ? 'bg-tint-tomato-100' : 'bg-tint-tomato-400 hover:bg-tint-tomato-300'}`}
         >
             <div >
                 {text}
