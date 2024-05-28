@@ -19,17 +19,18 @@ interface User {
 interface AuthContextProps {
     user: User | null
     singIn: (SingInProps: SingInProps) => void
+    signOut: () => void
 }
 
 export const AuthContext = createContext<AuthContextProps>({
     user: null,
-    singIn: () => {}
+    singIn: () => {},
+    signOut: () => {}
 })
 
 function AuthProvider({ children }:any) {
     const [data, setData] = useState<{
         user: User | null
-        // token: string | null
     }>({ user: null })
     
     const router = useRouter()
@@ -43,23 +44,40 @@ function AuthProvider({ children }:any) {
             )
             const { user  } = response.data
 
-            localStorage.setItem("@estock:user", JSON.stringify(user))
-            
-            setData({  user }) 
+            if (user) {
+                localStorage.setItem("@estock:user", JSON.stringify(user))
+                setData({  user }) 
+                router.push('/home')
+            } else {
+                console.log("something wrong with your informations.")
+            }
         } catch (error: any) {
             alert(error.response.data.message)
         }
     }
 
+    function signOut() {
+        localStorage.removeItem("@estock:user")
+        setData({user: null})
+        router.push('/login')
+    }
+    
     useEffect(() => {
-       
-    })
+       const user = localStorage.getItem("@estock:user")
+
+       if (user) {
+        setData({ user: JSON.parse(user)})
+       } else {
+        setData({ user: null})
+       }
+    }, [])
 
     return (
         <AuthContext.Provider
             value={{
                 user: data.user,
-                singIn
+                singIn,
+                signOut
             }}
         >
             {children}

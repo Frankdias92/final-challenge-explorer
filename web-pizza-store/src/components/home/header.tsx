@@ -7,6 +7,7 @@ import { PiReceipt } from "react-icons/pi";
 import { BsFillHexagonFill } from "react-icons/bs";
 import { MenuDrop } from "../menuDrop";
 import { useProducts } from "@/hooks/stateProducts";
+import { UseAuth } from "@/hooks/auth";
 
 
 export function Header() {
@@ -14,6 +15,15 @@ export function Header() {
     const [cardItem, setCardItem] = useState(0)
     const [menuIsOpen, setMenuOpen] = useState(false)
 
+
+    const  { signOut, user }  = UseAuth()
+
+    function handleSignOut() {
+        signOut()
+        console.log('sign out click')
+    }
+    
+    
     useEffect(() => {
         if (card) {
             setCardItem(card.card)

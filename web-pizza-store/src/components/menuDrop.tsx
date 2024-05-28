@@ -6,10 +6,7 @@ import { UseAuth } from "@/hooks/auth"
 
 export function MenuDrop() {
 
-    const  user  = UseAuth()
-
-    console.log('user auth: ' , user)
-
+    const  { signOut, user }  = UseAuth()
     return (
         <div className="flex flex-col w-full min-h-full px-7 pt-12">
             <div className="flex flex-col w-full gap-9">
@@ -23,8 +20,8 @@ export function MenuDrop() {
                 </div>
 
                 <div className="flex flex-col w-full ">
-                    <ParagraphDivision text="Novo prato"/>
-                    <ParagraphDivision text="Sair"/>
+                    { user?.role === 'admin' && <ParagraphDivision text="Novo prato"/>}
+                    <ParagraphDivision text="Sair" onClick={signOut}/>
                 </div>
             </div>
             

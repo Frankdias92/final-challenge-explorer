@@ -5,7 +5,6 @@ import { Providers } from './providers'
 import "./globals.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { Header } from "@/components/home/header";
 import { Footer } from "@/components/home/footer";
 
 
@@ -26,10 +25,8 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={`${roboto.variable} ${poppins.variable} ${dmSans.variable} relative`}>
-        <Providers>
-          <Header />            
+        <Providers>       
           {children}
-          <Footer />
         </Providers>
       </body>
     </html>

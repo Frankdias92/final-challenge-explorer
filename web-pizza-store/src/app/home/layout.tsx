@@ -1,3 +1,5 @@
+import { Footer } from "@/components/home/footer";
+import { Header } from "@/components/home/header";
 import { Metadata } from "next";
 
 
@@ -12,8 +14,10 @@ export const metadata: Metadata = {
     children: React.ReactNode;
   }>) {
     return (
-        <section >
-          {children}
-        </section>
+      <>
+        <Header />
+        {children}
+        <Footer />
+      </>
     );
   }
