@@ -59,12 +59,12 @@ export function Features({ section }: FeaturesProps) {
 
                 <Slider 
                     {...settings}
-                    className="flex justify-center w-full h-full gap-4 overflow-hidden translate-x-7 z-0"
+                    className="flex justify-center w-full h-full  overflow-hidden translate-x-2 z-0"
                 >
            
                         {products.map(item => {
                             return (
-                                <div className="flex gap-4 z-0" key={item.id}>
+                                <div className="flex  z-0" key={item.id}>
                                     <ListProductsFeatures
                                         productList={{
                                             id: item.id,

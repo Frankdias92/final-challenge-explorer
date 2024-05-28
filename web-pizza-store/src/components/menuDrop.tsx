@@ -19,7 +19,7 @@ export function MenuDrop() {
                     <GoSearch className="flex left-4 absolute"/>
                 </div>
 
-                <div className="flex flex-col w-full ">
+                <div className="flex flex-col w-full text-light-300">
                     { user?.role === 'admin' && <ParagraphDivision text="Novo prato"/>}
                     <ParagraphDivision text="Sair" onClick={signOut}/>
                 </div>

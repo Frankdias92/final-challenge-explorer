@@ -12,6 +12,7 @@ import { DataProps } from "@/types/types";
 import { ButtonText } from "../buttonText";
 import { UseAuth } from "@/hooks/auth";
 import Link from "next/link";
+import { CiHeart } from "react-icons/ci";
 
 
 interface ListProps {
@@ -26,7 +27,7 @@ interface ListProps {
 
 export function ListProductsFeatures({ productList }: ListProps) {
     const { updateProduct, product } = useProducts()
-
+    const [isFavorite, setIsFavorite] = useState(false)
 
     const [ itemValue, setItemValue] = useState<number>(1)
     const [data, setData] = useState<DataProps>()
@@ -40,7 +41,12 @@ export function ListProductsFeatures({ productList }: ListProps) {
         <div className="flex flex-col m-4 w-[210px] h-[292px] rounded-lg bg-dark-900 border-0 outline-none
             ring-1 ring-dark-800 relative">
                 <div className="absolute flex right-4 top-4 text-light-300 text-2xl">
-                    {user && user.role === 'admin' ?  <PiPencilSimple /> : <FaHeart /> }
+                    {user && user.role === 'admin' ?  
+                        <PiPencilSimple /> : 
+                        <span className="flex size-8 items-center justify-center">
+                            {isFavorite ? <FaHeart onClick={() => setIsFavorite(!true)}/> : <CiHeart className="text-3xl" onClick={() => setIsFavorite(true)}/>}
+                        </span>
+                    }
                 </div>
                 <div className="flex flex-col w-full h-full justify-start items-center gap-3 p-6">
                     <span className="flex h-[88px] bg-cover">

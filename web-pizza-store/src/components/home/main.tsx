@@ -6,10 +6,10 @@ export function Main() {
 
 
     return (
-        <section className="flex w-full px-7 mt-11">
-            <div className="grid grid-cols-2 w-full h-[120px] bg-gradient-to-b from-gradient-200-to to-gradient-200-stop rounded-[3px] relative">
+        <section className="flex w-full px-6 mt-11">
+            <div className="flex w-full h-[120px] justify-end px-2 bg-gradient-to-b from-gradient-200-to to-gradient-200-stop rounded-[3px] relative">
                 <div className="flex">
-                    <span className="absolute flex bottom-0 left-0 overflow-hidden 
+                    <span className="absolute flex bottom-0 -left-6 overflow-hidden 
                         h-[160px]">
                         <Image
                             as={NextImage}
@@ -22,11 +22,11 @@ export function Main() {
                     </span>
                 </div>
 
-                <div className="flex flex-col w-full justify-center items-center font-poppins text-light-300 antialiased">
-                    <h3 className="text-lg font-semibold ">
+                <div className="flex flex-col w-[60%] justify-center font-poppins text-light-300 antialiased">
+                    <h3 className="text-lg font-semibold">
                         Sabores inigualáveis
                     </h3>
-                    <p className="text-sm">
+                    <p className="text-xs">
                         Sinta o cuidado do preparo com ingredientes selecionados.
                     </p>
                 </div>

@@ -1,6 +1,7 @@
 'use client'
 
 import { ButtonText } from "@/components/buttonText";
+import { UseAuth } from "@/hooks/auth";
 import { useProducts } from "@/hooks/stateProducts";
 import { Image } from "@nextui-org/react"
 import NextImage from "next/image";
@@ -65,15 +66,11 @@ export default function ProductId({ id }: ProductIdProps) {
     const filteredProductId = products.find(item => item.id === productId)
     const item = filteredProductId
 
-    
-
-    function itemIsAtCard() {
-        
-    }
+    const { user } = UseAuth()
 
 
     return (
-        <section className="flex flex-col px-7 w-full items-center min-h-full font-poppins antialiased text-light-200 bg-dark-700 pb-9">
+        <section className="flex flex-col px-7  pb-12 w-full items-center min-h-full font-poppins antialiased text-light-200 bg-dark-700">
              
             <div className="flex flex-col items-center w-full h-full pt-9">
                 <Link
@@ -121,21 +118,25 @@ export default function ProductId({ id }: ProductIdProps) {
                 </div>
             </div>
             
-            <div className="flex w-full justify-center items-center gap-x-4 text-lg text-white pt-12">
-                <GoDash className="text-6xl" onClick={() => setItemValue(itemValue -1)}/>
-                <span className="text-light-300 font-roboto font-bold text-2xl">{itemValue}</span>
-                <GoPlus className="text-6xl"
-                    onClick={() => setItemValue(itemValue+1)}
-                />
+            {user && user.role === 'admin' ? <span className="flex w-full pt-12"><ButtonText text="Editar prato" size={48}/></span>  : (
+                <div className="flex w-full justify-center items-center gap-x-4 text-lg text-white pt-12 mb-12">
+                    <GoDash className="text-6xl" onClick={() => setItemValue(itemValue -1)}/>
+                    <span className="text-light-300 font-roboto font-bold text-2xl">{itemValue}</span>
+                    <GoPlus className="text-6xl"
+                        onClick={() => setItemValue(itemValue+1)}
+                    />
 
-                <Link href={''}
-                    onClick={() => handleUpdateCard({card: itemValue})}
-                    className="flex w-full items-center justify-center h-11 gap-2 rounded-md text-white text-xs bg-tint-tomato-400 hover:bg-tint-tomato-300 duration-75"
-                >
-                    <PiReceipt className="text-xl"/> 
-                    inserir
-                </Link>
-            </div>
+                    
+                    <Link href={''}
+                        onClick={() => handleUpdateCard({card: itemValue})}
+                        className="flex w-full items-center justify-center h-11 gap-2 rounded-md text-white text-xs bg-tint-tomato-400 hover:bg-tint-tomato-300 duration-75"
+                    >
+                        <PiReceipt className="text-xl"/> 
+                        pedir ∙ R$ {'25,00'}
+                    </Link>
+                </div>  
+            )}
+            
         </section>
     )
 }
