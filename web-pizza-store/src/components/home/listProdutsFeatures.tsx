@@ -20,7 +20,7 @@ interface ListProps {
         id: number
         image: string 
         title: string 
-        price: string 
+        price: number 
     }
     
 }
@@ -32,7 +32,7 @@ export function ListProductsFeatures({ productList }: ListProps) {
     const [ itemValue, setItemValue] = useState<number>(1)
     const [data, setData] = useState<DataProps>()
     
-    const pathImg = 'https://raw.githubusercontent.com/Frankdias92/final-challenge-explorer/main/web-pizza-store/src/assets/menu'
+    // const pathImg = 'https://raw.githubusercontent.com/Frankdias92/final-challenge-explorer/main/web-pizza-store/src/assets/menu'
 
 
     const { user } = UseAuth()
@@ -50,14 +50,15 @@ export function ListProductsFeatures({ productList }: ListProps) {
                 </div>
                 <div className="flex flex-col w-full h-full justify-start items-center gap-3 p-6">
                     <span className="flex h-[88px] bg-cover">
-                        <Image
+                        <span>img</span>
+                        {/* <Image
                             as={NextImage}
                             width={88}
                             height={88}
-                            src={`${pathImg}/${productList.image}`}
+                            src={`image`}
                             alt="NextUI hero Image"
                             className="flex"
-                        />
+                        /> */}
                     </span>
 
                     

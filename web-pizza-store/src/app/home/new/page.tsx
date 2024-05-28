@@ -4,7 +4,9 @@ import { ButtonText } from "@/components/buttonText"
 import { LabelInput  } from "@/components/forms/inputLabel"
 import { UseAuth } from "@/hooks/auth"
 import { api } from "@/services/api"
+import Link from "next/link"
 import { FormEvent, useEffect, useState } from "react"
+import { IoIosArrowBack } from "react-icons/io"
 
 export default function UpdateOrAddNewMeal() {
     const [name, setName] = useState<string>('')
@@ -16,18 +18,23 @@ export default function UpdateOrAddNewMeal() {
     const [isDisabled, setIsDisabled] = useState(true)
 
     const { user } = UseAuth()
-    console.log('name user', user?.name)
-    async function handleNewProduct() {
 
-        const data = await api.post('/meals' , {
-            name,
-            description,
-            price,
-            category,
-            created_by: user?.id
-        }) 
-        console.log('new product', data)
-       
+
+    async function handleNewProduct() {
+        try {
+            const data = await api.post('/meals' , {
+                name,
+                description,
+                price,
+                category,
+                created_by: user?.id
+            }
+        ) 
+
+        return alert('Produto adicionado com sucesso')
+        } catch (error: any) {
+            alert(error)
+        }
     }
 
     useEffect(() => {
@@ -39,8 +46,15 @@ export default function UpdateOrAddNewMeal() {
     }, [name, category, price, description])
 
     return (
-        <section className="flex flex-col w-full min-h-screen">
-            <form className="flex flex-col w-full px-8">
+        <section className="flex flex-col w-full min-h-screen px-8">
+            <Link
+                href='/home'
+                className="flex items-center text-left mr-auto pt-3 font-medium text-base text-light-300 hover:text-light-400 duration-75"
+            >
+                <IoIosArrowBack className="text-2xl"/> voltar
+            </Link>
+
+            <form className="flex flex-col w-full">
                 <LabelInput 
                     label="Nome" 
                     value={name}

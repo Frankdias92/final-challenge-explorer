@@ -1,13 +1,15 @@
 'use client'
 
 import { ButtonText } from "@/components/buttonText";
+import { ProductProps } from "@/components/home/features";
 import { UseAuth } from "@/hooks/auth";
 import { useProducts } from "@/hooks/stateProducts";
+import { api } from "@/services/api";
 import { Image } from "@nextui-org/react"
 import NextImage from "next/image";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GoDash, GoPlus } from "react-icons/go";
 import { IoIosArrowBack } from "react-icons/io";
 import { PiReceipt } from "react-icons/pi";
@@ -33,40 +35,31 @@ export default function ProductId({ id }: ProductIdProps) {
     const productId = Number(params.id)
     const pathImg = 'https://raw.githubusercontent.com/Frankdias92/final-challenge-explorer/main/web-pizza-store/src/assets/menu'
 
+    const [data, setData] = useState<ProductProps[]>([])
+
     const router = useRouter()
 
+    useEffect(() => {
+        async function getProducts() {
+            const response = await api.get('/meals')
+            const data = response.data
 
-    const products: ProductsProps[] = [
-        {
-            id: 1,
-            image: "Mask%20group-6.png",
-            title: "Salada Ravanello",
-            price: "49,97",
-            amount: "1"
-        },
-        {
-            id: 2,
-            image: "Mask%20group-1.png",
-            title: "Salada Ravanello",
-            price: "49,97",
-            amount: "1"
-        },
-        {
-            id: 3,
-            image: "Mask%20group-2.png",
-            title: "Salada Ravanello",
-            price: "49,97",
-            amount: "1"
-        },
-    ]
+            setData(data)
+
+            console.log('tes', response.data)
+        }
+        
+        getProducts()
+    }, [])
 
     const tags = [ 'alface', 'cebola', 'pão naan', 'pepino', 'rabanete', 'tomate' ]
 
 
 
-    const filteredProductId = products.find(item => item.id === productId)
+    const filteredProductId = data.find(item => item.meal_id === productId)
     const item = filteredProductId
 
+    
     const { user } = UseAuth()
 
 
@@ -81,24 +74,25 @@ export default function ProductId({ id }: ProductIdProps) {
                     <IoIosArrowBack className="size-8"/> voltar
                 </Link>
                 <span className="flex size-[264px] bg-cover my-4 drop-shadow-2xl">
-                    <Image
+                    img
+                    {/* <Image
                         as={NextImage}
                         width={290}
                         height={290}
                         src={`${pathImg}/${item?.image}`}
                         alt="NextUI hero Image"
                         className="flex"
-                    />
+                    /> */}
                 </span>
 
                 <div className="flex flex-col w-full gap-6 items-center">
 
                     <h2 className="text-2xl">
-                        Salada
+                        {filteredProductId?.name}
                     </h2>
 
                     <p className="text-base text-center w-full mt-2 text-light-300">
-                        Rabanetes, folhas verdes e molho agridoce salpicados com gergelim.
+                        {filteredProductId?.description}
                     </p>
 
                     <div className="flex w-full gap-6 flex-wrap justify-center">
@@ -131,7 +125,7 @@ export default function ProductId({ id }: ProductIdProps) {
                         className="flex w-full items-center justify-center h-11 gap-2 rounded-md text-white text-xs bg-tint-tomato-400 hover:bg-tint-tomato-300 duration-75"
                     >
                         <PiReceipt className="text-xl"/> 
-                        pedir ∙ R$ {'25,00'}
+                        pedir ∙ R$ {filteredProductId?.price}
                     </Link>
                 </div>  
             )}

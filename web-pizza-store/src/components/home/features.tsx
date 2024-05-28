@@ -1,22 +1,28 @@
 'use client'
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ListProductsFeatures } from "./listProdutsFeatures";
 import Slider from "react-slick"
 import { UseAuth } from "@/hooks/auth";
+import { api } from "@/services/api";
 
 
 interface FeaturesProps {
     section: string
 }
+export interface ProductProps {
+    meal_id: number
+    name: string
+    description: string
+    price: number
+}[]
 
-export function Features({ section }: FeaturesProps) {
+
+export function Features({ section }: FeaturesProps ) {
     const sliderRef = useRef<Slider | null>(null)
+    const [data, setData] = useState<ProductProps[]>([])
 
-
-    const feature = UseAuth()
-    
-    console.log('feature: ', feature)
+    // const feature = UseAuth()
 
     const products = [
         {
@@ -39,6 +45,21 @@ export function Features({ section }: FeaturesProps) {
         },
     ]
 
+    useEffect(() => {
+        async function getProducts() {
+            try {
+                const response = await api.get('/meals')
+                const data = response.data
+    
+                setData(data)
+            } catch (error) {
+                alert(error)
+            }
+        }
+        getProducts()
+    }, [data])
+    
+    
     const settings = {
         dots: true,
         focusOnSelect: false,
@@ -61,15 +82,16 @@ export function Features({ section }: FeaturesProps) {
                     {...settings}
                     className="flex justify-center w-full h-full  overflow-hidden translate-x-2 z-0"
                 >
-           
-                        {products.map(item => {
+
+                        
+                        {data.map(item => {
                             return (
-                                <div className="flex  z-0" key={item.id}>
+                                <div className="flex  z-0" key={item.meal_id}>
                                     <ListProductsFeatures
                                         productList={{
-                                            id: item.id,
-                                            image: item.image,
-                                            title: item.title,
+                                            id: item.meal_id,
+                                            image: 'item.image',
+                                            title: item.name,
                                             price: item.price,
                                         }}
 

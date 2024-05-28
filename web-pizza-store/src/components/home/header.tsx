@@ -8,6 +8,7 @@ import { BsFillHexagonFill } from "react-icons/bs";
 import { MenuDrop } from "../menuDrop";
 import { useProducts } from "@/hooks/stateProducts";
 import { UseAuth } from "@/hooks/auth";
+import Link from "next/link";
 
 
 export function Header() {
@@ -56,7 +57,9 @@ export function Header() {
                         <FiMenu/>
                     </button>
 
-                    <div className="flex w-full items-center justify-center font-bold gap-2 text-xl tex">
+                    <Link
+                        href={'/home'}
+                        className="flex w-full items-center justify-center font-bold gap-2 text-xl tex">
                         <span className="text-tint-cake-400 text-4xl"><BsFillHexagonFill /></span>
                         food explorer
 
@@ -64,7 +67,7 @@ export function Header() {
                             <span className="text-xs text-tint-cake-100 font-normal">
                                 admin
                             </span>}
-                    </div>
+                    </Link>
 
                     {user && user.role === 'customer' &&
                         <span className="size-8 relative">
