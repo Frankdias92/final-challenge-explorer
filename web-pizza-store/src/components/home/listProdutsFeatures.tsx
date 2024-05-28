@@ -1,12 +1,17 @@
 
-import { Image, card } from "@nextui-org/react";
-import NextImage from "next/image";
-import { ButtonText } from "../buttonText";
-import { GoDash, GoPlus } from "react-icons/go";
-import { useProducts } from "@/hooks/stateProducts";
+import { Image } from "@nextui-org/react";
 import { FormEvent, useState } from "react";
-import Link from "next/link";
+import NextImage from "next/image";
+
+import { GoDash, GoPlus } from "react-icons/go";
+import { PiPencilSimple } from "react-icons/pi";
+import { FaHeart } from "react-icons/fa";
+
+import { useProducts } from "@/hooks/stateProducts";
 import { DataProps } from "@/types/types";
+import { ButtonText } from "../buttonText";
+import { UseAuth } from "@/hooks/auth";
+import Link from "next/link";
 
 
 interface ListProps {
@@ -29,35 +34,16 @@ export function ListProductsFeatures({ productList }: ListProps) {
     const pathImg = 'https://raw.githubusercontent.com/Frankdias92/final-challenge-explorer/main/web-pizza-store/src/assets/menu'
 
 
-    // console.log('product:', 'product')
-    function handleAddProductItem() { 
-        try {
-            if (itemValue) {
-                const productupdated = itemValue
-                updateProduct({ product: productupdated})
-            }
-            const productUpdate = data
-            // updateProduct({ product: productUpdate })
-        } catch (error) {
-            alert('Something went wrong with updating the product amount')
-        }
-
-
-    }
-
-    function handleAddItemCard(e: FormEvent<HTMLElement>) {
-        let totalAmount = e.currentTarget
-        console.log(totalAmount)
-
-    }
-
-    
+    const { user } = UseAuth()
 
     return (
         <div className="flex flex-col m-4 w-[210px] h-[292px] rounded-lg bg-dark-900 border-0 outline-none
-            ring-1 ring-dark-800 ">
+            ring-1 ring-dark-800 relative">
+                <div className="absolute flex right-4 top-4 text-light-300 text-2xl">
+                    {user && user.role === 'admin' ?  <PiPencilSimple /> : <FaHeart /> }
+                </div>
                 <div className="flex flex-col w-full h-full justify-start items-center gap-3 p-6">
-                    <span className="flex size-[88px] bg-cover">
+                    <span className="flex h-[88px] bg-cover">
                         <Image
                             as={NextImage}
                             width={88}
@@ -79,8 +65,7 @@ export function ListProductsFeatures({ productList }: ListProps) {
                             <GoPlus onClick={() => setItemValue(itemValue +1)}/>
                         </div>
 
-                        <button onClick={handleAddProductItem}>enviar</button>
-                        {/* <ButtonText text="incluir" onclick={handleAddProductItem}/> */}
+                        {user && user.role === 'customer' && <ButtonText text="incluir" />}
                     </div>
                 </div>
             </div>
