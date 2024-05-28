@@ -56,21 +56,27 @@ export function Header() {
                         <FiMenu/>
                     </button>
 
-                    <span className="flex w-full items-center justify-center font-bold gap-2 text-xl tex">
+                    <div className="flex w-full items-center justify-center font-bold gap-2 text-xl tex">
                         <span className="text-tint-cake-400 text-4xl"><BsFillHexagonFill /></span>
                         food explorer
-                    </span>
 
-                    <span className="size-8 relative">
-                        <PiReceipt className="text-3xl text-center"/>
-                        <span className="flex w-6 h-6 p-2 justify-center items-center rounded-full bg-tint-tomato-400 absolute
-                        top-0 right-0 translate-x-1/2 -translate-y-1/4">
-                            <span className="flex items-center justify-center font-medium text-sm">
-                                {cardItem}
+                        {user && user.role === 'admin' &&
+                            <span className="text-xs text-tint-cake-100 font-normal">
+                                admin
+                            </span>}
+                    </div>
+
+                    {user && user.role === 'customer' &&
+                        <span className="size-8 relative">
+                            <PiReceipt className="text-3xl text-center"/>
+                            <span className="flex w-6 h-6 p-2 justify-center items-center rounded-full bg-tint-tomato-400 absolute
+                            top-0 right-0 translate-x-1/2 -translate-y-1/4">
+                                <span className="flex items-center justify-center font-medium text-sm">
+                                    {cardItem}
+                                </span>
                             </span>
                         </span>
-                    </span>
-
+                    }
                 </div>
                 
             )}
