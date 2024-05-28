@@ -8,12 +8,12 @@ const orderItemsRoutes = Router()
 const orderItemsController = new OrderItemsController
 
 orderItemsRoutes.use(ensureAuthenticated)
-orderItemsRoutes.use(verifyAuthorization("admin"))
+// orderItemsRoutes.use(verifyAuthorization("admin"))
 
-orderItemsRoutes.post('/', orderItemsController.create)
+orderItemsRoutes.post('/', verifyAuthorization("admin"), orderItemsController.create)
 orderItemsRoutes.get('/', orderItemsController.index)
-orderItemsRoutes.get('/:id', orderItemsController.show)
-orderItemsRoutes.put('/:id', orderItemsController.update)
+orderItemsRoutes.get('/:id', verifyAuthorization("customer"), orderItemsController.show)
+orderItemsRoutes.put('/:id', verifyAuthorization("admin"), orderItemsController.update)
 orderItemsRoutes.delete('/:id', orderItemsController.delete)
 
 module.exports = orderItemsRoutes
