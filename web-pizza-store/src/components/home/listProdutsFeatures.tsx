@@ -1,13 +1,12 @@
 
 import { Image } from "@nextui-org/react";
-import { FormEvent, useState } from "react";
+import { useEffect, useState } from "react";
 import NextImage from "next/image";
 
 import { GoDash, GoPlus } from "react-icons/go";
 import { PiPencilSimple } from "react-icons/pi";
 import { FaHeart } from "react-icons/fa";
 
-import { useProducts } from "@/hooks/stateProducts";
 import { DataProps } from "@/types/types";
 import { ButtonText } from "../buttonText";
 import { UseAuth } from "@/hooks/auth";
@@ -26,14 +25,14 @@ interface ListProps {
 }
 
 export function ListProductsFeatures({ productList }: ListProps) {
-    const { updateProduct, product } = useProducts()
     const [isFavorite, setIsFavorite] = useState(false)
 
     const [ itemValue, setItemValue] = useState<number>(1)
     const [data, setData] = useState<DataProps>()
-    
-    // const pathImg = 'https://raw.githubusercontent.com/Frankdias92/final-challenge-explorer/main/web-pizza-store/src/assets/menu'
-
+    // console.log(data?.image)
+    useEffect(() => {
+        console.log('print img', data?.image)
+    }, [data])
 
     const { user } = UseAuth()
 
@@ -50,15 +49,14 @@ export function ListProductsFeatures({ productList }: ListProps) {
                 </div>
                 <div className="flex flex-col w-full h-full justify-start items-center gap-3 p-6">
                     <span className="flex h-[88px] bg-cover">
-                        <span>img</span>
-                        {/* <Image
+                        <Image
                             as={NextImage}
                             width={88}
                             height={88}
-                            src={`image`}
+                            src={`http://localhost:3333/files/${productList?.image}`}
                             alt="NextUI hero Image"
                             className="flex"
-                        /> */}
+                        />
                     </span>
 
                     

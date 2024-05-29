@@ -15,35 +15,15 @@ export interface ProductProps {
     name: string
     description: string
     price: number
+    productImg: string
 }[]
 
 
 export function Features({ section }: FeaturesProps ) {
     const sliderRef = useRef<Slider | null>(null)
     const [data, setData] = useState<ProductProps[]>([])
-
+    // console.log(data)
     // const feature = UseAuth()
-
-    const products = [
-        {
-            id: 1,
-            image: "Mask%20group-6.png",
-            title: "Salada Ravanello",
-            price: "49,97",
-        },
-        {
-            id: 2,
-            image: "Mask%20group-1.png",
-            title: "Salada Ravanello",
-            price: "49,97",
-        },
-        {
-            id: 3,
-            image: "Mask%20group-2.png",
-            title: "Salada Ravanello",
-            price: "49,97",
-        },
-    ]
 
     useEffect(() => {
         async function getProducts() {
@@ -59,7 +39,7 @@ export function Features({ section }: FeaturesProps ) {
         getProducts()
     }, [data])
     
-    
+    // Slider configs
     const settings = {
         dots: true,
         focusOnSelect: false,
@@ -90,7 +70,7 @@ export function Features({ section }: FeaturesProps ) {
                                     <ListProductsFeatures
                                         productList={{
                                             id: item.meal_id,
-                                            image: 'item.image',
+                                            image: item.productImg,
                                             title: item.name,
                                             price: item.price,
                                         }}

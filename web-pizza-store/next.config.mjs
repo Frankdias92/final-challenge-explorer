@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['raw.githubusercontent.com'],
-
+        domains: ['localhost',
+        'raw.githubusercontent.com'
+        ],
     },
 };
 

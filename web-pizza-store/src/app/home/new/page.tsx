@@ -22,8 +22,6 @@ export default function UpdateOrAddNewMeal() {
     const [imgName, setImgName] = useState<string>('')
     const [productImg, setProductImg] = useState<File | string >('')
     const [isInputFocused, setIsInputFocused] = useState(false)
-
-    console.log('img', img, 'productFile: ', productImg)
     const { user } = UseAuth()
 
 

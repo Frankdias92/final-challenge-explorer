@@ -3,7 +3,6 @@
 import { ButtonText } from "@/components/buttonText";
 import { ProductProps } from "@/components/home/features";
 import { UseAuth } from "@/hooks/auth";
-import { useProducts } from "@/hooks/stateProducts";
 import { api } from "@/services/api";
 import { Image } from "@nextui-org/react"
 import NextImage from "next/image";
@@ -29,11 +28,9 @@ interface ProductsProps {
 
 
 export default function ProductId({ id }: ProductIdProps) {
-    const { handleUpdateCard } = useProducts()
     const [itemValue, setItemValue] = useState<number>(1)
     const params = useParams()
     const productId = Number(params.id)
-    const pathImg = 'https://raw.githubusercontent.com/Frankdias92/final-challenge-explorer/main/web-pizza-store/src/assets/menu'
 
     const [data, setData] = useState<ProductProps[]>([])
 
@@ -79,7 +76,7 @@ export default function ProductId({ id }: ProductIdProps) {
                         as={NextImage}
                         width={290}
                         height={290}
-                        src={`${pathImg}/${item?.image}`}
+                        src={item?.image}
                         alt="NextUI hero Image"
                         className="flex"
                     /> */}
@@ -121,7 +118,7 @@ export default function ProductId({ id }: ProductIdProps) {
                         onClick={() => setItemValue(itemValue+1)}
                     />
                     <Link href={''}
-                        onClick={() => handleUpdateCard({card: itemValue})}
+                        onClick={() => console.log({card: itemValue})}
                         className="flex w-full items-center justify-center h-11 gap-2 rounded-md text-white text-xs bg-tint-tomato-400 hover:bg-tint-tomato-300 duration-75"
                     >
                         <PiReceipt className="text-xl"/> 

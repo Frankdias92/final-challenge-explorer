@@ -6,13 +6,11 @@ import { FiMenu } from "react-icons/fi";
 import { PiReceipt } from "react-icons/pi";
 import { BsFillHexagonFill } from "react-icons/bs";
 import { MenuDrop } from "../menuDrop";
-import { useProducts } from "@/hooks/stateProducts";
 import { UseAuth } from "@/hooks/auth";
 import Link from "next/link";
 
 
 export function Header() {
-    const { card } = useProducts()
     const [cardItem, setCardItem] = useState(0)
     const [menuIsOpen, setMenuOpen] = useState(false)
 
@@ -25,11 +23,6 @@ export function Header() {
     }
     
     
-    useEffect(() => {
-        if (card) {
-            setCardItem(card.card)
-        }
-    }, [card])
 
 
     return (
