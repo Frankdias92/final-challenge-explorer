@@ -7,6 +7,11 @@ import { api } from "@/services/api"
 import Link from "next/link"
 import { FormEvent, useEffect, useState } from "react"
 import { IoIosArrowBack } from "react-icons/io"
+import { PiUpload, PiUploadSimple } from "react-icons/pi"
+
+interface FileImgProps {
+    name: string
+}
 
 export default function UpdateOrAddNewMeal() {
     const [name, setName] = useState<string>('')
@@ -17,7 +22,9 @@ export default function UpdateOrAddNewMeal() {
     const [isDisabled, setIsDisabled] = useState(true)
 
     const [img, setImg] = useState<string>('')
-    const [productImg, setProductImg] = useState<File | string>('')
+    const [imgName, setImgName] = useState<string>('')
+    const [productImg, setProductImg] = useState<File | string >('')
+    const [isInputFocused, setIsInputFocused] = useState(false)
 
     console.log('img', img, 'productFile: ', productImg)
     const { user } = UseAuth()
@@ -45,6 +52,7 @@ export default function UpdateOrAddNewMeal() {
 
         if (file) {
             setProductImg(file)
+            setImgName(file.name)
             const imgPreview = URL.createObjectURL(file)
             setImg(imgPreview)
         }
@@ -68,19 +76,31 @@ export default function UpdateOrAddNewMeal() {
             </Link>
 
             <form className="flex flex-col w-full">
-                <input
-                    name="productImg"
-                    type="file"
-                    accept="image/png, image/jpeg"
-                    onChange={handleUploadImg}
-                />
-                {/* <LabelInput 
-                    label="Imagem do prato" 
-                    value='test image'
-                    onChange={handleUploadImg}
-                    type="file" 
-                    placeholder="test img"
-                /> */}
+
+                {/* INPUT FILE IMG */}
+                <div  className="flex  shadow bg-dark-200 appearance-none border-none rounded-lg w-full h-11 mt-8 leading-tight
+                        focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 duration-75 relative group">
+                    <label className="flex flex-col w-full h-full text-xs text-light-400 font-roboto absolute bottom-8">
+                        Imagem do prato
+                    </label>        
+                    <input
+                        name="productImg"
+                        type="file"
+                        accept="image/png, image/jpeg"
+                        onChange={handleUploadImg}
+                        onFocus={() => setIsInputFocused(true)}
+                        onBlur={() => setIsInputFocused(false)}
+                        className="flex bg-transparent w-full rounded-lg appearance-none border-none opacity-0
+                        focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 duration-75 relative z-20"
+                    />
+                    <div  className={`${isInputFocused ? 'ring-2 ring-light-700 shadow-outline' : 'ring-0'} duration-75 absolute flex w-full left-0 h-11 px-8 top-0 rounded-lg text-light-400 z-10  group-hover:text-light-500`}>
+                        <span className="flex h-11">
+                            {productImg ?` ${imgName}` : <span className="flex gap-2 items-center"><PiUploadSimple className=" text-3xl h-full"/> Selecione imagem</span>}
+                        </span>
+                    </div>
+                </div>
+                {/* END OF FILE IMG */}
+
                 <LabelInput 
                     label="Nome" 
                     value={name}
