@@ -14,10 +14,6 @@ import { IoIosArrowBack } from "react-icons/io";
 import { PiReceipt } from "react-icons/pi";
 
 
-interface ProductIdProps {
-    id: number
-}
-
 interface ProductsProps {
     id: number
     image: string
@@ -27,7 +23,7 @@ interface ProductsProps {
 }
 
 
-export default function ProductId({ id }: ProductIdProps) {
+export default function ProductId( id: number ) {
     const [itemValue, setItemValue] = useState<number>(1)
     const params = useParams()
     const productId = Number(params.id)
@@ -40,23 +36,16 @@ export default function ProductId({ id }: ProductIdProps) {
         async function getProducts() {
             const response = await api.get('/meals')
             const data = response.data
-
             setData(data)
-
             console.log('tes', response.data)
         }
-        
         getProducts()
     }, [])
 
     const tags = [ 'alface', 'cebola', 'pão naan', 'pepino', 'rabanete', 'tomate' ]
 
-
-
     const filteredProductId = data.find(item => item.meal_id === productId)
     const item = filteredProductId
-
-    
     const { user } = UseAuth()
 
 
@@ -70,16 +59,15 @@ export default function ProductId({ id }: ProductIdProps) {
                 >
                     <IoIosArrowBack className="size-8"/> voltar
                 </Link>
-                <span className="flex size-[264px] bg-cover my-4 drop-shadow-2xl">
-                    img
-                    {/* <Image
+                <span className="flex size-[264px] items-center rounded-full overflow-hidden bg-cover my-4 drop-shadow-2xl">
+                    <Image
                         as={NextImage}
-                        width={290}
-                        height={290}
-                        src={item?.image}
+                        width={690}
+                        height={690}
+                        src={`http://localhost:3333/files/${item?.productImg}`}
                         alt="NextUI hero Image"
                         className="flex"
-                    /> */}
+                    />
                 </span>
 
                 <div className="flex flex-col w-full gap-6 items-center">
@@ -104,13 +92,11 @@ export default function ProductId({ id }: ProductIdProps) {
                             )
                         })}
                     </div>
-                    
-
-
                 </div>
+
             </div>
             
-            {user && user.role === 'admin' ? <span className="flex w-full pt-12"><ButtonText text="Editar prato" size={48} onclick={() => router.push('/home/new')}/></span>  : (
+            {user && user.role === 'admin' ? <span className="flex w-full pt-12"><ButtonText text="Editar prato" size={48} onclick={() => router.push(`/home/${params.id}/edit`)}/></span>  : (
                 <div className="flex w-full justify-center items-center gap-x-4 text-lg text-white pt-12 mb-12">
                     <GoDash className="text-6xl" onClick={() => setItemValue(itemValue -1)}/>
                     <span className="text-light-300 font-roboto font-bold text-2xl">{itemValue}</span>

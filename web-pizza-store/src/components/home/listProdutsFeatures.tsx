@@ -12,6 +12,7 @@ import { ButtonText } from "../buttonText";
 import { UseAuth } from "@/hooks/auth";
 import Link from "next/link";
 import { CiHeart } from "react-icons/ci";
+import { useRouter } from "next/navigation";
 
 
 interface ListProps {
@@ -21,17 +22,17 @@ interface ListProps {
         title: string 
         price: number 
     }
-    
 }
 
 export function ListProductsFeatures({ productList }: ListProps) {
-    const [isFavorite, setIsFavorite] = useState(false)
-
     const [ itemValue, setItemValue] = useState<number>(1)
     const [data, setData] = useState<DataProps>()
+    const [isFavorite, setIsFavorite] = useState(false)
+    const router = useRouter()
+
     // console.log(data?.image)
     useEffect(() => {
-        console.log('print img', data?.image)
+        // console.log('print img', data?.image)
     }, [data])
 
     const { user } = UseAuth()
@@ -41,18 +42,18 @@ export function ListProductsFeatures({ productList }: ListProps) {
             ring-1 ring-dark-800 relative">
                 <div className="absolute flex right-4 top-4 text-light-300 text-2xl">
                     {user && user.role === 'admin' ?  
-                        <PiPencilSimple /> : 
+                        <PiPencilSimple onClick={() => router.push(`/home/${productList.id}`)}/> : 
                         <span className="flex size-8 items-center justify-center">
                             {isFavorite ? <FaHeart onClick={() => setIsFavorite(!true)}/> : <CiHeart className="text-3xl" onClick={() => setIsFavorite(true)}/>}
                         </span>
                     }
                 </div>
                 <div className="flex flex-col w-full h-full justify-start items-center gap-3 p-6">
-                    <span className="flex h-[88px] bg-cover">
+                    <span className="flex items-center w-[88px] h-[88px] rounded-full overflow-hidden">
                         <Image
                             as={NextImage}
-                            width={88}
-                            height={88}
+                            width={488}
+                            height={488}
                             src={`http://localhost:3333/files/${productList?.image}`}
                             alt="NextUI hero Image"
                             className="flex"

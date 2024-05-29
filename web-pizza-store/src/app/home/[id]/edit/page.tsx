@@ -4,28 +4,46 @@ import { ButtonText } from "@/components/buttonText"
 import { LabelInput  } from "@/components/forms/inputLabel"
 import { UseAuth } from "@/hooks/auth"
 import { api } from "@/services/api"
+import { Image, button } from "@nextui-org/react"
+import NextImage from "next/image";
 import Link from "next/link"
+import { useParams } from "next/navigation"
 import { FormEvent, useEffect, useState } from "react"
 import { IoIosArrowBack } from "react-icons/io"
 import { PiUploadSimple } from "react-icons/pi"
 
 
-export default function AddNewDisher() {
+
+
+interface DisheProps {
+    meal_id: number
+    name: string
+    description: string
+    price: number
+    category: string
+    productImg: string
+    created_by: number
+}
+
+export default function UpdateDisher(id: number) {
+    const [data, setData] = useState<DisheProps>()
     const [name, setName] = useState<string>('')
     const [category, setCategory] = useState<string>('')
     // const [ingredients, setIngredients] = useState<string>('')
     const [price, setPrice] = useState<number>(0)
     const [description, setDescription] = useState<string>('')
     const [isDisabled, setIsDisabled] = useState(true)
+    const [updateIMG, setUpdateIMG] = useState(Boolean)
 
     const [img, setImg] = useState<string>('')
     const [imgName, setImgName] = useState<string>('')
     const [productImg, setProductImg] = useState<File | string >('')
     const [isInputFocused, setIsInputFocused] = useState(false)
     const { user } = UseAuth()
+    const params = useParams()
+    
 
-
-    async function handleNewProduct() {
+    async function handleWithUpdateDisher() {
         try {
             const formData = new FormData()
             formData.append('name', name)
@@ -35,7 +53,7 @@ export default function AddNewDisher() {
             formData.append('productImg', productImg)
             formData.append('created_by', String(user?.id))
             
-            const response = await api.post('/meals' , formData ) 
+            const response = await api.put(`/meals/${params.id}` , formData ) 
             return alert('Produto adicionado com sucesso')
         } catch (error) {
             alert(error)
@@ -54,6 +72,23 @@ export default function AddNewDisher() {
     }
 
     useEffect(() => {
+        async function getDisheId() {
+            const response = await api.get(`/meals/${params.id}`)
+            const data = response.data[0]
+            if (data) {
+                setName(data.name)
+                setCategory(data.category)
+                setPrice(data.price)
+                setDescription(data.description)
+            } else {
+                console.log("Error to get products")
+            }
+        }
+        getDisheId()
+        
+    }, [params])
+
+    useEffect(() => {
         if (!name || !category || !price || !description) {
             setIsDisabled(true)
         } else{
@@ -61,6 +96,7 @@ export default function AddNewDisher() {
         }
     }, [name, category, price, description])
 
+    
     return (
         <section className="flex flex-col w-full min-h-screen px-8 pb-12">
             <Link
@@ -71,33 +107,50 @@ export default function AddNewDisher() {
             </Link>
 
             <h2 className="text-3xl font-roboto text-light-300 antialiased pt-6 pb-6">
-                Novo prato
+                Atualizar prato
             </h2>
 
             <form className="flex flex-col w-full">
                 {/* INPUT FILE IMG */}
-                <div  className="flex  shadow bg-dark-200 appearance-none border-none rounded-lg w-full h-11 mt-8 leading-tight
+                {updateIMG ? (
+                    <div  className="flex  shadow bg-dark-200 appearance-none border-none rounded-lg w-full h-11 mt-8 leading-tight
                         focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 duration-75 relative group">
-                    <label className="flex flex-col w-full h-full text-xs text-light-400 font-roboto absolute bottom-8">
-                        Imagem do prato
-                    </label>        
-                    <input
-                        name="productImg"
-                        type="file"
-                        accept="image/png, image/jpeg"
-                        onChange={handleUploadImg}
-                        onFocus={() => setIsInputFocused(true)}
-                        onBlur={() => setIsInputFocused(false)}
-                        className="flex bg-transparent w-full rounded-lg appearance-none border-none opacity-0
-                        focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 duration-75 relative z-20"
-                    />
-                    <div  className={`${isInputFocused ? 'ring-2 ring-light-700 shadow-outline' : 'ring-0'} duration-75 absolute flex w-full left-0 h-11 px-8 top-0 rounded-lg text-light-400 z-10  group-hover:text-light-500`}>
-                        <span className="flex h-11">
-                            {productImg ?` ${imgName}` : <span className="flex gap-2 items-center"><PiUploadSimple className=" text-3xl h-full"/> Selecione imagem</span>}
-                        </span>
+                            <label className="flex flex-col w-full h-full text-xs text-light-400 font-roboto absolute bottom-8">
+                                Imagem do prato
+                            </label>        
+                            <input
+                                name="productImg"
+                                type="file"
+                                accept="image/png, image/jpeg"
+                                onChange={handleUploadImg}
+                                onFocus={() => setIsInputFocused(true)}
+                                onBlur={() => setIsInputFocused(false)}
+                                className="flex bg-transparent w-full rounded-lg appearance-none border-none opacity-0
+                                focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 duration-75 relative z-20"
+                             />
+                        <div  className={`${isInputFocused ? 'ring-2 ring-light-700 shadow-outline' : 'ring-0'} duration-75 absolute flex w-full left-0 h-11 px-8 top-0 rounded-lg text-light-400 z-10  group-hover:text-light-500`}>
+                            <span className="flex h-11">
+                                {productImg ? ` ${imgName}` : <span className="flex gap-2 items-center"><PiUploadSimple className=" text-3xl h-full"/> Selecione imagem</span>}
+                            </span>
+                        </div>
                     </div>
-                </div>
+                ) : (
+                    <div>
+                        <span className="flex items-center w-[88px] h-[88px] rounded-full overflow-hidden">
+                            <Image
+                                as={NextImage}
+                                width={488}
+                                height={488}
+                                src={`${productImg}`}
+                                alt="NextUI hero Image"
+                                className="flex"
+                            />
+                        </span>
+                        <button type="button" onClick={() => setUpdateIMG(true)}>Atualizar imagem</button>
+                    </div>
+                )}
                 {/* END OF FILE IMG */}
+                
 
                 <LabelInput 
                     label="Nome" 
@@ -134,8 +187,8 @@ export default function AddNewDisher() {
                 <ButtonText 
                     text="Salvar alterações" 
                     size={48} 
-                    isDisable={isDisabled} 
-                    onclick={handleNewProduct}
+                    isDisable={isDisabled}
+                    onclick={handleWithUpdateDisher}
                 />
             </form>
 
