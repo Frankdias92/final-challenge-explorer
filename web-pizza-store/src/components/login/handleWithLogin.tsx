@@ -3,20 +3,22 @@
 import { ButtonText } from "@/components/buttonText";
 import { LabelInput } from "@/components/forms/inputLabel";
 import { Paragraph } from "@/components/paragraph";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { api } from '../../services/api'
 import { UseAuth } from "@/hooks/auth";
+import { useRouter } from "next/navigation";
 
 
 export function HandleWithLogin() {
     const [isActive, setIsActive] = useState(true)
+    const { singIn, user } = UseAuth()
+    const router = useRouter()
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
 
-    const { singIn } = UseAuth()
     
     function handleSignIn() {  
         singIn({ email, password })
@@ -35,6 +37,12 @@ export function HandleWithLogin() {
             alert(error.response.data.message)
         }
     }
+    
+    useEffect(() => {
+        if (user) {
+            router.push('/home')
+        }
+    }, [user, router])
     
     return (
         <>
