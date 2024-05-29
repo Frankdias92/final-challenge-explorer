@@ -1,17 +1,37 @@
 const knex = require("../database/knex");
 const { hash } = require("bcryptjs");
 const AppError = require("../utils/AppError");
+const { diskStorage } = require('multer')
+const DiskStorage = require('../providers/DiskStorage')
 
 
 class MealsController {
     async create(req, res) {
-        const { name, description, price, category, created_by } = req.body
-        
-        const [ meal_id ] = await knex("meals")
-        .insert({ name, description, price, category, created_by })
-        .returning("meal_id")
+        try {
+            const { name, description, price, category, created_by } = req.body;
 
-        res.status(201).json({ meal_id })
+            if (!req.file) {
+                return res.status(400).json({ error: 'Dishe image is required' });
+            }
+            const productImg = req.file.filename;
+            const diskStorage = new DiskStorage();
+            const filename = await diskStorage.saveFile(productImg);
+
+            const [meal_id] = await knex("meals").insert({
+                name,
+                description,
+                price,
+                category,
+                productImg: filename,
+                created_by
+            });
+
+            return res.json({ message: 'Dishe created successfully' });
+
+        } catch (error) {
+            console.log("error creating dishe: ", error);
+            return res.status(500).json({ error: 'internal server error' });
+        }
     }
 
     async index(req, res) {
