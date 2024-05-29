@@ -14,26 +14,39 @@ export default function UpdateOrAddNewMeal() {
     // const [ingredients, setIngredients] = useState<string>('')
     const [price, setPrice] = useState<number>(0)
     const [description, setDescription] = useState<string>('')
-
     const [isDisabled, setIsDisabled] = useState(true)
 
+    const [img, setImg] = useState<string>('')
+    const [productImg, setProductImg] = useState<File | string>('')
+
+    console.log('img', img, 'productFile: ', productImg)
     const { user } = UseAuth()
 
 
     async function handleNewProduct() {
         try {
-            const data = await api.post('/meals' , {
-                name,
-                description,
-                price,
-                category,
-                created_by: user?.id
-            }
-        ) 
-
-        return alert('Produto adicionado com sucesso')
-        } catch (error: any) {
+            const formData = new FormData()
+            formData.append('name', name)
+            formData.append('description', description)
+            formData.append('price', price.toString())
+            formData.append('category', category)
+            formData.append('productImg', productImg)
+            formData.append('created_by', String(user?.id))
+            
+            const response = await api.post('/meals' , formData ) 
+            return alert('Produto adicionado com sucesso')
+        } catch (error) {
             alert(error)
+        }
+    }
+
+    async function handleUploadImg(e: FormEvent<HTMLInputElement>) {
+        const file = e.currentTarget.files?.[0]
+
+        if (file) {
+            setProductImg(file)
+            const imgPreview = URL.createObjectURL(file)
+            setImg(imgPreview)
         }
     }
 
@@ -55,6 +68,19 @@ export default function UpdateOrAddNewMeal() {
             </Link>
 
             <form className="flex flex-col w-full">
+                <input
+                    name="productImg"
+                    type="file"
+                    accept="image/png, image/jpeg"
+                    onChange={handleUploadImg}
+                />
+                {/* <LabelInput 
+                    label="Imagem do prato" 
+                    value='test image'
+                    onChange={handleUploadImg}
+                    type="file" 
+                    placeholder="test img"
+                /> */}
                 <LabelInput 
                     label="Nome" 
                     value={name}
