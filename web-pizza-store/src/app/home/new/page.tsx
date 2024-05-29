@@ -7,11 +7,8 @@ import { api } from "@/services/api"
 import Link from "next/link"
 import { FormEvent, useEffect, useState } from "react"
 import { IoIosArrowBack } from "react-icons/io"
-import { PiUpload, PiUploadSimple } from "react-icons/pi"
+import { PiUploadSimple } from "react-icons/pi"
 
-interface FileImgProps {
-    name: string
-}
 
 export default function UpdateOrAddNewMeal() {
     const [name, setName] = useState<string>('')
@@ -75,8 +72,11 @@ export default function UpdateOrAddNewMeal() {
                 <IoIosArrowBack className="text-2xl"/> voltar
             </Link>
 
-            <form className="flex flex-col w-full">
+            <h2 className="text-3xl font-roboto text-light-300 antialiased pt-6 pb-6">
+                Novo prato
+            </h2>
 
+            <form className="flex flex-col w-full">
                 {/* INPUT FILE IMG */}
                 <div  className="flex  shadow bg-dark-200 appearance-none border-none rounded-lg w-full h-11 mt-8 leading-tight
                         focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 duration-75 relative group">
@@ -131,7 +131,7 @@ export default function UpdateOrAddNewMeal() {
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="Fale brevemente sobre o prato, seus ingredientes e composição"
                     className="flex w-full h-[172px] text-light-500  font-roboto mt-2 shadow bg-dark-200 appearance-none border-none rounded-lg py-2 px-3 leading-tight
-                    focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 duration-75 overflow-hidden mb-8"
+                    focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 overflow-hidden mb-8 placeholder:text-light-400 hover:placeholder:text-light-500 duration-300 antialiased"
                 />
                 <ButtonText 
                     text="Salvar alterações" 

@@ -15,7 +15,7 @@ export function ButtonText({ text, onclick, size, isDisable }: ButtonTextProps) 
             onClick={onclick}
             type="button"
             className={`flex w-full items-center justify-center ${size === 48 ? 'h-11' : 'h-8' }  py-1 rounded-md text-white  duration-75
-                ${isDisable ? 'bg-tint-tomato-100' : 'bg-tint-tomato-400 hover:bg-tint-tomato-300'}`}
+                ${isDisable ? 'bg-tint-tomato-100' : 'bg-tint-tomato-400 hover:bg-tint-tomato-300'} antialiased`}
         >
             <div >
                 {text}
