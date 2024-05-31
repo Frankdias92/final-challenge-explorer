@@ -22,21 +22,29 @@ interface AuthContextProps {
     user: User | null
     singIn: (SingInProps: SingInProps) => void
     signOut: () => void
+    handleMenuOpen: (menuStats: boolean) => void
+    isMenuOpen: boolean
 }
 
 export const AuthContext = createContext<AuthContextProps>({
     user: null,
     singIn: () => {},
-    signOut: () => {}
+    signOut: () => {},
+    handleMenuOpen: () => {},
+    isMenuOpen: false
 })
 
 function AuthProvider({ children }:any) {
+    const [isMenuOpen, setMenuOpen] = useState(false)
     const [data, setData] = useState<{
         user: User | null
     }>({ user: null })
     
     const router = useRouter()
 
+    function handleMenuOpen(menuStats: boolean) {
+        setMenuOpen(menuStats)
+    }
 
     async function singIn({ email, password }: SingInProps) {
         try {
@@ -79,7 +87,9 @@ function AuthProvider({ children }:any) {
             value={{
                 user: data.user,
                 singIn,
-                signOut
+                signOut,
+                handleMenuOpen,
+                isMenuOpen
             }}
         >
             {children}

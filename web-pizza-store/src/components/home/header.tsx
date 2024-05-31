@@ -12,26 +12,18 @@ import Link from "next/link";
 
 export function Header() {
     const [cardItem, setCardItem] = useState(0)
-    const [menuIsOpen, setMenuOpen] = useState(false)
+    // const [menuIsOpen, setMenuOpen] = useState(false)
 
 
-    const  { signOut, user }  = UseAuth()
-
-    function handleSignOut() {
-        signOut()
-        console.log('sign out click')
-    }
-    
-    
-
+    const  { signOut, user, isMenuOpen, handleMenuOpen }  = UseAuth()
 
     return (
         <header className="grid w-full h-28 px-7 pb-8 bg-dark-400 content-end text-white">
-            {menuIsOpen ? (
+            {isMenuOpen ? (
                 <div className="absolute flex flex-col min-w-full z-20 bg-dark-400 -translate-x-7">
                     <button
                         className="flex w-full h-8 items-center gap-4 text-2xl content-end mt-12 px-7"
-                        onClick={() => setMenuOpen(false)}
+                        onClick={() => handleMenuOpen(false)}
                     >
                         <CgClose/>
                         Menu
@@ -45,7 +37,7 @@ export function Header() {
                 <div className="flex w-full content-end justify-between items-center">
                     <button
                     className="flex h-8 items-center gap-4 text-2xl"
-                    onClick={() => setMenuOpen(!false)}
+                    onClick={() => handleMenuOpen(!false)}
                     >
                         <FiMenu/>
                     </button>
