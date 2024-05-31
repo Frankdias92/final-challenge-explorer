@@ -22,6 +22,7 @@ class MealsController {
                 description,
                 price,
                 category,
+                ingredients,
                 productImg: filename,
                 created_by
             });
