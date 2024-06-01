@@ -49,18 +49,17 @@ export function ListProductsFeatures({ productList }: ListProps) {
                     }
                 </div>
                 <div className="flex flex-col w-full h-full justify-start items-center gap-3 p-6">
-                    <span className="flex items-center w-[88px] h-[88px] rounded-full overflow-hidden">
+                    <span className="flex items-center w-[88px] h-[88px]">
                         <Image
                             as={NextImage}
                             width={488}
                             height={488}
                             src={`http://localhost:3333/files/${productList?.image}`}
                             alt="NextUI hero Image"
-                            className="flex"
+                            className="flex bg-contain rounded-full overflow-hidden"
                         />
                     </span>
 
-                    
                     <div className="flex flex-col items-center w-full h-full gap-3">
                         <Link href={`/home/${productList.id}`}>{productList.title} {`>`}</Link>
                         <span>R$ {productList.price}</span>

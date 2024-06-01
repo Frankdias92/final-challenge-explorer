@@ -8,11 +8,12 @@ import Link from "next/link"
 import { FormEvent, useEffect, useState } from "react"
 import { IoIosArrowBack } from "react-icons/io"
 import { PiUploadSimple } from "react-icons/pi"
+import { Select, SelectItem } from "@nextui-org/react"
 
 
 export default function AddNewDisher() {
+    const { user, categorys } = UseAuth()
     const [name, setName] = useState<string>('')
-    const [category, setCategory] = useState<string>('')
     // const [ingredients, setIngredients] = useState<string>('')
     const [price, setPrice] = useState<number>(0)
     const [description, setDescription] = useState<string>('')
@@ -20,20 +21,25 @@ export default function AddNewDisher() {
 
     const [img, setImg] = useState<string>('')
     const [imgName, setImgName] = useState<string>('')
+    const [ingredientes, setIngredientes] = useState<string>('')
     const [productImg, setProductImg] = useState<File | string >('')
     const [isInputFocused, setIsInputFocused] = useState(false)
-    const { user } = UseAuth()
+    
+    const [category, setCategory] = useState<string[]>([])
+    const[newCategory, setNewCategory] = useState<string>('')
 
 
     async function handleNewProduct() {
         try {
             const formData = new FormData()
             formData.append('name', name)
+            formData.append('ingredients', ingredientes)
             formData.append('description', description)
             formData.append('price', price.toString())
-            formData.append('category', category)
             formData.append('productImg', productImg)
             formData.append('created_by', String(user?.id))
+
+            category.forEach(item => formData.append('category', item))
             
             const response = await api.post('/meals' , formData ) 
             return alert('Produto adicionado com sucesso')
@@ -51,6 +57,11 @@ export default function AddNewDisher() {
             const imgPreview = URL.createObjectURL(file)
             setImg(imgPreview)
         }
+    }
+
+    function handleNewCategory() {
+        setCategory(prevState => [...prevState, newCategory])
+        setNewCategory('')
     }
 
     useEffect(() => {
@@ -92,7 +103,7 @@ export default function AddNewDisher() {
                         focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 duration-75 relative z-20"
                     />
                     <div  className={`${isInputFocused ? 'ring-2 ring-light-700 shadow-outline' : 'ring-0'} duration-75 absolute flex w-full left-0 h-11 px-8 top-0 rounded-lg text-light-400 z-10  group-hover:text-light-500`}>
-                        <span className="flex h-11">
+                        <span className="flex h-11 items-center">
                             {productImg ?` ${imgName}` : <span className="flex gap-2 items-center"><PiUploadSimple className=" text-3xl h-full"/> Selecione imagem</span>}
                         </span>
                     </div>
@@ -106,19 +117,44 @@ export default function AddNewDisher() {
                     type="text" 
                     placeholder="Ex.: Salada Ceasar"
                 />
-                <LabelInput 
-                    label="Categoria" 
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    type="text" 
+                
+                <label className="flex gap-2 w-full h-full text-xs text-light-400 font-roboto pt-8">
+                    Categoria
+                </label>    
+                <Select 
+                    name="category"
                     placeholder="Refeição"
-                />
+                    typeof="text"
+                    variant="bordered"
+                    value={category}
+                    onSelectionChange={handleNewCategory}
+                    selectionMode="multiple"
+                    className="flex items-center text-light-500 mt-2 shadow bg-dark-200 appearance-none border-none rounded-lg w-full h-11 pb-1 px-3 leading-tight antialiased
+                    focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 placeholder:text-light-400 hover:placeholder:text-light-500 duration-300"
+                    onChange={(e) => setNewCategory(e.target.value)}
+                >
+                    {categorys.map((item) => (
+                        <SelectItem key={item} value={item} className="flex w-full h-full items-center bg-dark-100 rounded-lg text-light-300 ">
+                                {item}
+                        </SelectItem>
+                        ))}
+                </Select>  
+                
+                
                 <LabelInput 
                     label="Preço" 
                     value={price}
                     onChange={(e) => setPrice(Number(e.target.value))}
                     type="Number"
                     placeholder="R$ 00,00"
+                />
+
+                <LabelInput 
+                    label="Ingredientes" 
+                    value={ingredientes}
+                    onChange={(e) => setIngredientes(e.target.value)}
+                    type="text"
+                    placeholder="Adicione os ingredientes"
                 />
                 
                 <label className="flex flex-col w-full h-full mt-8 text-xs text-light-400 font-roboto">

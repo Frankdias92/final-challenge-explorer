@@ -151,7 +151,7 @@ export default function UpdateDisher(id: number) {
                         </div>
                     </div>
                 ) : (
-                    <div>
+                    <>
                         <span className="flex items-center w-[88px] h-[88px] rounded-full overflow-hidden">
                             <Image
                                 as={NextImage}
@@ -163,7 +163,7 @@ export default function UpdateDisher(id: number) {
                             />
                         </span>
                         <button type="button" onClick={() => setUpdateIMG(true)}>Atualizar imagem <LuImagePlus /></button>
-                    </div>
+                    </>
                 )}
                 {/* END OF FILE IMG */}
                 
@@ -175,13 +175,7 @@ export default function UpdateDisher(id: number) {
                     type="text" 
                     placeholder="Ex.: Salada Ceasar"
                 />
-                {/* <LabelInput 
-                    label="Categoria" 
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    type="text" 
-                    placeholder="Refeição"
-                /> */}
+                
                 <label className="flex gap-2 w-full h-full text-xs text-light-400 font-roboto absolute bottom-8 group/checked">
                     Categoria
                 </label>    
