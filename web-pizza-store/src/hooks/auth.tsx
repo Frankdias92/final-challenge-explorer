@@ -24,7 +24,7 @@ interface AuthContextProps {
     signOut: () => void
     handleMenuOpen: (menuStats: boolean) => void
     isMenuOpen: boolean
-    categorys: string[] | null
+    categorys: string[]
 }
 
 export const AuthContext = createContext<AuthContextProps>({
@@ -33,7 +33,7 @@ export const AuthContext = createContext<AuthContextProps>({
     signOut: () => {},
     handleMenuOpen: () => {},
     isMenuOpen: false,
-    categorys: null
+    categorys: []
 })
 
 function AuthProvider({ children }:any) {
