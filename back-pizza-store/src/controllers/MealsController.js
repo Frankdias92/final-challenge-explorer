@@ -51,8 +51,8 @@ class MealsController {
     }
 
     async update(req, res) {
-        const { name, description, ingredients, price } = req.body;
-        const { category } = req.body
+        const { name, description, ingredients, price, category } = req.body;
+        // const { category } = req.body
         
         let filename
         if (!req.file) {
