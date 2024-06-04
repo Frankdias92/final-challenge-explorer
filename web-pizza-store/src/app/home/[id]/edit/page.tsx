@@ -3,8 +3,9 @@
 import { ButtonText } from "@/components/buttonText"
 import { LabelInput  } from "@/components/forms/inputLabel"
 import { UseAuth } from "@/hooks/auth"
+import { categorys } from "@/lib/categorys"
 import { api } from "@/services/api"
-import { Image, button,  Select, SelectItem } from "@nextui-org/react"
+import { Image, button,  Select, SelectItem, Selection } from "@nextui-org/react"
 import NextImage from "next/image";
 import Link from "next/link"
 import { useParams } from "next/navigation"
@@ -22,58 +23,62 @@ interface DisheProps {
     name: string
     description: string
     price: number
-    category:  string
+    category:  string[]
     productImg: string
     created_by: number
 }
 
-export default function UpdateDisher(id: number) {
+export default function UpdateDisher() {
+    const { user } = UseAuth()
+
     const [data, setData] = useState<DisheProps>()
     const [name, setName] = useState<string>('')
-    const [category, setCategory] = useState<string[]>([])
+    const [category, setCategory] = useState<Selection>(new Set(["Refeição"]))
+    // const [values, setValues] = useState<Selection>(new Set(["Refeição"]));
     const[newCategory, setNewCategory] = useState<string>('')
-    // const [ingredients, setIngredients] = useState<string>('')
+    const [ingredients, setIngredients] = useState<string>('')
     const [price, setPrice] = useState<number>(0)
     const [description, setDescription] = useState<string>('')
     const [isDisabled, setIsDisabled] = useState(true)
-    const [updateIMG, setUpdateIMG] = useState(Boolean)
+    const [updateIMG, setUpdateIMG] = useState(false)
 
     const [img, setImg] = useState<string>('')
     const [imgName, setImgName] = useState<string>('')
     const [productImg, setProductImg] = useState<File | string >('')
     const [isInputFocused, setIsInputFocused] = useState(false)
-    const { user } = UseAuth()
     const params = useParams()
+
     
-    const categorys = 
-    [
-        'Almoço',
-        'Café da manha',
-        'Lanche',
-        'Janta'
-    ]
     async function handleWithUpdateDisher() {
         try {
             const formData = new FormData()
             formData.append('name', name)
             formData.append('description', description)
             formData.append('price', price.toString())
-            formData.append('productImg', productImg)
+            formData.append('ingredients', ingredients)
             formData.append('created_by', String(user?.id))
-            
-            category.forEach(item => formData.append('category', item))
+
+            // check if img already exist
+            if (productImg) {
+                formData.append('productImg', productImg as Blob)
+            }
+
+            // add new categories
+            formData.append('category', JSON.stringify(category))
+            // category.forEach(item => formData.append('category', item))
 
             const response = await api.put(`/meals/${params.id}` , formData ) 
-            return alert('Produto adicionado com sucesso')
-        } catch (error) {
-            alert(error)
+            console.log(response.data)
+            return alert('Produto atualizado com sucesso')
+        } catch (error: any) {
+            alert(error.response?.data?.message || error.message)
         }
     }
 
-    function handleNewCategory() {
-        setCategory(prevState => [...prevState, newCategory])
-        setNewCategory('')
-    }
+    // function handleNewCategory() {
+    //     setCategory(prevState => [...prevState, newCategory])
+    //     setNewCategory('')
+    // }
 
     async function handleUploadImg(e: FormEvent<HTMLInputElement>) {
         const file = e.currentTarget.files?.[0]
@@ -90,11 +95,14 @@ export default function UpdateDisher(id: number) {
         async function getDisheId() {
             const response = await api.get(`/meals/${params.id}`)
             const data = response.data[0]
+            console.log('data category', data.category)
             if (data) {
                 setName(data.name)
                 setCategory(data.category)
                 setPrice(data.price)
                 setDescription(data.description)
+                setIngredients(data.ingredients)
+                setImg(data.productImg)
             } else {
                 console.log("Error to get products")
             }
@@ -162,7 +170,11 @@ export default function UpdateDisher(id: number) {
                                 className="flex"
                             />
                         </span>
-                        <button type="button" onClick={() => setUpdateIMG(true)}>Atualizar imagem <LuImagePlus /></button>
+                        <button type="button" onClick={() => setUpdateIMG(true)} 
+                            className="flex items-center  gap-2 text-light-300 "
+                        >
+                            Atualizar imagem <LuImagePlus />
+                        </button>
                     </>
                 )}
                 {/* END OF FILE IMG */}
@@ -176,27 +188,39 @@ export default function UpdateDisher(id: number) {
                     placeholder="Ex.: Salada Ceasar"
                 />
                 
-                <label className="flex gap-2 w-full h-full text-xs text-light-400 font-roboto absolute bottom-8 group/checked">
+                <label className="flex gap-2 w-full h-full text-xs text-light-400 font-roboto pt-8">
                     Categoria
                 </label>    
-                <Select 
-                    name="category"
-                    placeholder="Refeição"
+                <div className="bg-dark-200">
+                <Select
                     typeof="text"
                     variant="bordered"
-                    value={category}
-                    onSelectionChange={handleNewCategory}
+                    selectedKeys={category}
+                    onSelectionChange={setCategory}
                     selectionMode="multiple"
-                    className="flex items-center text-light-500 mt-2 shadow bg-dark-200 appearance-none border-none rounded-lg w-full h-11 pb-1 px-3 leading-tight antialiased
-                    focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 placeholder:text-light-400 hover:placeholder:text-light-500 duration-300"
-                    onChange={(e) => setNewCategory(e.target.value)}
+                    className="w-full bg-dark-200"
+                    // onChange={(e) => setNewCategory(e.target.value)}
                 >
                     {categorys.map((item) => (
-                        <SelectItem key={item} value={item} className="flex w-full h-full items-center bg-dark-100 rounded-lg text-light-300 ">
-                            {item}
+                        <SelectItem key={item.key} className="bg-dark-100">
+                            {item.label}
                         </SelectItem>
-                        ))}
-                </Select>                
+                    ))}
+                    {/* {categorys.map((item) => (
+                        <SelectItem key={item} value={item}
+                            className="flex w-full px-10 h-full items-center bg-dark-100 rounded-lg text-light-300 ">
+                           <span className="bg-red-500">{item}</span>
+                        </SelectItem>
+                        ))} */}
+                </Select>
+                </div>
+                <LabelInput 
+                    label="Ingredientes" 
+                    value={ingredients}
+                    onChange={(e) => setIngredients(e.target.value)}
+                    type="text" 
+                    placeholder="Pão Naan"
+                />              
                 
                 <LabelInput 
                     label="Preço" 

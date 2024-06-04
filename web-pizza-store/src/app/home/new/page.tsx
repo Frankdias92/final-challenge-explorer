@@ -9,10 +9,11 @@ import { FormEvent, useEffect, useState } from "react"
 import { IoIosArrowBack } from "react-icons/io"
 import { PiUploadSimple } from "react-icons/pi"
 import { Select, SelectItem } from "@nextui-org/react"
+import { categorys } from "@/lib/categorys"
 
 
 export default function AddNewDisher() {
-    const { user, categorys } = UseAuth()
+    const { user } = UseAuth()
     const [name, setName] = useState<string>('')
     // const [ingredients, setIngredients] = useState<string>('')
     const [price, setPrice] = useState<number>(0)
@@ -134,8 +135,8 @@ export default function AddNewDisher() {
                     onChange={(e) => setNewCategory(e.target.value)}
                 >
                     {categorys.map((item) => (
-                        <SelectItem key={item} value={item} className="flex w-full h-full items-center bg-dark-100 rounded-lg text-light-300 ">
-                                {item}
+                        <SelectItem key={item.key} value={item.label} className="flex w-full h-full items-center bg-dark-100 rounded-lg text-light-300 ">
+                                {item.label}
                         </SelectItem>
                         ))}
                 </Select>  
