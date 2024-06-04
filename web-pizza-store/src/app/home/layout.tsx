@@ -1,5 +1,6 @@
 import { Footer } from "@/components/home/footer";
 import { Header } from "@/components/home/header";
+import { NextUIProvider } from "@nextui-org/react";
 import { Metadata } from "next";
 
 

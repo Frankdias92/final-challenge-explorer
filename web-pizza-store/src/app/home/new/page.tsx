@@ -5,11 +5,11 @@ import { LabelInput  } from "@/components/forms/inputLabel"
 import { UseAuth } from "@/hooks/auth"
 import { api } from "@/services/api"
 import Link from "next/link"
-import { FormEvent, useEffect, useState } from "react"
-import { IoIosArrowBack } from "react-icons/io"
+import { ChangeEvent, FormEvent, useEffect, useState } from "react"
+import { IoIosArrowBack, IoIosArrowDown, IoIosArrowUp } from "react-icons/io"
 import { PiUploadSimple } from "react-icons/pi"
-import { Select, SelectItem } from "@nextui-org/react"
-import { categorys } from "@/lib/categorys"
+import { InputSelect, OptionType } from "@/components/forms/inputSelect"
+import { MultiValue } from "react-select"
 
 
 export default function AddNewDisher() {
@@ -26,8 +26,7 @@ export default function AddNewDisher() {
     const [productImg, setProductImg] = useState<File | string >('')
     const [isInputFocused, setIsInputFocused] = useState(false)
     
-    const [category, setCategory] = useState<string[]>([])
-    const[newCategory, setNewCategory] = useState<string>('')
+    const [category, setCategory] = useState<OptionType[]>([])
 
 
     async function handleNewProduct() {
@@ -39,8 +38,7 @@ export default function AddNewDisher() {
             formData.append('price', price.toString())
             formData.append('productImg', productImg)
             formData.append('created_by', String(user?.id))
-
-            category.forEach(item => formData.append('category', item))
+            category.forEach(item => formData.append('category', item.label))
             
             const response = await api.post('/meals' , formData ) 
             return alert('Produto adicionado com sucesso')
@@ -60,9 +58,9 @@ export default function AddNewDisher() {
         }
     }
 
-    function handleNewCategory() {
-        setCategory(prevState => [...prevState, newCategory])
-        setNewCategory('')
+    
+    function handleNewCategory(selectedOptions: MultiValue<OptionType>) {
+        setCategory(selectedOptions as OptionType[])
     }
 
     useEffect(() => {
@@ -121,8 +119,45 @@ export default function AddNewDisher() {
                 
                 <label className="flex gap-2 w-full h-full text-xs text-light-400 font-roboto pt-8">
                     Categoria
-                </label>    
-                <Select 
+                </label> 
+
+                {/* <Select
+                    isMulti
+                    name="category"
+                    options={categorys}
+                    styles={customStyles}
+                    classNamePrefix="select"
+                    value={category}
+                    onChange={handleNewCategory}
+                    placeholder="Selecione uma ou mais categorias"
+                /> */}
+
+                <InputSelect 
+                    category={category}
+                    handleNewCategory={handleNewCategory}
+                />
+
+                {/* <Select
+                    // label="Favorite Animal"
+                    placeholder="Select an animal"
+                    variant="bordered"
+                    selectionMode="multiple"
+                    selectedKeys={category}
+                    className="w-full mt-2 items-center text-light-500 bg-dark-200 appearance-none border-none rounded-lg py-1 px-3 leading-tight antialiased
+                    focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 placeholder:text-light-400 hover:placeholder:text-light-500 duration-300"
+                    onChange={handleNewCategory}
+                >
+                    {categorys.map((item) => (
+                        <SelectItem key={item.key} className="w-full bg-dark-300 rounded-md -mt-1">
+                        <div className="hover:bg-dark-200 w-full rounded-lg text-light-300 px-2 py-2">
+                            {item.label}
+                        </div>
+                        </SelectItem>
+                    ))}
+                </Select> */}
+                
+               
+                {/* <Select 
                     name="category"
                     placeholder="Refeição"
                     typeof="text"
@@ -139,7 +174,7 @@ export default function AddNewDisher() {
                                 {item.label}
                         </SelectItem>
                         ))}
-                </Select>  
+                </Select>   */}
                 
                 
                 <LabelInput 

@@ -2,10 +2,10 @@
 
 import { ButtonText } from "@/components/buttonText"
 import { LabelInput  } from "@/components/forms/inputLabel"
+import { InputSelect, OptionType } from "@/components/forms/inputSelect"
 import { UseAuth } from "@/hooks/auth"
-import { categorys } from "@/lib/categorys"
 import { api } from "@/services/api"
-import { Image, button,  Select, SelectItem, Selection } from "@nextui-org/react"
+import { Image } from "@nextui-org/react"
 import NextImage from "next/image";
 import Link from "next/link"
 import { useParams } from "next/navigation"
@@ -14,8 +14,7 @@ import { FaCheck } from "react-icons/fa"
 import { IoIosArrowBack } from "react-icons/io"
 import { LuImagePlus } from "react-icons/lu"
 import { PiUploadSimple } from "react-icons/pi"
-
-
+import { MultiValue } from "react-select"
 
 
 interface DisheProps {
@@ -33,9 +32,8 @@ export default function UpdateDisher() {
 
     const [data, setData] = useState<DisheProps>()
     const [name, setName] = useState<string>('')
-    const [category, setCategory] = useState<Selection>(new Set(["Refeição"]))
+    const [category, setCategory] = useState<OptionType[]>([])
     // const [values, setValues] = useState<Selection>(new Set(["Refeição"]));
-    const[newCategory, setNewCategory] = useState<string>('')
     const [ingredients, setIngredients] = useState<string>('')
     const [price, setPrice] = useState<number>(0)
     const [description, setDescription] = useState<string>('')
@@ -53,10 +51,12 @@ export default function UpdateDisher() {
         try {
             const formData = new FormData()
             formData.append('name', name)
+            formData.append('ingredients', ingredients)
             formData.append('description', description)
             formData.append('price', price.toString())
-            formData.append('ingredients', ingredients)
+            formData.append('productImg', productImg)
             formData.append('created_by', String(user?.id))
+            category.forEach(item => formData.append('category', item.label))
 
             // check if img already exist
             if (productImg) {
@@ -75,10 +75,9 @@ export default function UpdateDisher() {
         }
     }
 
-    // function handleNewCategory() {
-    //     setCategory(prevState => [...prevState, newCategory])
-    //     setNewCategory('')
-    // }
+    function handleNewCategory(selectedOptions: MultiValue<OptionType>) {
+        setCategory(selectedOptions as OptionType[])
+    }
 
     async function handleUploadImg(e: FormEvent<HTMLInputElement>) {
         const file = e.currentTarget.files?.[0]
@@ -191,29 +190,11 @@ export default function UpdateDisher() {
                 <label className="flex gap-2 w-full h-full text-xs text-light-400 font-roboto pt-8">
                     Categoria
                 </label>    
-                <div className="bg-dark-200">
-                <Select
-                    typeof="text"
-                    variant="bordered"
-                    selectedKeys={category}
-                    onSelectionChange={setCategory}
-                    selectionMode="multiple"
-                    className="w-full bg-dark-200"
-                    // onChange={(e) => setNewCategory(e.target.value)}
-                >
-                    {categorys.map((item) => (
-                        <SelectItem key={item.key} className="bg-dark-100">
-                            {item.label}
-                        </SelectItem>
-                    ))}
-                    {/* {categorys.map((item) => (
-                        <SelectItem key={item} value={item}
-                            className="flex w-full px-10 h-full items-center bg-dark-100 rounded-lg text-light-300 ">
-                           <span className="bg-red-500">{item}</span>
-                        </SelectItem>
-                        ))} */}
-                </Select>
-                </div>
+                <InputSelect 
+                    category={category}
+                    handleNewCategory={handleNewCategory}
+                />
+
                 <LabelInput 
                     label="Ingredientes" 
                     value={ingredients}
