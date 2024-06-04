@@ -11,7 +11,7 @@ const mealsController = new MealsController()
 mealsRoutes.get('/', mealsController.index)
 mealsRoutes.get('/:id', mealsController.item)
 mealsRoutes.post('/', upload.single('productImg') , mealsController.create)
-mealsRoutes.put('/:id', mealsController.update)
+mealsRoutes.put('/:id', upload.single('productImg'), mealsController.update)
 mealsRoutes.delete('/:id', mealsController.delete)
 
 module.exports = mealsRoutes

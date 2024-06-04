@@ -51,17 +51,48 @@ class MealsController {
     }
 
     async update(req, res) {
-        const { name, description, price, category, created_by } = req.body
+        const { name, description, ingredients, price } = req.body;
+        const { category } = req.body
+        
+        let filename
+        if (!req.file) {
+            const productImg = req.file.filename;
+            const diskStorage = new DiskStorage();
+            filename = await diskStorage.saveFile(productImg);
+        }
 
-        const meal = await knex("meals").where({ meal_id: req.params.id })
-        .update({
-            name,
-            description, price,
-            category,
-            created_by
-        })
+        try {
+            // parse category if they are received as a JSON string
+            if ( typeof category === 'string' ) {
+                category = JSON.parse(category)
+            }
+            
+            // verify for dishe is already set
+            const meal = await knex("meals").where({ meal_id: req.params.id })
+            if (!meal) {
+                return res.status(404).json({ error: 'Meal not found'})
+            }
 
-        res.status(200).json({ message: "Meal update" })
+            // If already have a img, remove the older
+            if (filename && meal.productImg) {
+                await diskStorage.deleteFile(meal.productImg)
+            }
+
+            await knex("meals").where({ meal_id: req.params.id })
+            .update({
+                name,
+                description,
+                ingredients,
+                price,
+                category,
+                productImg: filename || meal.productImg // use the new img or already in use
+            })
+            
+            res.status(200).json({ message: 'Meal updated succesfully' })
+        } catch (error) {
+            console.error("error updating meal: ", error)
+            res.status(500).json({ error: 'Internal server error' })
+        }
     }
 
     async delete(req, res) {
