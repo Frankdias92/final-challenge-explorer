@@ -53,9 +53,11 @@ class MealsController {
     async update(req, res) {
         const { name, description, ingredients, price, category } = req.body;
         // const { category } = req.body
+        console.log('request body:', req.body)
+        console.log('request file:', req.file)
         
         let filename
-        if (!req.file) {
+        if (req.file && req.file.filename) {
             const productImg = req.file.filename;
             const diskStorage = new DiskStorage();
             filename = await diskStorage.saveFile(productImg);
@@ -63,8 +65,9 @@ class MealsController {
 
         try {
             // parse category if they are received as a JSON string
+            let parsedCategory = category
             if ( typeof category === 'string' ) {
-                category = JSON.parse(category)
+                parsedCategory = JSON.parse(category)
             }
             
             // verify for dishe is already set
@@ -84,7 +87,7 @@ class MealsController {
                 description,
                 ingredients,
                 price,
-                category,
+                category: JSON.stringify(parsedCategory),
                 productImg: filename || meal.productImg // use the new img or already in use
             })
             
