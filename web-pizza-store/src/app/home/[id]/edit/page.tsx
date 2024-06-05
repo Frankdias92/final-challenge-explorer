@@ -9,7 +9,7 @@ import { Image } from "@nextui-org/react"
 import NextImage from "next/image";
 import Link from "next/link"
 import { useParams } from "next/navigation"
-import { FormEvent, useEffect, useState } from "react"
+import { FormEvent, useEffect, useRef, useState } from "react"
 import { FaCheck } from "react-icons/fa"
 import { IoIosArrowBack } from "react-icons/io"
 import { LuImagePlus } from "react-icons/lu"
@@ -38,7 +38,7 @@ export default function UpdateDisher() {
     const [price, setPrice] = useState<number>(0)
     const [description, setDescription] = useState<string>('')
     const [isDisabled, setIsDisabled] = useState(true)
-    const [updateIMG, setUpdateIMG] = useState(false)
+    // const [updateIMG, setUpdateIMG] = useState(false)
 
     const [img, setImg] = useState<string>('')
     const [imgName, setImgName] = useState<string>('')
@@ -46,6 +46,8 @@ export default function UpdateDisher() {
     const [isInputFocused, setIsInputFocused] = useState(false)
     const params = useParams()
 
+    const fileInputRef = useRef<HTMLInputElement>(null)
+    console.log('print img', productImg)
     
     async function handleWithUpdateDisher() {
         try {
@@ -56,16 +58,14 @@ export default function UpdateDisher() {
             formData.append('price', price.toString())
             formData.append('productImg', productImg)
             formData.append('created_by', String(user?.id))
-            category.forEach(item => formData.append('category', item.label))
-
+            
             // check if img already exist
             if (productImg) {
                 formData.append('productImg', productImg as Blob)
             }
-
+        
             // add new categories
-            formData.append('category', JSON.stringify(category))
-            // category.forEach(item => formData.append('category', item))
+            category.forEach(item => formData.append('category', item.label))
 
             const response = await api.put(`/meals/${params.id}` , formData ) 
             console.log(response.data)
@@ -94,14 +94,17 @@ export default function UpdateDisher() {
         async function getDisheId() {
             const response = await api.get(`/meals/${params.id}`)
             const data = response.data[0]
-            console.log('data category', data.category)
+
+            // const getImgPreview = await api.get(`/files/${data.productImg}`)
+            // console.log('data category', getImgPreview)
             if (data) {
                 setName(data.name)
-                setCategory(data.category)
-                setPrice(data.price)
-                setDescription(data.description)
                 setIngredients(data.ingredients)
-                setImg(data.productImg)
+                setDescription(data.description)
+                setPrice(data.price)
+                setCategory(data.category)
+                setImg(`http://localhost:3333/files/${data.productImg}`)
+                setProductImg(data.productImg)
             } else {
                 console.log("Error to get products")
             }
@@ -134,48 +137,51 @@ export default function UpdateDisher() {
 
             <form className="flex flex-col w-full">
                 {/* INPUT FILE IMG */}
-                {updateIMG ? (
-                    <div  className="flex  shadow bg-dark-200 appearance-none border-none rounded-lg w-full h-11 mt-8 leading-tight
-                        focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 duration-75 relative">
-                            <label className="flex gap-2 w-full h-full text-xs text-light-400 font-roboto absolute bottom-8 group/checked">
-                                Imagem do prato 
-                                <FaCheck onClick={() => setUpdateIMG(false)} className="group-hover/checked:text-tint-cake-400"/>
-                            </label>       
-                            <input
-                                name="productImg"
-                                type="file"
-                                accept="image/png, image/jpeg"
-                                onChange={handleUploadImg}
-                                onFocus={() => setIsInputFocused(true)}
-                                onBlur={() => setIsInputFocused(false)}
-                                className="flex bg-transparent w-full rounded-lg appearance-none border-none opacity-100 placeholder-transparent file:opacity-0 only-of-type:opacity-0
-                                focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 duration-75 relative z-20" 
-                            />
-                        <div  className={`${isInputFocused ? 'ring-2 ring-light-700 shadow-outline' : 'ring-0'} duration-75 absolute flex w-full left-0 h-11 px-8 top-0 rounded-lg text-light-400 z-10`}>
-                            <span className="flex h-11 items-center">
-                                {productImg ? ` ${imgName}` : <span className="flex gap-2 items-center"><PiUploadSimple className=" text-3xl h-full hover:text-light-500"/> Selecione imagem</span>}
-                            </span>
-                        </div>
-                    </div>
-                ) : (
-                    <>
+
+                {img &&
+                    <div className="relative m-auto w-fit">
                         <span className="flex items-center w-[88px] h-[88px] rounded-full overflow-hidden">
                             <Image
                                 as={NextImage}
                                 width={488}
                                 height={488}
-                                src={`${productImg}`}
+                                src={`${img}`}
                                 alt="NextUI hero Image"
                                 className="flex"
                             />
                         </span>
-                        <button type="button" onClick={() => setUpdateIMG(true)} 
-                            className="flex items-center  gap-2 text-light-300 "
-                        >
-                            Atualizar imagem <LuImagePlus />
-                        </button>
-                    </>
-                )}
+                            <button type="button" 
+                                onClick={() => fileInputRef.current?.click()}
+                                className="flex gap-2 bg-tint-tomato-200 p-1 rounded-full text-light-300 absolute right-0 bottom-0 z-10"
+                            >
+                                <LuImagePlus />
+                            </button>
+                    </div>
+                }
+
+                <div  className="flex  shadow bg-dark-200 appearance-none border-none rounded-lg w-full h-11 mt-8 leading-tight
+                    focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 duration-75 relative">
+                        <label className="flex gap-2 w-full h-full text-xs text-light-400 font-roboto absolute bottom-8 group/checked">
+                            Imagem do prato 
+                        </label>       
+                        <input
+                            ref={fileInputRef}
+                            name="productImg"
+                            type="file"
+                            accept="image/png, image/jpeg"
+                            onChange={handleUploadImg}
+                            onFocus={() => setIsInputFocused(true)}
+                            onBlur={() => setIsInputFocused(false)}
+                            className="flex bg-transparent w-full rounded-lg appearance-none border-none opacity-100 placeholder-transparent file:opacity-0 only-of-type:opacity-0
+                            focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 duration-75 relative z-20" 
+                        />
+                    <div  className={`${isInputFocused ? 'ring-2 ring-light-700 shadow-outline' : 'ring-0'} duration-75 absolute flex w-full left-0 h-11 px-8 top-0 rounded-lg text-light-400 z-10`}>
+                        <span className="flex h-11 items-center">
+                            {productImg ? ` ./ ${imgName || img.split('-')[1]}` : <span className="flex gap-2 items-center"><PiUploadSimple className=" text-3xl h-full hover:text-light-500"/> Selecione imagem</span>}
+                        </span>
+                    </div>
+                </div>
+
                 {/* END OF FILE IMG */}
                 
 
