@@ -2,8 +2,9 @@
 
 import { ButtonText } from "@/components/buttonText"
 import { LabelInput  } from "@/components/forms/inputLabel"
-import { InputSelect, OptionType } from "@/components/forms/inputSelect"
+import { InputSelect } from "@/components/forms/inputSelect"
 import { UseAuth } from "@/hooks/auth"
+import { OptionType, categorys } from "@/lib/categorys"
 import { api } from "@/services/api"
 import { Image } from "@nextui-org/react"
 import NextImage from "next/image";
@@ -46,8 +47,7 @@ export default function UpdateDisher() {
     const [isInputFocused, setIsInputFocused] = useState(false)
     const params = useParams()
 
-    const fileInputRef = useRef<HTMLInputElement>(null)
-    console.log('print img', productImg)
+    const fileInputRef = useRef<HTMLInputElement>(null)    
     
     async function handleWithUpdateDisher() {
         try {
@@ -56,16 +56,14 @@ export default function UpdateDisher() {
             formData.append('ingredients', ingredients)
             formData.append('description', description)
             formData.append('price', price.toString())
-            formData.append('productImg', productImg)
             formData.append('created_by', String(user?.id))
             
+            category.forEach(item => formData.append('category', item.value))
+
             // check if img already exist
             if (productImg) {
                 formData.append('productImg', productImg as Blob)
             }
-        
-            // add new categories
-            category.forEach(item => formData.append('category', item.label))
 
             const response = await api.put(`/meals/${params.id}` , formData ) 
             console.log(response.data)
@@ -102,9 +100,28 @@ export default function UpdateDisher() {
                 setIngredients(data.ingredients)
                 setDescription(data.description)
                 setPrice(data.price)
-                setCategory(data.category)
+                if (Array.isArray(data.category)) {
+                    setCategory(data.category.map((gory: string) => {
+                        const found = categorys.find(option => option.value === gory);
+                        return found ? found : { value: gory, label: gory };
+                    }));
+                } else if (typeof data.category === 'string') {
+                    const cleanedCategoryString = data.category.replace(/[\[\]]/g, '')
+                    const delimiters = /[";]+/
+                    const categoryArray = cleanedCategoryString.split(',').map((gory: string) => gory.split(delimiters));
+                    setCategory(categoryArray.map((gory: string) => {
+                        const found = categorys.find(option => option.value === gory);
+                        return found ? found : { value: gory, label: gory };
+                    }));
+                } else {
+                    console.error("Category data is not in a recognized format");
+                }
+
                 setImg(`http://localhost:3333/files/${data.productImg}`)
                 setProductImg(data.productImg)
+
+                console.log()
+
             } else {
                 console.log("Error to get products")
             }

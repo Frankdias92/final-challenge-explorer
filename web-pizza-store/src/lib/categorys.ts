@@ -1,6 +1,10 @@
-import React from "react";
 
-export const categorys = 
+export interface OptionType {
+    value: string
+    label: string
+}
+
+export const categorys: OptionType[] = 
     [
         {value: 'Almoço', label: 'Almoço',},
         {value: 'Café da manha', label: 'Café da manha',},

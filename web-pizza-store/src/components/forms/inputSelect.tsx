@@ -1,12 +1,9 @@
 
-import { categorys } from "@/lib/categorys"
-import Select, { MultiValue, StylesConfig  } from 'react-select';
+import { OptionType, categorys } from "@/lib/categorys"
+import Select, { MultiValue, StylesConfig, ActionMeta } from "react-select";
+import makeAnimated from 'react-select/animated'
 
-
-export interface OptionType {
-    value: string;
-    label: string;
-}
+const animatedComponents = makeAnimated()
 
 const customStyles: StylesConfig<OptionType> = {
     // input
@@ -67,21 +64,23 @@ const customStyles: StylesConfig<OptionType> = {
 };
 
 interface InputSelectProps {
-    category: any
+    category: OptionType[]
     handleNewCategory: any
 }
 
-export function InputSelect({category, handleNewCategory}: InputSelectProps) {
+export function InputSelect({category, handleNewCategory}: InputSelectProps) {    
+
     return (
-        <Select
-            isMulti
-            name="category"
-            options={categorys}
-            styles={customStyles}
-            classNamePrefix="select"
-            value={category}
-            onChange={handleNewCategory}
-            placeholder="Selecione uma ou mais categorias"
-        />
+      <Select
+        value={category}
+        isMulti
+        name="category"
+        options={categorys}
+        styles={customStyles}
+        classNamePrefix="select"
+        onChange={handleNewCategory}
+        components={animatedComponents}
+        placeholder='Selecione uma ou mais categorias'
+      />
     )
 }

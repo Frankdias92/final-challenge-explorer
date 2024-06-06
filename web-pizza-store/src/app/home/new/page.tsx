@@ -8,8 +8,9 @@ import Link from "next/link"
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import { IoIosArrowBack, IoIosArrowDown, IoIosArrowUp } from "react-icons/io"
 import { PiUploadSimple } from "react-icons/pi"
-import { InputSelect, OptionType } from "@/components/forms/inputSelect"
+import { InputSelect } from "@/components/forms/inputSelect"
 import { MultiValue } from "react-select"
+import { OptionType } from "@/lib/categorys"
 
 
 export default function AddNewDisher() {
@@ -36,9 +37,13 @@ export default function AddNewDisher() {
             formData.append('ingredients', ingredientes)
             formData.append('description', description)
             formData.append('price', price.toString())
-            formData.append('productImg', productImg)
             formData.append('created_by', String(user?.id))
-            category.forEach(item => formData.append('category', item.label))
+
+            if (productImg) {
+                formData.append('productImg', productImg)
+            }
+
+            category.forEach(item => formData.append('category', item.value))
             
             const response = await api.post('/meals' , formData ) 
             return alert('Produto adicionado com sucesso')
