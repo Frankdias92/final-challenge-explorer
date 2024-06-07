@@ -48,6 +48,9 @@ export default function UpdateDisher() {
     const params = useParams()
 
     const fileInputRef = useRef<HTMLInputElement>(null)    
+
+    console.log(category)
+    
     
     async function handleWithUpdateDisher() {
         try {
