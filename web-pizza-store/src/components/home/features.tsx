@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { ListProductsFeatures } from "./listProdutsFeatures";
 import Slider from "react-slick"
 import { UseAuth } from "@/hooks/auth";
@@ -16,28 +16,25 @@ export interface ProductProps {
     description: string
     price: number
     productImg: string
-}[]
+}
 
 
 export function Features({ section }: FeaturesProps ) {
-    const sliderRef = useRef<Slider | null>(null)
     const [data, setData] = useState<ProductProps[]>([])
-    // console.log(data)
-    // const feature = UseAuth()
 
     useEffect(() => {
         async function getProducts() {
             try {
                 const response = await api.get('/meals')
-                const data = response.data
+                const products = response.data
     
-                setData(data)
+                setData(products)
             } catch (error) {
                 alert(error)
             }
         }
         getProducts()
-    }, [data])
+    }, [])
     
     // Slider configs
     const settings = {
@@ -60,25 +57,24 @@ export function Features({ section }: FeaturesProps ) {
 
                 <Slider 
                     {...settings}
-                    className="flex justify-center w-full h-full  overflow-hidden translate-x-2 z-0"
+                    className="flex justify-center w-full h-full overflow-hidden pl-6 z-0"
                 >
 
-                        
-                        {data.map(item => {
-                            return (
-                                <div className="flex  z-0" key={item.meal_id}>
-                                    <ListProductsFeatures
-                                        productList={{
-                                            id: item.meal_id,
-                                            image: item.productImg,
-                                            title: item.name,
-                                            price: item.price,
-                                        }}
+                    {data.map(item => {
+                        return (
+                            <div className="flex px-4 z-0" key={item.meal_id}>
+                                <ListProductsFeatures
+                                    productList={[{
+                                        id: item.meal_id,
+                                        image: item.productImg,
+                                        title: item.name,
+                                        price: item.price,
+                                    }]}
 
-                                    />
-                                </div>
-                            )
-                        })}
+                                />
+                            </div>
+                        )
+                    })}
 
                 </Slider>
 
