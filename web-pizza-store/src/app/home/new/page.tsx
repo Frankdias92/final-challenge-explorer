@@ -5,27 +5,29 @@ import { LabelInput  } from "@/components/forms/inputLabel"
 import { UseAuth } from "@/hooks/auth"
 import { api } from "@/services/api"
 import Link from "next/link"
-import { ChangeEvent, FormEvent, useEffect, useState } from "react"
-import { IoIosArrowBack, IoIosArrowDown, IoIosArrowUp } from "react-icons/io"
+import { FormEvent, useEffect, useState } from "react"
+import { IoIosArrowBack } from "react-icons/io"
 import { PiUploadSimple } from "react-icons/pi"
 import { InputSelect } from "@/components/forms/inputSelect"
 import { MultiValue } from "react-select"
 import { OptionType } from "@/lib/categorys"
+import { Section } from "@/components/forms/ingredientsSection"
+import { NewItem } from "@/components/forms/newItem"
 
 
 export default function AddNewDisher() {
     const { user } = UseAuth()
     const [name, setName] = useState<string>('')
-    // const [ingredients, setIngredients] = useState<string>('')
     const [price, setPrice] = useState<number>(0)
     const [description, setDescription] = useState<string>('')
     const [isDisabled, setIsDisabled] = useState(true)
 
     const [img, setImg] = useState<string>('')
     const [imgName, setImgName] = useState<string>('')
-    const [ingredientes, setIngredientes] = useState<string>('')
+    const [ingredientes, setIngredientes] = useState<string[]>([])
     const [productImg, setProductImg] = useState<File | string >('')
     const [isInputFocused, setIsInputFocused] = useState(false)
+    const [newIngredientes, setNewIngredientes] = useState<string>('')
     
     const [category, setCategory] = useState<OptionType[]>([])
 
@@ -34,14 +36,15 @@ export default function AddNewDisher() {
         try {
             const formData = new FormData()
             formData.append('name', name)
-            formData.append('ingredients', ingredientes)
             formData.append('description', description)
             formData.append('price', price.toString())
             formData.append('created_by', String(user?.id))
-
+            
             if (productImg) {
                 formData.append('productImg', productImg)
             }
+
+            ingredientes.forEach(item => formData.append('ingredients', item))
 
             category.forEach(item => formData.append('category', item.value))
             
@@ -51,6 +54,16 @@ export default function AddNewDisher() {
             alert(error)
         }
     }
+
+
+    function handleAddIngredients() {
+        setIngredientes(prevState => [...prevState, newIngredientes])
+        setNewIngredientes('')
+    }
+    function handleRemoveIngredients(deleted: string) {
+        setIngredientes(prevState => prevState.filter(item => item !== deleted))
+    }
+
 
     async function handleUploadImg(e: FormEvent<HTMLInputElement>) {
         const file = e.currentTarget.files?.[0]
@@ -63,7 +76,6 @@ export default function AddNewDisher() {
         }
     }
 
-    
     function handleNewCategory(selectedOptions: MultiValue<OptionType>) {
         setCategory(selectedOptions as OptionType[])
     }
@@ -126,61 +138,10 @@ export default function AddNewDisher() {
                     Categoria
                 </label> 
 
-                {/* <Select
-                    isMulti
-                    name="category"
-                    options={categorys}
-                    styles={customStyles}
-                    classNamePrefix="select"
-                    value={category}
-                    onChange={handleNewCategory}
-                    placeholder="Selecione uma ou mais categorias"
-                /> */}
-
                 <InputSelect 
                     category={category}
                     handleNewCategory={handleNewCategory}
-                />
-
-                {/* <Select
-                    // label="Favorite Animal"
-                    placeholder="Select an animal"
-                    variant="bordered"
-                    selectionMode="multiple"
-                    selectedKeys={category}
-                    className="w-full mt-2 items-center text-light-500 bg-dark-200 appearance-none border-none rounded-lg py-1 px-3 leading-tight antialiased
-                    focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 placeholder:text-light-400 hover:placeholder:text-light-500 duration-300"
-                    onChange={handleNewCategory}
-                >
-                    {categorys.map((item) => (
-                        <SelectItem key={item.key} className="w-full bg-dark-300 rounded-md -mt-1">
-                        <div className="hover:bg-dark-200 w-full rounded-lg text-light-300 px-2 py-2">
-                            {item.label}
-                        </div>
-                        </SelectItem>
-                    ))}
-                </Select> */}
-                
-               
-                {/* <Select 
-                    name="category"
-                    placeholder="Refeição"
-                    typeof="text"
-                    variant="bordered"
-                    value={category}
-                    onSelectionChange={handleNewCategory}
-                    selectionMode="multiple"
-                    className="flex items-center text-light-500 mt-2 shadow bg-dark-200 appearance-none border-none rounded-lg w-full h-11 pb-1 px-3 leading-tight antialiased
-                    focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 placeholder:text-light-400 hover:placeholder:text-light-500 duration-300"
-                    onChange={(e) => setNewCategory(e.target.value)}
-                >
-                    {categorys.map((item) => (
-                        <SelectItem key={item.key} value={item.label} className="flex w-full h-full items-center bg-dark-100 rounded-lg text-light-300 ">
-                                {item.label}
-                        </SelectItem>
-                        ))}
-                </Select>   */}
-                
+                />                
                 
                 <LabelInput 
                     label="Preço" 
@@ -190,13 +151,36 @@ export default function AddNewDisher() {
                     placeholder="R$ 00,00"
                 />
 
-                <LabelInput 
+                {/* INGREDIENTS */}
+                {/* <LabelInput 
                     label="Ingredientes" 
                     value={ingredientes}
                     onChange={(e) => setIngredientes(e.target.value)}
                     type="text"
                     placeholder="Adicione os ingredientes"
-                />
+                /> */}
+                    <Section title="Ingredientes">
+                        <div className="flex flex-wrap w-fit gap-4 justify-stretch">
+                            {ingredientes.map((item, index) => {
+                                return (
+                                    <NewItem 
+                                        key={String(index)}
+                                        value={item}
+                                        onClick={() => handleRemoveIngredients(item)}
+                                    />
+                                )
+                            })}
+
+                            <NewItem 
+                                isNew
+                                value={newIngredientes}
+                                placeholder='Adicionar'
+                                onChange={(e) => setNewIngredientes(e.target.value)}
+                                onClick={handleAddIngredients}
+                            />
+                        </div>
+                    </Section>                
+                {/* INGREDIENTS */}
                 
                 <label className="flex flex-col w-full h-full mt-8 text-xs text-light-400 font-roboto">
                     Descrição
