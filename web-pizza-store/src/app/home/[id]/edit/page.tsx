@@ -1,8 +1,10 @@
 'use client'
 
 import { ButtonText } from "@/components/buttonText"
+import { Section } from "@/components/forms/ingredientsSection"
 import { LabelInput  } from "@/components/forms/inputLabel"
 import { InputSelect } from "@/components/forms/inputSelect"
+import { NewItem } from "@/components/forms/newItem"
 import { UseAuth } from "@/hooks/auth"
 import { OptionType, categorys } from "@/lib/categorys"
 import { api } from "@/services/api"
@@ -24,6 +26,7 @@ interface DisheProps {
     description: string
     price: number
     category:  string[]
+    ingredients: string[]
     productImg: string
     created_by: number
 }
@@ -34,8 +37,10 @@ export default function UpdateDisher() {
     const [data, setData] = useState<DisheProps>()
     const [name, setName] = useState<string>('')
     const [category, setCategory] = useState<OptionType[]>([])
-    // const [values, setValues] = useState<Selection>(new Set(["Refeição"]));
-    const [ingredients, setIngredients] = useState<string>('')
+
+    const [ingredients, setIngredients] = useState<string[]>([])
+    const [newIngredientes, setNewIngredientes] = useState<string>('')
+
     const [price, setPrice] = useState<number>(0)
     const [description, setDescription] = useState<string>('')
     const [isDisabled, setIsDisabled] = useState(true)
@@ -50,18 +55,26 @@ export default function UpdateDisher() {
     const fileInputRef = useRef<HTMLInputElement>(null)    
 
     console.log(category)
+
+    function handleAddIngredients() {
+        setIngredients(prevState => [...prevState, newIngredientes])
+        setNewIngredientes('')
+    }
+    function handleRemoveIngredients(deleted: string) {
+        setIngredients(prevState => prevState.filter(item => item !== deleted))
+    }
     
     
     async function handleWithUpdateDisher() {
         try {
             const formData = new FormData()
             formData.append('name', name)
-            formData.append('ingredients', ingredients)
             formData.append('description', description)
             formData.append('price', price.toString())
             formData.append('created_by', String(user?.id))
             
             category.forEach(item => formData.append('category', item.value))
+            ingredients.forEach(item => formData.append('ingredients', item))
 
             // check if img already exist
             if (productImg) {
@@ -91,27 +104,34 @@ export default function UpdateDisher() {
         }
     }
 
+    function cleanString(input: string) {
+        return input.replace(/\\/g, '').replace(/"/g, '');
+    }
+
     useEffect(() => {
         async function getDisheId() {
             const response = await api.get(`/meals/${params.id}`)
             const data = response.data[0]
 
             // const getImgPreview = await api.get(`/files/${data.productImg}`)
-            // console.log('data category', getImgPreview)
+            console.log('data category', data.ingredients)
             if (data) {
                 setName(data.name)
-                setIngredients(data.ingredients)
                 setDescription(data.description)
                 setPrice(data.price)
+                setIngredients(Array.isArray(data.ingredients) ? data.ingredients : [])
+                          
                 if (Array.isArray(data.category)) {
                     setCategory(data.category.map((gory: string) => {
-                        const found = categorys.find(option => option.value === gory);
-                        return found ? found : { value: gory, label: gory };
+                        const cleanedGory = cleanString(gory);
+                        const found = categorys.find(option => option.value === cleanedGory);
+                        return found ? found : { value: cleanedGory, label: cleanedGory };
                     }));
                 } else if (typeof data.category === 'string') {
-                    const cleanedCategoryString = data.category.replace(/[\[\]]/g, '')
-                    const delimiters = /[";]+/
-                    const categoryArray = cleanedCategoryString.split(',').map((gory: string) => gory.split(delimiters));
+                    // Remove colchetes e espaços extras, depois separa por vírgula
+                    const cleanedCategoryString = data.category.replace(/[\[\]]/g, '').trim();
+                    const categoryArray = cleanedCategoryString.split(',').map((gory: string) => cleanString(gory.trim()));
+                
                     setCategory(categoryArray.map((gory: string) => {
                         const found = categorys.find(option => option.value === gory);
                         return found ? found : { value: gory, label: gory };
@@ -221,13 +241,37 @@ export default function UpdateDisher() {
                     handleNewCategory={handleNewCategory}
                 />
 
-                <LabelInput 
+                {/* <LabelInput 
                     label="Ingredientes" 
                     value={ingredients}
                     onChange={(e) => setIngredients(e.target.value)}
                     type="text" 
                     placeholder="Pão Naan"
-                />              
+                />     */}
+
+                {/* INGREDIENTS */}
+                <Section title="Ingredientes">
+                    <div className="flex flex-wrap w-fit gap-4 justify-stretch">
+                        {Array.isArray(ingredients) && ingredients.map((item, index) => {
+                            return (
+                                <NewItem 
+                                    key={String(index)}
+                                    value={item}
+                                    onClick={() => handleRemoveIngredients(item)}
+                                />
+                            )
+                        })}
+
+                        <NewItem 
+                            isNew
+                            value={newIngredientes}
+                            placeholder='Adicionar'
+                            onChange={(e) => setNewIngredientes(e.target.value)}
+                            onClick={handleAddIngredients}
+                        />
+                    </div>
+                </Section>                
+                {/* INGREDIENTS */}          
                 
                 <LabelInput 
                     label="Preço" 
