@@ -14,6 +14,7 @@ export interface ProductProps {
     meal_id: number
     name: string
     description: string
+    ingredients: string[]
     price: number
     productImg: string
 }
@@ -69,6 +70,7 @@ export function Features({ section }: FeaturesProps ) {
                                         image: item.productImg,
                                         title: item.name,
                                         price: item.price,
+                                        ingredients: item.ingredients
                                     }]}
 
                                 />

@@ -18,6 +18,7 @@ interface Product {
     image: string 
     title: string 
     price: number 
+    ingredients: string[]
 }
 interface ListProps {
     productList: Product[]

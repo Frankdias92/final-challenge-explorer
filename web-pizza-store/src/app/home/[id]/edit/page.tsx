@@ -8,12 +8,11 @@ import { NewItem } from "@/components/forms/newItem"
 import { UseAuth } from "@/hooks/auth"
 import { OptionType, categorys } from "@/lib/categorys"
 import { api } from "@/services/api"
-import { Image } from "@nextui-org/react"
+import { Image, spacer } from "@nextui-org/react"
 import NextImage from "next/image";
-import Link from "next/link"
 import { useParams } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { FormEvent, useEffect, useRef, useState } from "react"
-import { FaCheck } from "react-icons/fa"
 import { IoIosArrowBack } from "react-icons/io"
 import { LuImagePlus } from "react-icons/lu"
 import { PiUploadSimple } from "react-icons/pi"
@@ -41,6 +40,7 @@ export default function UpdateDisher() {
     const [ingredients, setIngredients] = useState<string[]>([])
     const [newIngredientes, setNewIngredientes] = useState<string>('')
 
+    console.log(ingredients)
     const [price, setPrice] = useState<number>(0)
     const [description, setDescription] = useState<string>('')
     const [isDisabled, setIsDisabled] = useState(true)
@@ -52,9 +52,8 @@ export default function UpdateDisher() {
     const [isInputFocused, setIsInputFocused] = useState(false)
     const params = useParams()
 
+    const router = useRouter()
     const fileInputRef = useRef<HTMLInputElement>(null)    
-
-    console.log(category)
 
     function handleAddIngredients() {
         setIngredients(prevState => [...prevState, newIngredientes])
@@ -113,13 +112,23 @@ export default function UpdateDisher() {
             const response = await api.get(`/meals/${params.id}`)
             const data = response.data[0]
 
-            // const getImgPreview = await api.get(`/files/${data.productImg}`)
-            console.log('data category', data.ingredients)
             if (data) {
                 setName(data.name)
                 setDescription(data.description)
                 setPrice(data.price)
-                setIngredients(Array.isArray(data.ingredients) ? data.ingredients : [])
+
+                if (Array.isArray(data.ingredients)) {
+                    setIngredients(data.ingredients)
+                } else if (typeof data.ingredients === 'string') {
+                    try {
+                        const ingredientsArray = JSON.parse(data.ingredients)
+                        if (Array.isArray(ingredientsArray)) {
+                            setIngredients(ingredients)
+                        }
+                    } catch (error) {
+                        console.log(error)
+                    }
+                }
                           
                 if (Array.isArray(data.category)) {
                     setCategory(data.category.map((gory: string) => {
@@ -143,7 +152,7 @@ export default function UpdateDisher() {
                 setImg(`http://localhost:3333/files/${data.productImg}`)
                 setProductImg(data.productImg)
 
-                console.log()
+                console.log('print', data)
 
             } else {
                 console.log("Error to get products")
@@ -164,12 +173,11 @@ export default function UpdateDisher() {
     
     return (
         <section className="flex flex-col w-full min-h-screen px-8 pb-12">
-            <Link
-                href='/home'
+            <span
                 className="flex items-center text-left mr-auto pt-3 font-medium text-base text-light-300 hover:text-light-400 duration-75"
             >
-                <IoIosArrowBack className="text-2xl"/> voltar
-            </Link>
+                <IoIosArrowBack className="text-2xl" onClick={() => router.back()}/> voltar
+            </span>
 
             <h2 className="text-3xl font-roboto text-light-300 antialiased pt-6 pb-6">
                 Atualizar prato
@@ -241,14 +249,6 @@ export default function UpdateDisher() {
                     handleNewCategory={handleNewCategory}
                 />
 
-                {/* <LabelInput 
-                    label="Ingredientes" 
-                    value={ingredients}
-                    onChange={(e) => setIngredients(e.target.value)}
-                    type="text" 
-                    placeholder="Pão Naan"
-                />     */}
-
                 {/* INGREDIENTS */}
                 <Section title="Ingredientes">
                     <div className="flex flex-wrap w-fit gap-4 justify-stretch">
@@ -261,7 +261,7 @@ export default function UpdateDisher() {
                                 />
                             )
                         })}
-
+                        
                         <NewItem 
                             isNew
                             value={newIngredientes}

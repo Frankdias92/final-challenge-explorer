@@ -19,6 +19,7 @@ interface ProductsProps {
     image: string
     title: string
     price: string
+    ingredients: string[]
     amount: string 
 }
 
@@ -34,13 +35,29 @@ export default function ProductId( id: number ) {
 
     useEffect(() => {
         async function getProducts() {
-            const response = await api.get('/meals')
-            const data = response.data
-            setData(data)
-            console.log('tes', response.data)
+            try {
+                const response = await api.get(`/meals/${params.id}`)
+                const data = response.data.map((item: any) => {
+                    let ingredients
+                    try {
+                        ingredients = JSON.parse(item.ingredients)
+                    } catch (error) {
+                        console.error(`Failed to parse ingredients for meal_id ${item.meal_id}: `, error)
+                        ingredients = []
+                    }
+                    return {
+                        ...item,
+                        ingredients
+                    }
+                })
+                console.log(data[0])
+                setData(data)
+            } catch (error) {
+                console.error(`Failed to parse ingredients for meal_id & : `, error)
+            }
         }
         getProducts()
-    }, [])
+    }, [params])
 
     const tags = [ 'alface', 'cebola', 'pão naan', 'pepino', 'rabanete', 'tomate' ]
 
@@ -81,13 +98,13 @@ export default function ProductId( id: number ) {
                     </p>
 
                     <div className="flex w-full gap-6 flex-wrap justify-center">
-                        {tags.map(item => {
+                        {item?.ingredients.map((ingredients, index) => {
                             return (
                                 <span 
-                                key={item} 
-                                className="flex text-sm py-1 px-3 bg-dark-100 rounded-md"
+                                    key={index} 
+                                    className="flex text-sm py-1 px-3 bg-dark-100 rounded-md"
                                 >
-                                    {item}
+                                    {ingredients}
                                 </span>
                             )
                         })}
@@ -96,7 +113,9 @@ export default function ProductId( id: number ) {
 
             </div>
             
-            {user && user.role === 'admin' ? <span className="flex w-full pt-12"><ButtonText text="Editar prato" size={48} onclick={() => router.push(`/home/${params.id}/edit`)}/></span>  : (
+            {user && user.role === 'admin' 
+            ? <span className="flex w-full pt-12"><ButtonText text="Editar prato" size={48} onclick={() => router.push(`/home/${params.id}/edit`)}/></span>  
+            : (
                 <div className="flex w-full justify-center items-center gap-x-4 text-lg text-white pt-12 mb-12">
                     <GoDash className="text-6xl" onClick={() => setItemValue(itemValue -1)}/>
                     <span className="text-light-300 font-roboto font-bold text-2xl">{itemValue}</span>
