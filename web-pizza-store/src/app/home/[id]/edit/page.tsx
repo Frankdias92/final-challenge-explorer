@@ -37,23 +37,22 @@ export default function UpdateDisher() {
     const [name, setName] = useState<string>('')
     const [category, setCategory] = useState<OptionType[]>([])
 
+    const [description, setDescription] = useState<string>('')
     const [ingredients, setIngredients] = useState<string[]>([])
     const [newIngredientes, setNewIngredientes] = useState<string>('')
-
-    console.log(ingredients)
     const [price, setPrice] = useState<number>(0)
-    const [description, setDescription] = useState<string>('')
     const [isDisabled, setIsDisabled] = useState(true)
-    // const [updateIMG, setUpdateIMG] = useState(false)
 
     const [img, setImg] = useState<string>('')
     const [imgName, setImgName] = useState<string>('')
     const [productImg, setProductImg] = useState<File | string >('')
     const [isInputFocused, setIsInputFocused] = useState(false)
-    const params = useParams()
-
-    const router = useRouter()
+    
     const fileInputRef = useRef<HTMLInputElement>(null)    
+    const params = useParams()
+    const router = useRouter()
+
+    
 
     function handleAddIngredients() {
         setIngredients(prevState => [...prevState, newIngredientes])
@@ -62,8 +61,6 @@ export default function UpdateDisher() {
     function handleRemoveIngredients(deleted: string) {
         setIngredients(prevState => prevState.filter(item => item !== deleted))
     }
-    
-    
     async function handleWithUpdateDisher() {
         try {
             const formData = new FormData()
@@ -87,11 +84,9 @@ export default function UpdateDisher() {
             alert(error.response?.data?.message || error.message)
         }
     }
-
     function handleNewCategory(selectedOptions: MultiValue<OptionType>) {
         setCategory(selectedOptions as OptionType[])
     }
-
     async function handleUploadImg(e: FormEvent<HTMLInputElement>) {
         const file = e.currentTarget.files?.[0]
 
@@ -102,7 +97,6 @@ export default function UpdateDisher() {
             setImg(imgPreview)
         }
     }
-
     function cleanString(input: string) {
         return input.replace(/\\/g, '').replace(/"/g, '');
     }
@@ -111,23 +105,17 @@ export default function UpdateDisher() {
         async function getDisheId() {
             const response = await api.get(`/meals/${params.id}`)
             const data = response.data[0]
-
+            
             if (data) {
                 setName(data.name)
                 setDescription(data.description)
                 setPrice(data.price)
-
-                if (Array.isArray(data.ingredients)) {
-                    setIngredients(data.ingredients)
-                } else if (typeof data.ingredients === 'string') {
-                    try {
-                        const ingredientsArray = JSON.parse(data.ingredients)
-                        if (Array.isArray(ingredientsArray)) {
-                            setIngredients(ingredients)
-                        }
-                    } catch (error) {
-                        console.log(error)
-                    }
+                
+                try {
+                    let ingredients = JSON.parse(data.ingredients)
+                    setIngredients(ingredients)
+                } catch (error) {
+                    console.error(error)
                 }
                           
                 if (Array.isArray(data.category)) {
@@ -152,8 +140,6 @@ export default function UpdateDisher() {
                 setImg(`http://localhost:3333/files/${data.productImg}`)
                 setProductImg(data.productImg)
 
-                console.log('print', data)
-
             } else {
                 console.log("Error to get products")
             }
@@ -163,12 +149,12 @@ export default function UpdateDisher() {
     }, [params])
 
     useEffect(() => {
-        if (!name || !category || !price || !description) {
+        if (!name || !category || !price || !description || !ingredients) {
             setIsDisabled(true)
         } else{
             setIsDisabled(false)
         }
-    }, [name, category, price, description])
+    }, [name, category, price, description, ingredients])
 
     
     return (
