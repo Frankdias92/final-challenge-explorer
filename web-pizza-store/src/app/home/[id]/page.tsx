@@ -24,7 +24,7 @@ interface ProductsProps {
 }
 
 
-export default function ProductId( id: number ) {
+export default function ProductId() {
     const [itemValue, setItemValue] = useState<number>(1)
     const params = useParams()
     const productId = Number(params.id)
@@ -58,8 +58,6 @@ export default function ProductId( id: number ) {
         }
         getProducts()
     }, [params])
-
-    const tags = [ 'alface', 'cebola', 'pão naan', 'pepino', 'rabanete', 'tomate' ]
 
     const filteredProductId = data.find(item => item.meal_id === productId)
     const item = filteredProductId

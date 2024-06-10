@@ -55,7 +55,7 @@ export default function UpdateDisher() {
     
 
     function handleAddIngredients() {
-        setIngredients(prevState => [...prevState, newIngredientes])
+        setIngredients(prevState => Array.isArray(ingredients) ? [...prevState, newIngredientes] : [newIngredientes])
         setNewIngredientes('')
     }
     function handleRemoveIngredients(deleted: string) {
@@ -66,11 +66,12 @@ export default function UpdateDisher() {
             const formData = new FormData()
             formData.append('name', name)
             formData.append('description', description)
+            formData.append('ingredients', JSON.stringify(ingredients))
             formData.append('price', price.toString())
             formData.append('created_by', String(user?.id))
             
             category.forEach(item => formData.append('category', item.value))
-            ingredients.forEach(item => formData.append('ingredients', item))
+            // ingredients.forEach(item => formData.append('ingredients', item))
 
             // check if img already exist
             if (productImg) {

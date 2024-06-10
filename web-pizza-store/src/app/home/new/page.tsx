@@ -38,14 +38,13 @@ export default function AddNewDisher() {
             formData.append('name', name)
             formData.append('description', description)
             formData.append('price', price.toString())
+            formData.append('ingredients', JSON.stringify(ingredientes))
             formData.append('created_by', String(user?.id))
             
             if (productImg) {
                 formData.append('productImg', productImg)
             }
-
-            ingredientes.forEach(item => formData.append('ingredients', item))
-
+            
             category.forEach(item => formData.append('category', item.value))
             
             const response = await api.post('/meals' , formData ) 
@@ -57,7 +56,7 @@ export default function AddNewDisher() {
 
 
     function handleAddIngredients() {
-        setIngredientes(prevState => [...prevState, newIngredientes])
+        setIngredientes(prevState => Array.isArray(ingredientes) ? [...prevState, newIngredientes] : [newIngredientes])
         setNewIngredientes('')
     }
     function handleRemoveIngredients(deleted: string) {

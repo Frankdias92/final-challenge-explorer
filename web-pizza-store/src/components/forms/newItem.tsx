@@ -1,8 +1,4 @@
-import { FormEvent, ReactNode } from "react";
 import { FiPlus, FiX } from "react-icons/fi";
-import { LabelInput } from "./inputLabel";
-import { InputTest } from "./inputText";
-
 
 interface NewItemProps {
     isNew?: boolean
