@@ -53,7 +53,7 @@ class MealsController {
     async update(req, res) {
         const { name, description, ingredients, price, category } = req.body;
         // const { category } = req.body
-        
+        console.log('print ingredients', ingredients)
         let filename
         if (req.file && req.file.filename) {
             const productImg = req.file.filename;
@@ -67,8 +67,13 @@ class MealsController {
             if ( typeof category === 'string' ) {
                 parsedCategory = JSON.parse(category)
             }
+
+            let parsedIngredients = ingredients
+            if (typeof ingredients === 'string') {
+                parsedIngredients = JSON.parse(ingredients)
+            }
             
-            // verify for dishe is already set
+            // verify if the meal exists
             const meal = await knex("meals").where({ meal_id: req.params.id })
             if (!meal) {
                 return res.status(404).json({ error: 'Meal not found'})
@@ -83,7 +88,7 @@ class MealsController {
             .update({
                 name,
                 description,
-                ingredients,
+                ingredients: JSON.stringify(parsedIngredients),
                 price,
                 category: JSON.stringify(parsedCategory),
                 productImg: filename || meal.productImg // use the new img or already in use
