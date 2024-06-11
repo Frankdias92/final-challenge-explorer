@@ -31,7 +31,6 @@ export default function AddNewDisher() {
     
     const [category, setCategory] = useState<OptionType[]>([])
 
-
     async function handleNewProduct() {
         try {
             const formData = new FormData()
@@ -53,8 +52,6 @@ export default function AddNewDisher() {
             alert(error)
         }
     }
-
-
     function handleAddIngredients() {
         setIngredientes(prevState => Array.isArray(ingredientes) ? [...prevState, newIngredientes] : [newIngredientes])
         setNewIngredientes('')
@@ -62,8 +59,6 @@ export default function AddNewDisher() {
     function handleRemoveIngredients(deleted: string) {
         setIngredientes(prevState => prevState.filter(item => item !== deleted))
     }
-
-
     async function handleUploadImg(e: FormEvent<HTMLInputElement>) {
         const file = e.currentTarget.files?.[0]
 
@@ -74,11 +69,9 @@ export default function AddNewDisher() {
             setImg(imgPreview)
         }
     }
-
     function handleNewCategory(selectedOptions: MultiValue<OptionType>) {
         setCategory(selectedOptions as OptionType[])
     }
-
     useEffect(() => {
         if (!name || !category || !price || !description) {
             setIsDisabled(true)
@@ -86,6 +79,7 @@ export default function AddNewDisher() {
             setIsDisabled(false)
         }
     }, [name, category, price, description])
+
 
     return (
         <section className="flex flex-col w-full min-h-screen px-8 pb-12">
@@ -136,7 +130,6 @@ export default function AddNewDisher() {
                 <label className="flex gap-2 w-full h-full text-xs text-light-400 font-roboto pt-8">
                     Categoria
                 </label> 
-
                 <InputSelect 
                     category={category}
                     handleNewCategory={handleNewCategory}
@@ -151,34 +144,27 @@ export default function AddNewDisher() {
                 />
 
                 {/* INGREDIENTS */}
-                {/* <LabelInput 
-                    label="Ingredientes" 
-                    value={ingredientes}
-                    onChange={(e) => setIngredientes(e.target.value)}
-                    type="text"
-                    placeholder="Adicione os ingredientes"
-                /> */}
-                    <Section title="Ingredientes">
-                        <div className="flex flex-wrap w-fit gap-4 justify-stretch">
-                            {ingredientes.map((item, index) => {
-                                return (
-                                    <NewItem 
-                                        key={String(index)}
-                                        value={item}
-                                        onClick={() => handleRemoveIngredients(item)}
-                                    />
-                                )
-                            })}
+                <Section title="Ingredientes">
+                    <div className="flex flex-wrap justify-start gap-4">
+                        {ingredientes.map((item, index) => {
+                            return (
+                                <NewItem 
+                                    key={String(index)}
+                                    value={item}
+                                    onClick={() => handleRemoveIngredients(item)}
+                                />
+                            )
+                        })}
 
-                            <NewItem 
-                                isNew
-                                value={newIngredientes}
-                                placeholder='Adicionar'
-                                onChange={(e) => setNewIngredientes(e.target.value)}
-                                onClick={handleAddIngredients}
-                            />
-                        </div>
-                    </Section>                
+                        <NewItem 
+                            isNew
+                            value={newIngredientes}
+                            placeholder='Adicionar'
+                            onChange={(e) => setNewIngredientes(e.target.value)}
+                            onClick={handleAddIngredients}
+                        />
+                    </div>
+                </Section>                
                 {/* INGREDIENTS */}
                 
                 <label className="flex flex-col w-full h-full mt-8 text-xs text-light-400 font-roboto">

@@ -12,7 +12,7 @@ export function Footer() {
                 food explorer
             </span>
 
-            <p className="w-fit text-light-200 text-xs font-dmsams">© 2023 - Todos os direitos reservados.</p>
+            <p className="w-fit text-light-200 text-xs font-dmsams">© 2024 - Todos os direitos reservados.</p>
         </footer>
     )
 }

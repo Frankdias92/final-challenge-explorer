@@ -171,8 +171,8 @@ export default function UpdateDisher() {
             </h2>
 
             <form className="flex flex-col w-full">
+                
                 {/* INPUT FILE IMG */}
-
                 {img &&
                     <div className="relative m-auto w-fit">
                         <span className="flex items-center w-[88px] h-[88px] rounded-full overflow-hidden">
@@ -193,7 +193,6 @@ export default function UpdateDisher() {
                             </button>
                     </div>
                 }
-
                 <div  className="flex  shadow bg-dark-200 appearance-none border-none rounded-lg w-full h-11 mt-8 leading-tight
                     focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 duration-75 relative">
                         <label className="flex gap-2 w-full h-full text-xs text-light-400 font-roboto absolute bottom-8 group/checked">
@@ -238,7 +237,7 @@ export default function UpdateDisher() {
 
                 {/* INGREDIENTS */}
                 <Section title="Ingredientes">
-                    <div className="flex flex-wrap w-fit gap-4 justify-stretch">
+                    <div className="flex flex-wrap justify-start gap-4">
                         {Array.isArray(ingredients) && ingredients.map((item, index) => {
                             return (
                                 <NewItem 
