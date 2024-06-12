@@ -8,6 +8,8 @@ import { BsFillHexagonFill } from "react-icons/bs";
 import { MenuDrop } from "../menuDrop";
 import { UseAuth } from "@/hooks/auth";
 import Link from "next/link";
+import { LogoHeader } from "../header/logo";
+import { ButtonText } from "../buttonText";
 
 
 export function Header() {
@@ -18,7 +20,28 @@ export function Header() {
     const  { signOut, user, isMenuOpen, handleMenuOpen }  = UseAuth()
 
     return (
-        <header className="grid w-full h-28 px-7 pb-8 bg-dark-400 content-end text-white">
+        <header className="flex w-full h-28 bg-dark-400 text-light-100 relative">
+            {/*  DESKTOP */}
+            <section className="sm:flex w-3/4 items-center gap-4 justify-between m-auto">
+            {/* <span className=""> */}
+                <LogoHeader />
+                
+            {/* </span> */}
+                
+                <div className="hidden sm:flex text-sm w-full">
+                    <input 
+                        placeholder="Busque por pratos ou ingredientes"
+                        className="bg-dark-200 rounded-lg w-full"
+                    />
+                
+                    <ButtonText text="Novo prato"/>
+                </div>
+            </section>
+            {/*  END DESKTOP */}
+
+
+            {/* MOBILE */}
+            <section className="grid sm:hidden w-full h-28 px-7 pb-8  content-end absolute">
             {isMenuOpen ? (
                 <div className="absolute flex flex-col min-w-full z-20 bg-dark-400 -translate-x-7">
                     <button
@@ -42,17 +65,7 @@ export function Header() {
                         <FiMenu/>
                     </button>
 
-                    <Link
-                        href={'/home'}
-                        className="flex w-full items-center justify-center font-bold gap-2 text-xl tex">
-                        <span className="text-tint-cake-400 text-4xl"><BsFillHexagonFill /></span>
-                        food explorer
-
-                        {user && user.role === 'admin' &&
-                            <span className="text-xs text-tint-cake-100 font-normal">
-                                admin
-                            </span>}
-                    </Link>
+                    
 
                     {user && user.role === 'customer' &&
                         <span className="size-8 relative">
@@ -68,6 +81,8 @@ export function Header() {
                 </div>
                 
             )}
+            </section>
+            {/* END MOBILE */}
         </header>
     )
 }
