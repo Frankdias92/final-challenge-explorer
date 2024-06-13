@@ -5,6 +5,7 @@ import { ParagraphDivision } from "./paragraphDivision"
 import { UseAuth } from "@/hooks/auth"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { SearchForm } from "./forms/searchForm"
 
 interface isMenuOpenProps {
     isMenuOpen: boolean
@@ -32,14 +33,11 @@ export function MenuDrop() {
             {isMenuOpen &&
                 <div className="flex flex-col w-full min-h-full px-7 pt-12 z-40">
                     <div className="flex flex-col w-full gap-9">
-                        <div className="flex w-full h-full items-center relative ">
-                            <input 
-                                placeholder="Buscar" 
-                                type="text" 
-                                className="flex w-full h-14 px-14 bg-dark-200  rounded-md overhi"
-                            />
-                            <GoSearch className="flex left-4 absolute"/>
-                        </div>
+                        <SearchForm
+                            placeHolder="Buscar"
+                        >
+                             <GoSearch className="text-2xl"/>
+                        </SearchForm>
 
                         <div className="flex flex-col w-full text-light-300">
                             { user?.role === 'admin' && <ParagraphDivision text="Novo prato" onClick={handleClickNewDishe}/>}
