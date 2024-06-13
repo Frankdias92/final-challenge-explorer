@@ -82,7 +82,9 @@ export default function AddNewDisher() {
 
 
     return (
-        <section className="flex flex-col w-full min-h-screen px-8 pb-12">
+        <section className="flex flex-col w-full min-h-screen px-8 pb-12
+            md:w-3/4 m-auto"
+        >
             <Link
                 href='/home'
                 className="flex items-center text-left mr-auto pt-3 font-medium text-base text-light-300 hover:text-light-400 duration-75"
@@ -94,11 +96,15 @@ export default function AddNewDisher() {
                 Novo prato
             </h2>
 
-            <form className="flex flex-col w-full">
+
+
+            <form className="w-full h-full
+            md:grid grid-cols-5 grid-rows-2  gap-x-8 ">
+
                 {/* INPUT FILE IMG */}
-                <div  className="flex  shadow bg-dark-200 appearance-none border-none rounded-lg w-full h-11 mt-8 leading-tight
+                <div  className="flex shadow bg-dark-200 appearance-none border-none rounded-lg w-full h-11 mt-8 leading-tight
                         focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 duration-75 relative group">
-                    <label className="flex flex-col w-full h-full text-xs text-light-400 font-roboto absolute bottom-8">
+                    <label className="flex flex-col w-full h-11 text-xs text-light-400 font-roboto absolute bottom-8">
                         Imagem do prato
                     </label>        
                     <input
@@ -119,71 +125,93 @@ export default function AddNewDisher() {
                 </div>
                 {/* END OF FILE IMG */}
 
-                <LabelInput 
-                    label="Nome" 
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    type="text" 
-                    placeholder="Ex.: Salada Ceasar"
-                />
+                {/* name */}
+                <div className="flex flex-col h-fit justify-self-auto col-span-2">
+                    <LabelInput 
+                        label="Nome" 
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        type="text" 
+                        placeholder="Ex.: Salada Ceasar"
+                    />
+                </div>
                 
-                <label className="flex gap-2 w-full h-full text-xs text-light-400 font-roboto pt-8">
-                    Categoria
-                </label> 
-                <InputSelect 
-                    category={category}
-                    handleNewCategory={handleNewCategory}
-                />                
-                
-                <LabelInput 
-                    label="Preço" 
-                    value={price}
-                    onChange={(e) => setPrice(Number(e.target.value))}
-                    type="Number"
-                    placeholder="R$ 00,00"
-                />
+
+                {/* category */}
+                <div className="flex h-fit flex-col col-span-2">
+                    <label className="flex gap-2 w-full h-full text-xs text-light-400 font-roboto pt-8">
+                        Categoria
+                    </label> 
+                    <InputSelect 
+                        category={category}
+                        handleNewCategory={handleNewCategory}
+                    />                
+                </div>
+
 
                 {/* INGREDIENTS */}
-                <Section title="Ingredientes">
-                    <div className="flex flex-wrap justify-start gap-4">
-                        {ingredientes.map((item, index) => {
-                            return (
-                                <NewItem 
-                                    key={String(index)}
-                                    value={item}
-                                    onClick={() => handleRemoveIngredients(item)}
-                                />
-                            )
-                        })}
+                <div className="flex h-fit flex-col col-span-4">
+                    <Section title="Ingredientes">
+                        <div className="flex flex-wrap justify-start gap-4">
+                            {ingredientes.map((item, index) => {
+                                return (
+                                    <NewItem 
+                                        key={String(index)}
+                                        value={item}
+                                        onClick={() => handleRemoveIngredients(item)}
+                                    />
+                                )
+                            })}
 
-                        <NewItem 
-                            isNew
-                            value={newIngredientes}
-                            placeholder='Adicionar'
-                            onChange={(e) => setNewIngredientes(e.target.value)}
-                            onClick={handleAddIngredients}
-                        />
-                    </div>
-                </Section>                
+                            <NewItem 
+                                isNew
+                                value={newIngredientes}
+                                placeholder='Adicionar'
+                                onChange={(e) => setNewIngredientes(e.target.value)}
+                                onClick={handleAddIngredients}
+                            />
+                        </div>
+                    </Section>           
+                </div>
                 {/* INGREDIENTS */}
+
+                {/*  price */}
+                <div className="flex h-fit flex-col">
+                    <LabelInput 
+                        label="Preço" 
+                        value={price}
+                        onChange={(e) => setPrice(Number(e.target.value))}
+                        type="Number"
+                        placeholder="R$ 00,00"
+                    />
+                </div>
+               
+
+                {/*  description */}
+                <div className="flex h-fit flex-col col-span-5">
+                    <label className="flex flex-col w-full h-full mt-8 text-xs text-light-400 font-roboto">
+                        Descrição
+                    </label>
+                    <textarea
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        placeholder="Fale brevemente sobre o prato, seus ingredientes e composição"
+                        className="flex w-full h-[172px] text-light-500  font-roboto mt-2 shadow bg-dark-200 appearance-none border-none rounded-lg py-2 px-3 leading-tight
+                        focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 overflow-hidden mb-8 placeholder:text-light-400 hover:placeholder:text-light-500 duration-300 antialiased"
+                    />
+                </div>
                 
-                <label className="flex flex-col w-full h-full mt-8 text-xs text-light-400 font-roboto">
-                    Descrição
-                </label>
-                <textarea
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Fale brevemente sobre o prato, seus ingredientes e composição"
-                    className="flex w-full h-[172px] text-light-500  font-roboto mt-2 shadow bg-dark-200 appearance-none border-none rounded-lg py-2 px-3 leading-tight
-                    focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 overflow-hidden mb-8 placeholder:text-light-400 hover:placeholder:text-light-500 duration-300 antialiased"
-                />
-                <ButtonText 
-                    text="Salvar alterações" 
-                    size={48} 
-                    isDisable={isDisabled} 
-                    onclick={handleNewProduct}
-                />
+                
             </form>
+
+        <div className="flex justify-self-end justify-items-end md:m-auto items-start content-start">
+            <ButtonText 
+                text="Salvar alterações" 
+                size={48} 
+                isDisable={isDisabled} 
+                onclick={handleNewProduct}
+            />
+        </div>
 
         </section>
     )
