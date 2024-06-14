@@ -5,20 +5,31 @@ import makeAnimated from 'react-select/animated'
 
 const animatedComponents = makeAnimated()
 
-const customStyles: StylesConfig<OptionType> = {
+
+
+interface InputSelectProps {
+    category: OptionType[]
+    handleNewCategory: any
+    size?: number 
+}
+
+export function InputSelect({category, handleNewCategory, size}: InputSelectProps) {    
+
+  const customStyles: StylesConfig<OptionType> = {
     // input
     control: (provided, state) => ({
       ...provided,
       backgroundColor: '#0D1D25', // Cor de fundo do input
       color: '#FFFAF1', // Cor do texto
-      height: 48,
+      height: size || 48,
       borderRadius: 8,
       marginTop: 12,
       borderColor: state.isFocused ? '#0D161B' : '#192227', // Cor da borda
       boxShadow: state.isFocused ? '0 0 0 2px #4D585E' : 'none',
       '&:hover': {
         color: "E1E1E6"
-      }
+      },
+      
     }),
 
     // menu
@@ -62,13 +73,7 @@ const customStyles: StylesConfig<OptionType> = {
       },
     }),
 };
-
-interface InputSelectProps {
-    category: OptionType[]
-    handleNewCategory: any
-}
-
-export function InputSelect({category, handleNewCategory}: InputSelectProps) {    
+  
 
     return (
       <Select
