@@ -10,10 +10,21 @@ const animatedComponents = makeAnimated()
 interface InputSelectProps {
     category: OptionType[]
     handleNewCategory: any
-    size?: number 
+    size?: string | number
 }
 
 export function InputSelect({category, handleNewCategory, size}: InputSelectProps) {    
+  let sizeSet: number
+  let minHeith: string
+
+  if (size === 56) {
+    sizeSet = size
+    minHeith = 'auto'
+  } else if (size === 48) {
+    sizeSet = size
+  } else {
+    sizeSet = 48
+  }
 
   const customStyles: StylesConfig<OptionType> = {
     // input
@@ -21,7 +32,8 @@ export function InputSelect({category, handleNewCategory, size}: InputSelectProp
       ...provided,
       backgroundColor: '#0D1D25', // Cor de fundo do input
       color: '#FFFAF1', // Cor do texto
-      height: size || 48,
+      height: minHeith,
+      minHeight: sizeSet,
       borderRadius: 8,
       marginTop: 12,
       borderColor: state.isFocused ? '#0D161B' : '#192227', // Cor da borda

@@ -82,7 +82,7 @@ export default function AddNewDisher() {
 
 
     return (
-        <section className="flex flex-col w-full h-fit px-8 md:px-0 pb-12
+        <section className="flex flex-col w-full h-fit px-8 md:px-0 
             md:w-3/4 m-auto md:relative md:pb-20 md:mt-10 md:mb-[116px]"
         >
             <Link
@@ -212,8 +212,7 @@ export default function AddNewDisher() {
                 
             </form>
 
-            <div className="flex m-auto w-full md:mr-0 md:w-fit
-                 bottom-6"
+            <div className="flex m-auto w-full md:mr-0 md:w-fit"
             >
                 <ButtonText 
                     text="Salvar alterações" 
