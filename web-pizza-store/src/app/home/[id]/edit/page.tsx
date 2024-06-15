@@ -159,12 +159,14 @@ export default function UpdateDisher() {
 
     
     return (
-        <section className="flex flex-col w-full h-fit px-8 md:px-0 
-            md:w-3/4 m-auto md:relative md:pb-20 md:mt-10 md:mb-[116px]">
+        <section className="flex flex-col w-full h-fit pb-14 px-8 md:px-0 
+            md:w-3/4 m-auto md:relative md:pb-20 md:mt-10">
             <span
-                className="flex items-center text-left mr-auto pt-3 font-medium md:font-bold md:text-2xl text-base text-light-300 hover:text-light-400 duration-75"
+                onClick={() => router.back()}
+                className="flex items-center text-left mr-auto pt-3 font-medium md:font-bold md:text-2xl text-base text-light-300 hover:text-light-400 duration-75
+                cursor-pointer"
             >
-                <IoIosArrowBack className="text-2xl" onClick={() => router.back()}/>
+                <IoIosArrowBack className="text-2xl" />
                     voltar
             </span>
 

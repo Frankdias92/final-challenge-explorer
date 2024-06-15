@@ -39,7 +39,9 @@ export function ListProductsFeatures({ productList }: ListProps) {
                     ring-1 ring-dark-800 relative">
                     <div className="absolute flex right-4 top-4 text-light-300 text-2xl">
                         {user && user.role === 'admin' ?  
-                            <PiPencilSimple onClick={() => router.push(`/home/${product.id}`)}/> : 
+                            <PiPencilSimple onClick={() => router.push(`/home/${product.id}/edit`)}
+                                className="hover:text-light-400 hover:scale-105 duration-100"
+                            /> : 
                             <span className="flex size-8 items-center justify-center">
                                 {isFavorite ? <FaHeart onClick={() => setIsFavorite(false)}/> : <CiHeart className="text-3xl" onClick={() => setIsFavorite(true)}/>}
                             </span>

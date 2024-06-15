@@ -9,14 +9,14 @@ export function Main() {
         <section className="flex w-full md:w-3/4 m-auto px-6 md:px-0 mt-11 ">
             <div className="flex w-full h-[120px] lg:h-[260px] justify-end px-2 bg-gradient-to-b from-gradient-200-to to-gradient-200-stop rounded-[3px] antialiased ">
                 <div className="flex flex-1 relative">
-                    <span className="absolute flex bottom-0 -left-6 overflow-hidden h-[160px] sm:size-auto lg:w-[632px] lg:h-[406px] z-10">
+                    <span className="absolute flex bottom-0 -left-6 overflow-hidden w-[205px] h-[160px] md:w-[350px] md:h-[273px]  lg:w-[632px] lg:h-[406px] z-10">
                         <Image
                             as={NextImage}
                             width={656}
                             height={412}
                             src={`${pathImg}/mask-group.png`}
                             alt="NextUI hero Image"
-                            className="flex w-[205px] h-[160px] sm:size-auto lg:w-[632px] lg:h-[406px] rotate-[2deg] translate-y-2 -translate-x-3"
+                            className="flex w-[205px] h-[160px] md:w-[350px] md:h-[273px] lg:w-[632px] lg:h-[406px] rotate-[2deg] translate-y-2 -translate-x-3"
                         />
                     </span>
                 </div>

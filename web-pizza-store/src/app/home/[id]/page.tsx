@@ -65,70 +65,82 @@ export default function ProductId() {
 
 
     return (
-        <section className="flex flex-col px-7  pb-12 w-full items-center min-h-full font-poppins antialiased text-light-200 bg-dark-700">
+        <section className="flex flex-col px-7 justify-start md:w-3/4 md:m-auto pb-12 pt-8 w-full items-center min-h-screen font-poppins antialiased text-light-200 bg-dark-700">
              
-            <div className="flex flex-col items-center w-full h-full pt-9">
-                <Link
-                    href='/home'
-                    className="flex items-center text-left mr-auto text-2xl font-medium hover:text-light-400 duration-75"
-                >
-                    <IoIosArrowBack className="size-8"/> voltar
-                </Link>
-                <span className="flex size-[264px] items-center rounded-full overflow-hidden bg-cover my-4 drop-shadow-2xl">
-                    <Image
-                        as={NextImage}
-                        width={690}
-                        height={690}
-                        src={`http://localhost:3333/files/${item?.productImg}`}
-                        alt="NextUI hero Image"
-                        className="flex"
-                    />
-                </span>
+                    <Link
+                        href='/home'
+                        className="flex items-center text-left mr-auto text-2xl font-medium hover:text-light-400 duration-75"
+                    >
+                        <IoIosArrowBack className="size-8"/> voltar
+                    </Link>
+            <div className="flex flex-col items-center w-full h-full 
+                md:grid grid-cols-2 md:justify-items-start"
+            >
 
-                <div className="flex flex-col w-full gap-6 items-center">
+                {/* col 1 */}
+                <div className="flex flex-col flex-wrap mt-10">
+                    <span className="flex size-[264px] md:size-[390px] items-center rounded-full overflow-hidden bg-cover my-4 drop-shadow-2xl">
+                        <Image
+                            as={NextImage}
+                            width={690}
+                            height={690}
+                            src={`http://localhost:3333/files/${item?.productImg}`}
+                            alt="NextUI hero Image"
+                            className="flex"
+                        />
+                    </span>
+                </div>
 
-                    <h2 className="text-2xl">
+                {/* col 2 */}
+                <div className="flex flex-col w-full gap-6 items-center md:justify-self-start md:items-start">
+
+                    <h2 className="text-2xl w-full flex md:font-medium md:text-[40px]">
                         {filteredProductId?.name}
                     </h2>
 
-                    <p className="text-base text-center w-full mt-2 text-light-300">
+                    <p className="text-base text-center md:text-start md:text-2xl w-full text-light-300">
                         {filteredProductId?.description}
                     </p>
 
-                    <div className="flex w-full gap-6 flex-wrap justify-center">
+                    <div className="flex w-full gap-6 flex-wrap justify-center md:justify-start">
                         {item?.ingredients.map((ingredients, index) => {
                             return (
                                 <span 
                                     key={index} 
-                                    className="flex text-sm py-1 px-3 bg-dark-100 rounded-md"
+                                    className="flex text-sm py-1 px-3 bg-dark-100 rounded-md md:font-medium text-light-100"
                                 >
                                     {ingredients}
                                 </span>
                             )
                         })}
                     </div>
+
+
+                    {user && user.role === 'admin' 
+                        ? <span className="flex w-full pt-12"><ButtonText text="Editar prato" size={48} onclick={() => router.push(`/home/${params.id}/edit`)}/></span>  
+                        : (
+                            <div className="flex w-full justify-center items-center gap-x-4 text-lg text-white pt-12 mb-12">
+                                <GoDash className="text-6xl" onClick={() => setItemValue(itemValue -1)}/>
+                                <span className="text-light-300 font-roboto font-bold text-2xl">{itemValue}</span>
+                                <GoPlus className="text-6xl"
+                                    onClick={() => setItemValue(itemValue+1)}
+                                />
+                                <Link href={''}
+                                    onClick={() => console.log({card: itemValue})}
+                                    className="flex w-full items-center justify-center h-11 gap-2 rounded-md text-white text-xs bg-tint-tomato-400 hover:bg-tint-tomato-300 duration-75"
+                                >
+                                    <PiReceipt className="text-xl"/> 
+                                    pedir ∙ R$ {filteredProductId?.price}
+                                </Link>
+                            </div>  
+                        )
+                    }
                 </div>
+
 
             </div>
             
-            {user && user.role === 'admin' 
-            ? <span className="flex w-full pt-12"><ButtonText text="Editar prato" size={48} onclick={() => router.push(`/home/${params.id}/edit`)}/></span>  
-            : (
-                <div className="flex w-full justify-center items-center gap-x-4 text-lg text-white pt-12 mb-12">
-                    <GoDash className="text-6xl" onClick={() => setItemValue(itemValue -1)}/>
-                    <span className="text-light-300 font-roboto font-bold text-2xl">{itemValue}</span>
-                    <GoPlus className="text-6xl"
-                        onClick={() => setItemValue(itemValue+1)}
-                    />
-                    <Link href={''}
-                        onClick={() => console.log({card: itemValue})}
-                        className="flex w-full items-center justify-center h-11 gap-2 rounded-md text-white text-xs bg-tint-tomato-400 hover:bg-tint-tomato-300 duration-75"
-                    >
-                        <PiReceipt className="text-xl"/> 
-                        pedir ∙ R$ {filteredProductId?.price}
-                    </Link>
-                </div>  
-            )}
+           
             
         </section>
     )

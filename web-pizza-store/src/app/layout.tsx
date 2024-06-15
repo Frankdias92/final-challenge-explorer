@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className={`${roboto.variable} ${poppins.variable} ${dmSans.variable} relative bg-dark-700`}>
+      <body className={`${roboto.variable} ${poppins.variable} ${dmSans.variable} relative bg-dark-700 overflow-x-hidden`}>
         <Providers>       
           {children}
         </Providers>

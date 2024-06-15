@@ -57,32 +57,32 @@ export function Features({ section }: FeaturesProps ) {
         md:w-3/4 m-auto relative">
             <h3 className="font-medium text-lg px-7 md:px-0 z-20 pb-6">{section}</h3>
 
-                <Slider 
-                    {...settings}
-                    className="flex justify-center w-full h-full overflow-hidden pl-6 pb-11 md:pl-0 z-0"
-                >
+            <Slider 
+                {...settings}
+                className="flex justify-center w-full h-full overflow-hidden pl-6 pb-11 md:pl-0 z-0"
+            >
 
-                    {data.map(item => {
-                        return (
-                            <div className="flex px-4 z-0" key={item.meal_id}>
-                                <ListProductsFeatures
-                                    productList={[{
-                                        id: item.meal_id,
-                                        image: item.productImg,
-                                        title: item.name,
-                                        price: item.price,
-                                        ingredients: item.ingredients
-                                    }]}
-                                />
+                {data.map(item => {
+                    return (
+                        <div className="flex px-4 z-0" key={item.meal_id}>
+                            <ListProductsFeatures
+                                productList={[{
+                                    id: item.meal_id,
+                                    image: item.productImg,
+                                    title: item.name,
+                                    price: item.price,
+                                    ingredients: item.ingredients
+                                }]}
+                            />
 
-                            </div>
-                        )
-                    })}
+                        </div>
+                    )
+                })}
 
-                </Slider>
-                <div className="flex bg-gradient-to-r from-dark-700 to-dark-700/0 w-[233px] h-full absolute left-0 top-0 z-10 pointer-events-none"/>
-                <div className="flex bg-gradient-to-l from-dark-700 to-dark-700/0 w-[233px] h-full absolute right-0 top-0 z-10 pointer-events-none"/>
+            </Slider>
 
+            <div className="hidden lg:flex bg-gradient-to-r from-dark-700 to-dark-700/0 w-[233px] h-full absolute left-0 top-0 z-10 pointer-events-none"/>
+            <div className="hidden md:flex bg-gradient-to-l from-dark-700 to-dark-700/0 w-[233px] h-full absolute right-0 top-0 z-10 pointer-events-none"/>
         </div>
     )
 }

@@ -82,8 +82,8 @@ export default function AddNewDisher() {
 
 
     return (
-        <section className="flex flex-col w-full h-fit px-8 md:px-0 
-            md:w-3/4 m-auto md:relative md:pb-20 md:mt-10 md:mb-[116px]"
+        <section className="flex flex-col w-full h-fit px-8 pb-14 md:px-0
+            md:w-3/4 m-auto md:relative md:mt-10 "
         >
             <Link
                 href='/home'
