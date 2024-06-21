@@ -13,6 +13,7 @@ import { MultiValue } from "react-select"
 import { OptionType } from "@/lib/categorys"
 import { Section } from "@/components/forms/ingredientsSection"
 import { NewItem } from "@/components/forms/newItem"
+import { useRouter } from "next/navigation"
 
 
 export default function AddNewDisher() {
@@ -30,6 +31,8 @@ export default function AddNewDisher() {
     const [newIngredientes, setNewIngredientes] = useState<string>('')
     
     const [category, setCategory] = useState<OptionType[]>([])
+
+    const router = useRouter()
 
     async function handleNewProduct() {
         try {
@@ -80,10 +83,16 @@ export default function AddNewDisher() {
         }
     }, [name, category, price, description])
 
+    useEffect(() => {
+        if (user?.role !== 'admin') {
+            router.push('/home')
+        }
+    }, [router, user])
+
 
     return (
         <section className="flex flex-col w-full h-fit px-8 pb-14 md:px-0
-            md:w-3/4 m-auto md:relative md:mt-10 "
+            md:w-3/4 m-auto md:relative md:mt-10"
         >
             <Link
                 href='/home'

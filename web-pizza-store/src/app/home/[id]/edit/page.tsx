@@ -159,6 +159,8 @@ export default function UpdateDisher() {
 
     
     return (
+        <>
+        {user?.role === 'admin' &&
         <section className="flex flex-col w-full h-fit pb-14 px-8 md:px-0 
             md:w-3/4 m-auto md:relative md:pb-20 md:mt-10">
             <span
@@ -314,5 +316,7 @@ export default function UpdateDisher() {
                 />
             </div>
         </section>
+        }
+        </>
     )
 }

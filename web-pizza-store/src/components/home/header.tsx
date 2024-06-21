@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { CgClose } from "react-icons/cg";
 import { FiLogOut, FiMenu } from "react-icons/fi";
-import { PiReceipt } from "react-icons/pi";
+import { PiReceipt, PiReceiptFill, PiReceiptLight } from "react-icons/pi";
 import { BsFillHexagonFill } from "react-icons/bs";
 import { MenuDrop } from "../menuDrop";
 import { UseAuth } from "@/hooks/auth";
@@ -42,7 +42,10 @@ export function Header() {
                 
 
                 <div className="hidden md:flex gap-8 m-auto w-full h-full items-center text-light-100">
-                    <ButtonText text="Novo prato" size={48} onclick={() => router.push('/home/new')}/>
+                    {user?.role === 'admin' && <ButtonText text="Novo prato" size={48} onclick={() => router.push('/home/new')}/> }
+                    {user?.role !== 'admin' && <ButtonText text="Pedidos (0)" size={48} onclick={() => router.push('/home/test')}>
+                    <PiReceiptLight />   
+                    </ButtonText> }
                     <FiLogOut className="text-4xl cursor-pointer hover:text-light-400 duration-300" onClick={signOut}/>
                 </div>
 
