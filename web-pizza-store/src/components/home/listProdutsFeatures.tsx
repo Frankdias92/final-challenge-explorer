@@ -37,20 +37,20 @@ export function ListProductsFeatures({ productList }: ListProps) {
     return (
         <>
             {productList.map((product) => (
-                <div key={product.id} className="flex flex-col w-[210px] h-[292px] rounded-lg bg-dark-900 border-0 outline-none
-                    ring-1 ring-dark-800 relative">
+                <div key={product.id} className="flex flex-col w-[210px] h-[292px]  rounded-lg bg-dark-900 border-0 outline-none
+                    ring-1 ring-dark-800 relative md:w-[304px] md:h-[462px]">
                     <div className="absolute flex right-4 top-4 text-light-300 text-2xl">
                         {user && user.role === 'admin' ?  
-                            <PiPencilSimple onClick={() => router.push(`/home/${product.id}/edit`)}
-                                className="hover:text-light-400 hover:scale-105 duration-100"
+                            <PiPencilSimple  onClick={() => router.push(`/home/${product.id}/edit`)}
+                                className="hover:text-light-400 hover:scale-105 duration-100 hover:cursor-pointer"
                             /> : 
                             <span className="flex size-8 items-center justify-center">
-                                {isFavorite ? <FaHeart onClick={() => setIsFavorite(false)}/> : <CiHeart className="text-3xl" onClick={() => setIsFavorite(true)}/>}
+                                {isFavorite ? <FaHeart onClick={() => setIsFavorite(false)} className=" hover:cursor-pointer"/> : <CiHeart className="text-3xl  hover:cursor-pointer" onClick={() => setIsFavorite(true)}/>}
                             </span>
                         }
                     </div>
                     <div className="flex flex-col w-full h-full items-center justify-center m-auto gap-3 p-6">
-                        <span className="flex items-center w-[88px] h-[88px]">
+                        <span className="flex items-center size-[88px] md:size-[172px]">
                             <Image
                                 as={NextImage}
                                 width={488}

@@ -47,7 +47,8 @@ export function HandleWithLogin() {
     return (
         <>
         {isActive ? (
-            <>
+            <div className="flex w-full flex-col">
+                <span className="hidden lg:flex w-full text-3xl font-medium m-auto">Crie sua conta</span>
                 <form 
                     className="flex flex-col"
                 >
@@ -67,14 +68,17 @@ export function HandleWithLogin() {
                     />
                 </form>
 
-                <ButtonText text="Entrar" onclick={handleSignIn} size={48}/>
+                <div className="flex flex-col w-full m-auto pt-9 gap-8">
+                    <ButtonText text="Entrar" onclick={handleSignIn} size={48}/>
 
-                <button onClick={() => setIsActive(false)}>
-                    <Paragraph text="Criar uma conta"/>
-                </button>
-            </>
+                    <button onClick={() => setIsActive(false)}>
+                        <Paragraph text="Criar uma conta"/>
+                    </button>
+                </div>
+            </div>
         ) : (
-            <>
+            <div className="flex w-full flex-col">
+                <span className="hidden lg:flex w-full text-3xl font-medium m-auto">Faça login</span>
                 <form 
                     className="flex flex-col"
                 >
@@ -101,12 +105,15 @@ export function HandleWithLogin() {
                     />
                 </form>
 
-                <ButtonText text="Criar conta" onclick={handleSignUp} size={48}/>
+                <div className="flex flex-col w-full m-auto pt-9 gap-8">
+                    <ButtonText text="Criar conta" onclick={handleSignUp} size={48}/>
 
-                <button onClick={() => setIsActive(!false)}>
-                    <Paragraph text="Já tenho uma conta"/>
-                </button>
-            </>
+                    <button onClick={() => setIsActive(!false)}>
+                        <Paragraph text="Já tenho uma conta"/>
+                    </button>
+                </div>
+                
+            </div>
         ) }
 
         </>
