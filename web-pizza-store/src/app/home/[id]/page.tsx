@@ -74,11 +74,11 @@ export default function ProductId() {
                         <IoIosArrowBack className="size-8"/> voltar
                     </Link>
             <div className="flex flex-col items-center w-full h-full 
-                md:grid grid-cols-2 md:justify-items-start"
+                md:grid grid-cols-3 lg:grid-cols-2 md:justify-items-start"
             >
 
                 {/* col 1 */}
-                <div className="flex flex-col flex-wrap mt-10">
+                <div className="flex flex-col flex-wrap mt-10 md:col-span-2 lg:col-span-1">
                     <span className="flex size-[264px] md:size-[390px] items-center rounded-full overflow-hidden bg-cover my-4 drop-shadow-2xl">
                         <Image
                             as={NextImage}
@@ -92,9 +92,9 @@ export default function ProductId() {
                 </div>
 
                 {/* col 2 */}
-                <div className="flex flex-col w-full gap-6 items-center md:justify-self-start md:items-start">
+                <div className="flex flex-col font-poppins antialiased w-full gap-6 items-center md:justify-self-start md:items-start md:col-span-1 md:z-20">
 
-                    <h2 className="text-2xl w-full flex md:font-medium md:text-[40px]">
+                    <h2 className="text-3xl flex md:font-medium md:text-[40px]">
                         {filteredProductId?.name}
                     </h2>
 
@@ -102,12 +102,12 @@ export default function ProductId() {
                         {filteredProductId?.description}
                     </p>
 
-                    <div className="flex w-full gap-6 flex-wrap justify-center md:justify-start">
+                    <div className="flex w-full gap-6 md:gap-3 flex-wrap justify-center md:justify-start">
                         {item?.ingredients.map((ingredients, index) => {
                             return (
                                 <span 
                                     key={index} 
-                                    className="flex text-sm py-1 px-3 bg-dark-100 rounded-md md:font-medium text-light-100"
+                                    className="flex text-sm py-1 px-3 bg-dark-100 rounded-md font-medium text-light-100"
                                 >
                                     {ingredients}
                                 </span>
@@ -117,7 +117,7 @@ export default function ProductId() {
 
 
                     {user && user.role === 'admin' 
-                        ? <span className="flex w-full pt-12"><ButtonText text="Editar prato" size={48} onclick={() => router.push(`/home/${params.id}/edit`)}/></span>  
+                        ? <span className="flex w-full pt-12 md:w-fit ml-0 px-7 md:px-0"><ButtonText text="Editar prato" size={48} onclick={() => router.push(`/home/${params.id}/edit`)}/></span>  
                         : (
                             <div className="flex w-full justify-center items-center gap-x-4 text-lg text-white pt-12 mb-12">
                                 <GoDash className="text-6xl" onClick={() => setItemValue(itemValue -1)}/>

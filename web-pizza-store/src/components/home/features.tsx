@@ -30,6 +30,7 @@ export function Features({ section }: FeaturesProps ) {
                 const products = response.data
     
                 setData(products)
+                console.log('test', products)
             } catch (error) {
                 alert(error)
             }
@@ -70,6 +71,7 @@ export function Features({ section }: FeaturesProps ) {
                                     id: item.meal_id,
                                     image: item.productImg,
                                     title: item.name,
+                                    description: item.description,
                                     price: item.price,
                                     ingredients: item.ingredients
                                 }]}

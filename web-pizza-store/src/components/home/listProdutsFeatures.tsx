@@ -12,10 +12,12 @@ import { UseAuth } from "@/hooks/auth";
 import Link from "next/link";
 import { CiHeart } from "react-icons/ci";
 import { useRouter } from "next/navigation";
+import { TbArrowBadgeRightFilled } from "react-icons/tb";
 
 interface Product {
     id: number
     image: string 
+    description: string
     title: string 
     price: number 
     ingredients: string[]
@@ -60,8 +62,12 @@ export function ListProductsFeatures({ productList }: ListProps) {
                         </span>
 
                         <div className="flex flex-col items-center w-full gap-3">
-                            <Link href={`/home/${product.id}`}>{product.title} {`>`}</Link>
-                            <span>R$ {product.price}</span>
+                            <Link className="flex items-center font-medium text-sm md:font-bold md:text-2xl" href={`/home/${product.id}`}>
+                                {product.title} <TbArrowBadgeRightFilled className="flex flex-1 md:text-2xl"/>
+                            </Link>
+
+                            <span className="hidden md:flex font-roboto text-sm">{product.description}</span>
+                            <span >R$ {product.price}</span>
 
                             {user && user.role === 'customer' &&
                                 <>
