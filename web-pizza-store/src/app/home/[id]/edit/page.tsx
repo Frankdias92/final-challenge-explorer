@@ -70,16 +70,21 @@ export default function UpdateDisher() {
             formData.append('price', price.toString())
             formData.append('created_by', String(user?.id))
             
-            category.forEach(item => formData.append('category', item.value))
-            // ingredients.forEach(item => formData.append('ingredients', item))
-
+            
+            // category.forEach(item => formData.append('category', item.value))
+            if (category.length > 0) {
+                formData.append('category', JSON.stringify(category.map(item => item.value)))
+            } else {
+                formData.append('category', '[]')
+            }
+            
             // check if img already exist
             if (productImg) {
                 formData.append('productImg', productImg as Blob)
             }
-
+            
             const response = await api.put(`/meals/${params.id}` , formData ) 
-            console.log(response.data)
+            // console.log('response', response.data)
             return alert('Produto atualizado com sucesso')
         } catch (error: any) {
             alert(error.response?.data?.message || error.message)
