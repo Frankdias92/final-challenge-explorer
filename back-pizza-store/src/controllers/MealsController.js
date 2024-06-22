@@ -52,9 +52,8 @@ class MealsController {
 
     async update(req, res) {
         const { name, description, ingredients, price, category } = req.body;
-        // const { category } = req.body
-        console.log('print ingredients', ingredients)
         let filename
+
         if (req.file && req.file.filename) {
             const productImg = req.file.filename;
             const diskStorage = new DiskStorage();
@@ -74,13 +73,15 @@ class MealsController {
             }
             
             // verify if the meal exists
-            const meal = await knex("meals").where({ meal_id: req.params.id })
+            const mealArray = await knex("meals").where({ meal_id: req.params.id })
+            const meal = mealArray[0]
             if (!meal) {
                 return res.status(404).json({ error: 'Meal not found'})
             }
 
             // If already have a img, remove the older
             if (filename && meal.productImg) {
+                const diskStorage = new DiskStorage()
                 await diskStorage.deleteFile(meal.productImg)
             }
 

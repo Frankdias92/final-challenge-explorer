@@ -2,17 +2,26 @@ const knex = require('../database/knex')
 
 class OrderItemsController {
     async create(req, res) {
-        const { order_id, meal_id, quantity } = req.body
+        try {
+            const { order_id, meal_id, quantity } = req.body
 
-        const [order_item_id] = await knex("order_items")
-        .insert({
-            order_id,
-            meal_id,
-            quantity
-        })
-        .returning("order_item_id")
+            console.log('received data:', { order_id, meal_id, quantity })
 
-        res.status(201).json({ order_item_id})
+            const [order_item_id] = await knex("order_items")
+            .insert({
+                order_id,
+                meal_id,
+                quantity
+            })
+            .returning("order_item_id")
+
+            console.log('test inserted order item id:', order_item_id)
+
+            res.status(201).json({ order_item_id})
+        } catch (error) {
+            console.error("error inserting order item: ", error)
+            res.status(500).json({ status: 'error', message: 'Internal server error', error})
+        }
     }
 
     async index(req, res) {
