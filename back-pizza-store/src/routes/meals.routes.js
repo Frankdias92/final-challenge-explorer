@@ -12,12 +12,12 @@ const upload = multer(uploadConfig.MULTER)
 const mealsController = new MealsController()
 
 mealsRoutes.use(ensureAuthenticated)
-mealsRoutes.use(verifyAuthorization('admin', 'customer'))
+// mealsRoutes.use(verifyAuthorization('admin', 'customer'))
 
 mealsRoutes.get('/', mealsController.index)
 mealsRoutes.get('/:id', mealsController.item)
-mealsRoutes.post('/', upload.single('productImg') , mealsController.create)
-mealsRoutes.put('/:id', upload.single('productImg'), mealsController.update)
-mealsRoutes.delete('/:id', mealsController.delete)
+mealsRoutes.post('/', verifyAuthorization('admin'), upload.single('productImg') , mealsController.create)
+mealsRoutes.put('/:id', verifyAuthorization('admin'), upload.single('productImg'), mealsController.update)
+mealsRoutes.delete('/:id', verifyAuthorization('admin'), mealsController.delete)
 
 module.exports = mealsRoutes
