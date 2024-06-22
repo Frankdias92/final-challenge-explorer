@@ -44,15 +44,15 @@ export default function AddNewDisher() {
             formData.append('created_by', String(user?.id))
             
             if (productImg) {
-                formData.append('productImg', productImg)
+                formData.append('productImg', productImg as Blob)
             }
             
             category.forEach(item => formData.append('category', item.value))
             
             const response = await api.post('/meals' , formData ) 
             return alert('Produto adicionado com sucesso')
-        } catch (error) {
-            alert(error)
+        } catch (error: any) {
+            alert(error.response.data.message || error.message)
         }
     }
     function handleAddIngredients() {

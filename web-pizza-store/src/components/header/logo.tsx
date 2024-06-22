@@ -7,7 +7,7 @@ export function LogoHeader() {
     const {user} = UseAuth()
     
     return (
-        <div className="flex w-fit h-full items-center">
+        <div className="flex w-fit h-full items-center z-20">
             <Link
                 href={'/home'}
                 className="flex md:w-[178px] md:flex-col items-center gap-x-2 relative">
