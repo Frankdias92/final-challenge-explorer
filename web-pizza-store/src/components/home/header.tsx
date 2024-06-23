@@ -20,9 +20,9 @@ export function Header() {
     const  { signOut, user, isMenuOpen, handleMenuOpen }  = UseAuth()
     const [cardItem, setCardItem] = useState(0)
     const router = useRouter()
-    const { orders } = useOrders()
+    const { orders, orderRequest, fetchOrderRequests } = useOrders()
 
-
+    // console.log(orderRequest)
     return (
         <header className={`flex  w-full h-28 items-center bg-dark-400 text-light-100
             ${isMenuOpen && 'fixed z-50'}`}
