@@ -13,12 +13,15 @@ import { ButtonText } from "../buttonText";
 import { SearchForm } from "../forms/searchForm";
 import { GoSearch } from "react-icons/go";
 import { useRouter } from "next/navigation";
+import { useOrders } from "@/hooks/orderRequest";
 
 
 export function Header() {
     const  { signOut, user, isMenuOpen, handleMenuOpen }  = UseAuth()
     const [cardItem, setCardItem] = useState(0)
     const router = useRouter()
+    const { orders } = useOrders()
+
 
     return (
         <header className={`flex  w-full h-28 items-center bg-dark-400 text-light-100
@@ -33,15 +36,14 @@ export function Header() {
                 
                 <div className="hidden md:flex lg:col-span-2">
                     <SearchForm
-                    placeHolder="Busque por pratos ou ingredientes"
-
-                >
-                    <GoSearch className="text-2xl"/>
-                </SearchForm>
+                        placeHolder="Busque por pratos ou ingredientes"
+                    >
+                        <GoSearch className="text-2xl"/>
+                    </SearchForm>
                 </div>
                 
 
-                <div className="hidden md:flex gap-8 m-auto w-full h-full items-center text-light-100">
+                <div className="hidden md:flex gap-8 m-auto min-w-[216px] w-full h-full items-center text-light-100">
                     {user?.role === 'admin' && <ButtonText text="Novo prato" size={48} onclick={() => router.push('/home/new')}/> }
                     {user?.role !== 'admin' && <ButtonText text="Pedidos (0)" size={48} onclick={() => router.push('/home/test')}>
                     <PiReceiptLight />   
@@ -86,7 +88,7 @@ export function Header() {
                             <span className="flex w-6 h-6 p-2 justify-center items-center rounded-full bg-tint-tomato-400 absolute
                             top-0 right-0 translate-x-1/2 -translate-y-1/4">
                                 <span className="flex items-center justify-center font-medium text-sm">
-                                    {cardItem}
+                                    {orders?.user_id}
                                 </span>
                             </span>
                         </span>

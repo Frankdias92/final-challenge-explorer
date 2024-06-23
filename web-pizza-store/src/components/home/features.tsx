@@ -30,7 +30,6 @@ export function Features({ section }: FeaturesProps ) {
                 const products = response.data
     
                 setData(products)
-                console.log('test', products)
             } catch (error) {
                 alert(error)
             }

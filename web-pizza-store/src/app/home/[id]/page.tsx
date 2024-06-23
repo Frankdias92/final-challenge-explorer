@@ -3,6 +3,7 @@
 import { ButtonText } from "@/components/buttonText";
 import { ProductProps } from "@/components/home/features";
 import { UseAuth } from "@/hooks/auth";
+import { useOrders } from "@/hooks/orderRequest";
 import { api } from "@/services/api";
 import { Image } from "@nextui-org/react"
 import NextImage from "next/image";
@@ -25,13 +26,16 @@ interface ProductsProps {
 
 
 export default function ProductId() {
+    const [data, setData] = useState<ProductProps[]>([])
     const [itemValue, setItemValue] = useState<number>(1)
     const params = useParams()
     const productId = Number(params.id)
-
-    const [data, setData] = useState<ProductProps[]>([])
-
+    
     const router = useRouter()
+
+
+    // const orders = useOrders()
+    // console.log('test', orders)
 
     useEffect(() => {
         async function getProducts() {
@@ -50,7 +54,6 @@ export default function ProductId() {
                         ingredients
                     }
                 })
-                console.log(data[0])
                 setData(data)
             } catch (error) {
                 console.error(`Failed to parse ingredients for meal_id & : `, error)
@@ -79,7 +82,7 @@ export default function ProductId() {
 
                 {/* col 1 */}
                 <div className="flex flex-col flex-wrap mt-10 md:col-span-2 lg:col-span-1">
-                    <span className="flex size-[264px] md:size-[390px] items-center rounded-full overflow-hidden bg-cover my-4 drop-shadow-2xl">
+                    <span className="flex size-[264px] md:size-full md:pr-8 xl:size-[390px] items-center rounded-full overflow-hidden bg-cover my-4 drop-shadow-2xl">
                         <Image
                             as={NextImage}
                             width={690}
@@ -117,7 +120,7 @@ export default function ProductId() {
 
 
                     {user && user.role === 'admin' 
-                        ? <span className="flex w-full pt-12 md:w-fit ml-0 px-7 md:px-0"><ButtonText text="Editar prato" size={48} onclick={() => router.push(`/home/${params.id}/edit`)}/></span>  
+                        ? <span className="flex w-full pt-12 md:w-fit md:ml-0 px-7 md:px-0 "><ButtonText text="Editar prato" size={48} onclick={() => router.push(`/home/${params.id}/edit`)}/></span>  
                         : (
                             <div className="flex w-full justify-center items-center gap-x-4 text-lg text-white pt-12 mb-12">
                                 <GoDash className="text-6xl" onClick={() => setItemValue(itemValue -1)}/>

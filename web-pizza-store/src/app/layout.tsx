@@ -5,7 +5,6 @@ import { Providers } from './providers'
 import "./globals.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { Footer } from "@/components/home/footer";
 
 
 const roboto = Roboto({ subsets: ["latin"], weight: ["300","400","700"], variable: '--font-roboto' })
@@ -25,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={`${roboto.variable} ${poppins.variable} ${dmSans.variable} relative bg-dark-700 overflow-x-hidden`}>
-        <Providers>       
+        <Providers>
           {children}
         </Providers>
       </body>
