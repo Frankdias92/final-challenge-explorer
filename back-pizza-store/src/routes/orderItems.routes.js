@@ -8,7 +8,7 @@ const orderItemsRoutes = Router()
 const orderItemsController = new OrderItemsController
 
 orderItemsRoutes.use(ensureAuthenticated)
-// orderItemsRoutes.use(verifyAuthorization("admin"))
+// orderItemsRoutes.use(verifyAuthorization("admin", "customer"))
 
 orderItemsRoutes.post('/', orderItemsController.create)
 orderItemsRoutes.get('/', orderItemsController.index)

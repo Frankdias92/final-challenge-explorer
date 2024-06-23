@@ -11,6 +11,11 @@ class OrderMealsController {
         
         res.status(201).json({ order_id })
     }
+
+    async index(req, res) {
+        const orders = await knex('orders')
+        res.status(200).json({ orders })
+    }
 }
 
 module.exports = OrderMealsController
