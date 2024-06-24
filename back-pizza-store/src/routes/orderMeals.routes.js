@@ -6,7 +6,8 @@ const orderMealsRoutes = Router()
 const orderMealsController = new OrderMealsController()
 
 
-orderMealsRoutes.get('/', orderMealsController.index)
 orderMealsRoutes.post('/', orderMealsController.create)
+orderMealsRoutes.get('/', orderMealsController.index)
+orderMealsRoutes.get('/:id', orderMealsController.index)
 
 module.exports = orderMealsRoutes

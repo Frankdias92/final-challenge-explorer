@@ -26,11 +26,10 @@ class OrderItemsController {
 
     async index(req, res) {
         try {
-            const orderItems = await knex("order_items")
+            const orderItems = await knex("order_items").select('*')
             
             if (orderItems) {
-                const orderItems = await knex("order_items").select("*")
-                res.status(200).json({orderItems})
+                res.status(200).json(orderItems)
             } else {
                 res.status(404).json({ error: "order item not found"})
             }
