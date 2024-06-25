@@ -1,71 +1,71 @@
 import { api } from "@/services/api";
 import { createContext, useContext, useEffect, useState } from "react";
 
-interface OrdersProps {
+interface OrderProps {
+    order_id: number;
+    order_date: string;
+    total_price: number;
+    user_id: number;
+}
+
+interface OrderItemProps {
+    order_item_id: number
     order_id: number
-    order_date: string
-    total_price: number
-    user_id: number
+    meal_id: number
+    quantity: number
 }
 // interface OrderRequestProps {
 
 // }
 
 interface OrderContextProps {
-    orders: OrdersProps | null
-    orderRequest: any | null
-    fetchOrderRequests: (order_id: number) => void
+    orders: OrderProps[] | null
+    orderItems: OrderItemProps[] | null
+    fetchOrders: () => void
+    fetchOrderItems: (order_id: number) => void
 }
 
 export const OrderContext = createContext<OrderContextProps>({
     orders: null,
-    orderRequest: null,
-    fetchOrderRequests: () => {}
+    orderItems: null,
+    fetchOrders: () => {},
+    fetchOrderItems: () => {}
 })
 
 function OrdersProvider({ children }: any) {
-    const [data, setData] = useState<{ 
-        orders: OrdersProps | null,
-        orderRequest:  OrdersProps | null
-    }>({ orders: null, orderRequest: null })
-    const [orderRequests, setOrderRequests] = useState([])
+    const [orders, setOrders] = useState<OrderProps[] | null>(null)
+    const [orderItems, setOrderItems] = useState<OrderItemProps[] | null>(null)
 
     async function fetchOrders() {
-        const response = await api.get('/orders', { withCredentials: true })
-        const data = response.data.orders
-        setData((prevData) => ({
-            ...prevData,
-            orders: data[0]
-        }))
+        try {
+            const response = await api.get('/orders', { withCredentials: true })
+            setOrders(response.data)
+        } catch (error) {
+            console.error("Error fetching orders: ", error)
+        }
     }
 
-    async function fetchOrderRequests(order_id: number) {
+    async function fetchOrderItems(order_id: number) {
         try {
             const response = await api.get(`/orders_request/${order_id}`, { withCredentials: true })
-            const data = response.data
-            setData((prevData) => ({
-                ...prevData,
-                orderRequest: data
-            }))
-            console.log('test order_request', response.data)
+            setOrderItems(response.data)
         } catch (error: any) {
-            console.error(error.response.data.message)
+            console.error('Error fetching order items:', error)
         }
-        
     }
 
 
     useEffect(() => {
         fetchOrders()
-        fetchOrderRequests()
     }, [])
 
     return (
         <OrderContext.Provider
             value={{
-                orders: data.orders,
-                orderRequest: data.orderRequest,
-                fetchOrderRequests
+                orders,
+                orderItems,
+                fetchOrders,
+                fetchOrderItems,
             }}
         >
             {children}

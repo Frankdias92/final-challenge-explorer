@@ -38,7 +38,7 @@ export function ListProductsFeatures({ productList }: ListProps) {
         <>
             {productList.map((product) => (
                 <div key={product.id} className="flex flex-col w-[210px] h-[292px]  rounded-lg bg-dark-900 border-0 outline-none
-                    ring-1 ring-dark-800 relative md:w-[304px] md:h-[462px]">
+                ring-1 ring-dark-800 relative md:w-[304px] md:h-[462px]">
                     <div className="absolute flex right-4 top-4 text-light-300 text-2xl">
                         {user && user.role === 'admin' ?  
                             <PiPencilSimple  onClick={() => router.push(`/home/${product.id}/edit`)}

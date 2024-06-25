@@ -28,8 +28,13 @@ export function Features({ section }: FeaturesProps ) {
             try {
                 const response = await api.get('/meals')
                 const products = response.data
+                
+                if (response) {
+                    setData(products)
+                } else {
+                    console.log('vazio')
+                }
     
-                setData(products)
             } catch (error) {
                 alert(error)
             }
@@ -62,23 +67,26 @@ export function Features({ section }: FeaturesProps ) {
                 className="flex justify-center w-full h-full overflow-hidden pl-6 pb-11 md:pl-0 z-0"
             >
 
-                {data.map(item => {
-                    return (
-                        <div className="flex px-4 z-0" key={item.meal_id}>
-                            <ListProductsFeatures
-                                productList={[{
-                                    id: item.meal_id,
-                                    image: item.productImg,
-                                    title: item.name,
-                                    description: item.description,
-                                    price: item.price,
-                                    ingredients: item.ingredients
-                                }]}
-                            />
+                    {data && data.map(item => {
+                        return (
+                            (data && 
+                            <div className="flex px-4 z-0" key={item.meal_id}>
+                                <ListProductsFeatures
+                                    productList={[{
+                                        id: item.meal_id,
+                                        image: item.productImg,
+                                        title: item.name,
+                                        description: item.description,
+                                        price: item.price,
+                                        ingredients: item.ingredients
+                                    }]}
+                                />
 
-                        </div>
-                    )
-                })}
+                            </div>
+                                )
+                        )
+                    })}
+                
 
             </Slider>
 

@@ -15,7 +15,16 @@ interface User {
     password: string
     role: string
 }
-
+interface CartProps {
+    cart_item_id: number
+    user_id: number
+    meal_id: number
+    quantity: number
+    name: string
+    description: string
+    price: number
+    category: string
+}
 
 
 interface AuthContextProps {
@@ -24,6 +33,7 @@ interface AuthContextProps {
     signOut: () => void
     handleMenuOpen: (menuStats: boolean) => void
     isMenuOpen: boolean
+    cart: CartProps[] | null
 }
 
 export const AuthContext = createContext<AuthContextProps>({
@@ -31,7 +41,8 @@ export const AuthContext = createContext<AuthContextProps>({
     singIn: () => {},
     signOut: () => {},
     handleMenuOpen: () => {},
-    isMenuOpen: false
+    isMenuOpen: false,
+    cart: null
 })
 
 function AuthProvider({ children }:any) {
@@ -39,6 +50,7 @@ function AuthProvider({ children }:any) {
     const [data, setData] = useState<{
         user: User | null
     }>({ user: null })
+    const [cart, setCart] = useState<CartProps[] | null>(null)
     
     const router = useRouter()
 
@@ -71,16 +83,37 @@ function AuthProvider({ children }:any) {
         setData({user: null})
         router.push('/login')
     }
+
+    async function fetchCart() {
+        try {
+            const response = await api.get(`/cart/${data.user?.id}`, { withCredentials: true })
+            setCart(response.data)
+        } catch (error) {
+            console.log('Error fetching cart: ', error)
+        }
+    }
+    
     
     useEffect(() => {
        const user = localStorage.getItem("@estock:user")
 
        if (user) {
-        setData({ user: JSON.parse(user)})
+            setData({ user: JSON.parse(user)})
+       } else if (!user) {
+        router.push('/login')
        } else {
-        setData({ user: null})
+           setData({ user: null})
        }
-    }, [])
+    }, [router])
+
+
+    useEffect(() => {
+        if (!data.user) {
+            router.push('/login')
+        } else {
+            router.push('/home')
+        }
+    }, [router, data])
 
     return (
         <AuthContext.Provider
@@ -89,7 +122,8 @@ function AuthProvider({ children }:any) {
                 singIn,
                 signOut,
                 handleMenuOpen,
-                isMenuOpen
+                isMenuOpen,
+                cart
             }}
         >
             {children}

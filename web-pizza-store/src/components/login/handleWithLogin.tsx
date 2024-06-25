@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 
 export function HandleWithLogin() {
     const [isActive, setIsActive] = useState(true)
-    const { singIn, user } = UseAuth()
+    const { singIn, user, signOut } = UseAuth()
     const router = useRouter()
 
     const [name, setName] = useState('')
@@ -38,11 +38,13 @@ export function HandleWithLogin() {
         }
     }
     
-    useEffect(() => {
-        if (user) {
-            router.push('/home')
-        }
-    }, [user, router])
+    // useEffect(() => {
+    //     if (user) {
+    //         router.push('/home')
+    //     } else {
+    //         signOut()
+    //     }
+    // }, [user, router, signOut])
     
     return (
         <>

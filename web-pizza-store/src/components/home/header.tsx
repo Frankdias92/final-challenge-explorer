@@ -17,12 +17,12 @@ import { useOrders } from "@/hooks/orderRequest";
 
 
 export function Header() {
-    const  { signOut, user, isMenuOpen, handleMenuOpen }  = UseAuth()
+    const  { signOut, user, isMenuOpen, handleMenuOpen, cart }  = UseAuth()
     const [cardItem, setCardItem] = useState(0)
     const router = useRouter()
-    const { orders, orderRequest, fetchOrderRequests } = useOrders()
+    const { orders, orderItems } = useOrders()
 
-    // console.log(orderRequest)
+    console.log('print cart', cart)
     return (
         <header className={`flex  w-full h-28 items-center bg-dark-400 text-light-100
             ${isMenuOpen && 'fixed z-50'}`}
@@ -88,7 +88,7 @@ export function Header() {
                             <span className="flex w-6 h-6 p-2 justify-center items-center rounded-full bg-tint-tomato-400 absolute
                             top-0 right-0 translate-x-1/2 -translate-y-1/4">
                                 <span className="flex items-center justify-center font-medium text-sm">
-                                    {orders?.user_id}
+                                    {/* {orders} */} 1
                                 </span>
                             </span>
                         </span>
