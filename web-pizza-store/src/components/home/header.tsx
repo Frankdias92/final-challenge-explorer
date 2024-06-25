@@ -1,13 +1,11 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CgClose } from "react-icons/cg";
 import { FiLogOut, FiMenu } from "react-icons/fi";
-import { PiReceipt, PiReceiptFill, PiReceiptLight } from "react-icons/pi";
-import { BsFillHexagonFill } from "react-icons/bs";
+import { PiReceipt, PiReceiptLight } from "react-icons/pi";
 import { MenuDrop } from "../menuDrop";
 import { UseAuth } from "@/hooks/auth";
-import Link from "next/link";
 import { LogoHeader } from "../header/logo";
 import { ButtonText } from "../buttonText";
 import { SearchForm } from "../forms/searchForm";
@@ -17,12 +15,11 @@ import { useOrders } from "@/hooks/orderRequest";
 
 
 export function Header() {
-    const  { signOut, user, isMenuOpen, handleMenuOpen, cart }  = UseAuth()
+    const  { signOut, user, isMenuOpen, handleMenuOpen }  = UseAuth()
     const [cardItem, setCardItem] = useState(0)
     const router = useRouter()
     const { orders, orderItems } = useOrders()
 
-    console.log('print cart', cart)
     return (
         <header className={`flex  w-full h-28 items-center bg-dark-400 text-light-100
             ${isMenuOpen && 'fixed z-50'}`}

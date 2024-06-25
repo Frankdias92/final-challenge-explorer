@@ -51,9 +51,8 @@ function AuthProvider({ children }:any) {
         user: User | null
     }>({ user: null })
     const [cart, setCart] = useState<CartProps[] | null>(null)
-    
     const router = useRouter()
-
+    
     function handleMenuOpen(menuStats: boolean) {
         setMenuOpen(menuStats)
     }
@@ -84,10 +83,12 @@ function AuthProvider({ children }:any) {
         router.push('/login')
     }
 
-    async function fetchCart() {
+    async function fetchCart(data_id: number) {
         try {
-            const response = await api.get(`/cart/${data.user?.id}`, { withCredentials: true })
-            setCart(response.data)
+            if (data_id) {
+                const response = await api.get(`/cart/${data_id}`, { withCredentials: true })
+                setCart(response.data)
+            }
         } catch (error) {
             console.log('Error fetching cart: ', error)
         }
@@ -112,6 +113,7 @@ function AuthProvider({ children }:any) {
             router.push('/login')
         } else {
             router.push('/home')
+            fetchCart(data.user.id)
         }
     }, [router, data])
 

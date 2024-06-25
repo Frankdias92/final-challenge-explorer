@@ -5,6 +5,7 @@ import { ListProductsFeatures } from "./listProdutsFeatures";
 import Slider from "react-slick"
 import { UseAuth } from "@/hooks/auth";
 import { api } from "@/services/api";
+import axios from "axios";
 
 
 interface FeaturesProps {
@@ -19,22 +20,17 @@ export interface ProductProps {
     productImg: string
 }
 
-
 export function Features({ section }: FeaturesProps ) {
     const [data, setData] = useState<ProductProps[]>([])
 
     useEffect(() => {
         async function getProducts() {
             try {
-                const response = await api.get('/meals')
-                const products = response.data
+                const response = await axios.get('http://localhost:3333/meals/index')
                 
                 if (response) {
-                    setData(products)
-                } else {
-                    console.log('vazio')
+                    setData(response.data)
                 }
-    
             } catch (error) {
                 alert(error)
             }

@@ -38,8 +38,11 @@ function OrdersProvider({ children }: any) {
 
     async function fetchOrders() {
         try {
-            const response = await api.get('/orders', { withCredentials: true })
-            setOrders(response.data)
+            const user = localStorage.getItem("@estock:user")
+            if (user) {
+                const response = await api.get('/orders', { withCredentials: true })
+                setOrders(response.data)
+            }
         } catch (error) {
             console.error("Error fetching orders: ", error)
         }
@@ -47,8 +50,10 @@ function OrdersProvider({ children }: any) {
 
     async function fetchOrderItems(order_id: number) {
         try {
-            const response = await api.get(`/orders_request/${order_id}`, { withCredentials: true })
-            setOrderItems(response.data)
+            if (order_id) {
+                const response = await api.get(`/orders_request/${order_id}`, { withCredentials: true })
+                setOrderItems(response.data)
+            }
         } catch (error: any) {
             console.error('Error fetching order items:', error)
         }

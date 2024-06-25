@@ -3,7 +3,7 @@
 import { ButtonText } from "@/components/buttonText";
 import { LabelInput } from "@/components/forms/inputLabel";
 import { Paragraph } from "@/components/paragraph";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { api } from '../../services/api'
 import { UseAuth } from "@/hooks/auth";
@@ -38,14 +38,7 @@ export function HandleWithLogin() {
         }
     }
     
-    // useEffect(() => {
-    //     if (user) {
-    //         router.push('/home')
-    //     } else {
-    //         signOut()
-    //     }
-    // }, [user, router, signOut])
-    
+ 
     return (
         <>
         {isActive ? (
