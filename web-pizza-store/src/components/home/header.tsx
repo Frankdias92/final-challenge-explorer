@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { CgClose } from "react-icons/cg";
 import { FiLogOut, FiMenu } from "react-icons/fi";
-import { PiReceipt, PiReceiptLight } from "react-icons/pi";
+import { PiReceiptLight } from "react-icons/pi";
 import { MenuDrop } from "../menuDrop";
 import { UseAuth } from "@/hooks/auth";
 import { LogoHeader } from "../header/logo";
@@ -12,14 +12,15 @@ import { SearchForm } from "../forms/searchForm";
 import { GoSearch } from "react-icons/go";
 import { useRouter } from "next/navigation";
 import { useOrders } from "@/hooks/orderRequest";
+import { ReceiptCart } from "../header/receiptCart";
 
 
 export function Header() {
-    const  { signOut, user, isMenuOpen, handleMenuOpen }  = UseAuth()
-    const [cardItem, setCardItem] = useState(0)
+    const  { signOut, user, isMenuOpen, handleMenuOpen, cart }  = UseAuth()
+    const [cardItem, setCardItem] = useState<number>(0)
     const router = useRouter()
-    const { orders, orderItems } = useOrders()
 
+    
     return (
         <header className={`flex  w-full h-28 items-center bg-dark-400 text-light-100
             ${isMenuOpen && 'fixed z-50'}`}
@@ -78,18 +79,8 @@ export function Header() {
                     </button>
 
                     
-
-                    {user && user.role === 'customer' &&
-                        <span className="size-8 relative">
-                            <PiReceipt className="text-3xl text-center"/>
-                            <span className="flex w-6 h-6 p-2 justify-center items-center rounded-full bg-tint-tomato-400 absolute
-                            top-0 right-0 translate-x-1/2 -translate-y-1/4">
-                                <span className="flex items-center justify-center font-medium text-sm">
-                                    {/* {orders} */} 1
-                                </span>
-                            </span>
-                        </span>
-                    }
+                    {/* Cart Items */}
+                    <ReceiptCart />
                 </div>
                 
             )}

@@ -14,22 +14,26 @@ interface OrderItemProps {
     meal_id: number
     quantity: number
 }
-// interface OrderRequestProps {
-
-// }
+type addDisheOnCartProps = {
+    user_id: number
+    meal_id: number
+    quantity: number
+}
 
 interface OrderContextProps {
     orders: OrderProps[] | null
     orderItems: OrderItemProps[] | null
     fetchOrders: () => void
     fetchOrderItems: (order_id: number) => void
+    addDisheOnCart: ( arg: addDisheOnCartProps ) => void
 }
 
 export const OrderContext = createContext<OrderContextProps>({
     orders: null,
     orderItems: null,
     fetchOrders: () => {},
-    fetchOrderItems: () => {}
+    fetchOrderItems: () => {},
+    addDisheOnCart: () => {}
 })
 
 function OrdersProvider({ children }: any) {
@@ -59,6 +63,18 @@ function OrdersProvider({ children }: any) {
         }
     }
 
+    async function addDisheOnCart({ user_id, meal_id, quantity }: addDisheOnCartProps) {
+        try {
+            const response = await api.post(`/cart`, {
+                user_id,
+                meal_id: Number(meal_id),
+                quantity
+            })
+            console.log('print response', response.data)
+        } catch (error) {
+            console.error('Error fetching cart items: ', error)
+        }
+    }
 
     useEffect(() => {
         fetchOrders()
@@ -71,6 +87,7 @@ function OrdersProvider({ children }: any) {
                 orderItems,
                 fetchOrders,
                 fetchOrderItems,
+                addDisheOnCart,
             }}
         >
             {children}

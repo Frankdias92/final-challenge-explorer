@@ -13,6 +13,7 @@ import Link from "next/link";
 import { CiHeart } from "react-icons/ci";
 import { useRouter } from "next/navigation";
 import { TbArrowBadgeRightFilled } from "react-icons/tb";
+import { useOrders } from "@/hooks/orderRequest";
 
 interface Product {
     id: number
@@ -33,6 +34,16 @@ export function ListProductsFeatures({ productList }: ListProps) {
     const router = useRouter();
 
     const { user } = UseAuth();
+    const { addDisheOnCart } = useOrders()
+
+    function handleAddDicherOnCart({user_id, meal_id, quantity}: any) {
+        // console.log('user', user_id, 'meal', meal_id, 'quantity', quantity)
+        addDisheOnCart({
+            user_id, 
+            meal_id, 
+            quantity
+        })
+    }
 
     return (
         <>
@@ -76,7 +87,11 @@ export function ListProductsFeatures({ productList }: ListProps) {
                                         <span className="text-light-300">{itemValue}</span>
                                         <GoPlus onClick={() => setItemValue(prev => prev + 1)}/>
                                     </div>
-                                    <ButtonText text="incluir" />
+                                    <ButtonText text="incluir" onclick={() => handleAddDicherOnCart({
+                                        user_id: user.id,
+                                        meal_id: productList.map(item => item.id),
+                                        quantity: itemValue
+                                    })} />
                                 </>
                             }
                         </div>

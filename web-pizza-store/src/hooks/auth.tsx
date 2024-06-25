@@ -51,6 +51,7 @@ function AuthProvider({ children }:any) {
         user: User | null
     }>({ user: null })
     const [cart, setCart] = useState<CartProps[] | null>(null)
+    const [totalCart, setTotalCart] = useState<number>(0)
     const router = useRouter()
     
     function handleMenuOpen(menuStats: boolean) {
@@ -84,15 +85,16 @@ function AuthProvider({ children }:any) {
     }
 
     async function fetchCart(data_id: number) {
-        try {
-            if (data_id) {
-                const response = await api.get(`/cart/${data_id}`, { withCredentials: true })
-                setCart(response.data)
+            try {
+                if (data_id) {
+                    const response = await api.get(`/cart/${data_id}`, { withCredentials: true })
+                    setCart(response.data)
+                }
+            } catch (error) {
+                console.log('Error fetching cart: ', error)
             }
-        } catch (error) {
-            console.log('Error fetching cart: ', error)
         }
-    }
+    
     
     
     useEffect(() => {
@@ -116,6 +118,8 @@ function AuthProvider({ children }:any) {
             fetchCart(data.user.id)
         }
     }, [router, data])
+
+    
 
     return (
         <AuthContext.Provider
