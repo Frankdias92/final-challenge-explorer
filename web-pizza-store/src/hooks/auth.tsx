@@ -15,7 +15,7 @@ interface User {
     password: string
     role: string
 }
-interface CartProps {
+export interface CartProps {
     cart_item_id: number
     user_id: number
     meal_id: number
