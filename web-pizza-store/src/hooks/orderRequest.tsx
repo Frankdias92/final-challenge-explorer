@@ -1,5 +1,6 @@
 import { api } from "@/services/api";
 import { createContext, useContext, useEffect, useState } from "react";
+import { CartProps } from "./auth";
 
 interface OrderProps {
     order_id: number;
@@ -26,6 +27,7 @@ interface OrderContextProps {
     fetchOrders: () => void
     fetchOrderItems: (order_id: number) => void
     addDisheOnCart: ( arg: addDisheOnCartProps ) => void
+    RemoveDisheOnCart: ( cart_item_id: number ) => void
 }
 
 export const OrderContext = createContext<OrderContextProps>({
@@ -33,7 +35,8 @@ export const OrderContext = createContext<OrderContextProps>({
     orderItems: null,
     fetchOrders: () => {},
     fetchOrderItems: () => {},
-    addDisheOnCart: () => {}
+    addDisheOnCart: () => {},
+    RemoveDisheOnCart: () => {}
 })
 
 function OrdersProvider({ children }: any) {
@@ -76,6 +79,16 @@ function OrdersProvider({ children }: any) {
         }
     }
 
+    async function RemoveDisheOnCart ( cart_item_id : number) {
+        try {
+            if (cart_item_id) {
+                const response = await api.delete(`/cart/${cart_item_id}`)
+            }
+        } catch (error) {
+            console.error('Error to removing the item: ', error)
+        }
+    }
+
     useEffect(() => {
         fetchOrders()
     }, [])
@@ -88,6 +101,7 @@ function OrdersProvider({ children }: any) {
                 fetchOrders,
                 fetchOrderItems,
                 addDisheOnCart,
+                RemoveDisheOnCart
             }}
         >
             {children}
