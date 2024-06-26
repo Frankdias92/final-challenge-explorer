@@ -9,9 +9,10 @@ interface ItemProps {
 export function DrobMenuCart ({item}: ItemProps) {
     const { RemoveDisheOnCart } = useOrders()
 
-    // function removingItemCart() {
-    //     RemoveDisheOnCart(item.cart_item_id)
-    // }
+    function removingItemCart() {
+        console.log('cart item id', item.cart_item_id)
+        RemoveDisheOnCart(item.cart_item_id)
+    }
     
     return (
         <div className="grid grid-cols-3 justify-stretch items-center m-auto">
@@ -29,7 +30,7 @@ export function DrobMenuCart ({item}: ItemProps) {
             </div>
 
             <IoBagRemove className="text-xl justify-self-end z-50 hover:text-light-500"
-                onClick={() => RemoveDisheOnCart(item.cart_item_id)}
+                onClick={removingItemCart}
             />
         </div>
     )

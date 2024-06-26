@@ -85,17 +85,29 @@ function AuthProvider({ children }:any) {
     }
 
     async function fetchCart(data_id: number) {
-            try {
-                if (data_id) {
-                    const response = await api.get(`/cart/${data_id}`, { withCredentials: true })
+        try {
+            if (data_id) {
+                const response = await api.get(`/cart/${data_id}`, { withCredentials: true })
+                setCart(response.data)
+            }
+        } catch (error) {
+            console.log('Error fetching cart: ', error)
+        }
+    }
+    
+    useEffect(() => {
+        async function getCartUpdate () {
+            if (data) {
+                try {
+                    const response = await api.get(`/cart/${data.user?.id}`, { withCredentials: true })
                     setCart(response.data)
+                } catch (error) {
+                    console.error('Error fetching cart: ', error)
                 }
-            } catch (error) {
-                console.log('Error fetching cart: ', error)
             }
         }
-    
-    
+        getCartUpdate()
+    }, [cart, data])
     
     useEffect(() => {
        const user = localStorage.getItem("@estock:user")

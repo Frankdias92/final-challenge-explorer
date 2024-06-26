@@ -42,6 +42,7 @@ export const OrderContext = createContext<OrderContextProps>({
 function OrdersProvider({ children }: any) {
     const [orders, setOrders] = useState<OrderProps[] | null>(null)
     const [orderItems, setOrderItems] = useState<OrderItemProps[] | null>(null)
+    
 
     async function fetchOrders() {
         try {
@@ -88,6 +89,8 @@ function OrdersProvider({ children }: any) {
             console.error('Error to removing the item: ', error)
         }
     }
+
+    
 
     useEffect(() => {
         fetchOrders()

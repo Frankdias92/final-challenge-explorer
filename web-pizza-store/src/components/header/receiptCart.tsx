@@ -1,17 +1,29 @@
+'use client'
+
 import { Dropdown, DropdownTrigger, DropdownMenu, Button } from "@nextui-org/react";
 
-import { UseAuth } from "@/hooks/auth";
+import { CartProps, UseAuth } from "@/hooks/auth";
 import { PiReceipt } from "react-icons/pi";
 import { DropdownItem } from "@nextui-org/react";
 import { DrobMenuCart } from "../cart/drobMenuCart";
 import { ButtonText } from "../buttonText";
 import { useRouter } from "next/navigation";
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 export function ReceiptCart() {
     const { user, cart } = UseAuth();
+    const [cartItems, setCartItems] = useState<CartProps[]>([])
     const router = useRouter()
     const totalQuantity = cart ? cart.map(item => item.quantity).reduce((sum, current) => sum + current, 0) : 0
+
+    useEffect(() => {
+        if (cart) {
+            setCartItems(cart)
+        } else {
+            setCartItems([])
+        }
+    }, [cart, cartItems])
+    
 
     return (
         <Dropdown backdrop="blur">
@@ -27,7 +39,12 @@ export function ReceiptCart() {
                     </span>
                 </Button>
             </DropdownTrigger>
-            <DropdownMenu variant="faded" aria-label="Static Actions" className="max-h-[550px]">
+            <DropdownMenu 
+                closeOnSelect={false}
+                variant="faded" 
+                aria-label="Static Actions" 
+                className="max-h-[550px]"
+            >
                 
                 <DropdownItem key='new' className="flex bg-dark-300 p-4 rounded-lg">
                     <div className="flex text-light-100 justify-between items-center">
@@ -45,14 +62,12 @@ export function ReceiptCart() {
                     <ul className="flex flex-col w-72 bg-dark-300 text-light-300 font-poppins gap-2
                     h-[350px] overscroll-y-contain overflow-y-scroll my-4">
                         
-                        {cart?.map((item, index) => (
-                            <li key={index}
+                        {cart?.map((item) => (
+                            <li key={item.cart_item_id}
                                 className="hover:bg-dark-100 rounded-md p-2"
                             >
-                                <Suspense>
                                     <DrobMenuCart item={item}/>
                                     <div className="w-full h-0.5 bg-dark-100"/>
-                                </Suspense>
                             </li>
                         ))}
 
