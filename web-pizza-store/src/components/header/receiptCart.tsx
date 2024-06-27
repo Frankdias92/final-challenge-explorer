@@ -2,28 +2,19 @@
 
 import { Dropdown, DropdownTrigger, DropdownMenu, Button } from "@nextui-org/react";
 
-import { CartProps, UseAuth } from "@/hooks/auth";
 import { PiReceipt } from "react-icons/pi";
 import { DropdownItem } from "@nextui-org/react";
 import { DrobMenuCart } from "../cart/drobMenuCart";
 import { ButtonText } from "../buttonText";
 import { useRouter } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
+import { useOrders } from "@/hooks/orderRequest";
 
 export function ReceiptCart() {
-    const { user, cart } = UseAuth();
-    const [cartItems, setCartItems] = useState<CartProps[]>([])
+    const {cart } = useOrders();
     const router = useRouter()
     const totalQuantity = cart ? cart.map(item => item.quantity).reduce((sum, current) => sum + current, 0) : 0
 
-    useEffect(() => {
-        if (cart) {
-            setCartItems(cart)
-        } else {
-            setCartItems([])
-        }
-    }, [cart, cartItems])
-    
 
     return (
         <Dropdown backdrop="blur">

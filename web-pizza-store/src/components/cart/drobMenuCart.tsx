@@ -1,5 +1,4 @@
-import { CartProps } from "@/hooks/auth";
-import { useOrders } from "@/hooks/orderRequest";
+import { CartProps, useOrders } from "@/hooks/orderRequest";
 import { IoBagRemove } from "react-icons/io5";
 
 interface ItemProps {

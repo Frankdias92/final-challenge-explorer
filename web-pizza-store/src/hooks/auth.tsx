@@ -15,17 +15,6 @@ interface User {
     password: string
     role: string
 }
-export interface CartProps {
-    cart_item_id: number
-    user_id: number
-    meal_id: number
-    quantity: number
-    name: string
-    description: string
-    price: number
-    category: string
-}
-
 
 interface AuthContextProps {
     user: User | null
@@ -33,7 +22,6 @@ interface AuthContextProps {
     signOut: () => void
     handleMenuOpen: (menuStats: boolean) => void
     isMenuOpen: boolean
-    cart: CartProps[] | null
 }
 
 export const AuthContext = createContext<AuthContextProps>({
@@ -42,7 +30,6 @@ export const AuthContext = createContext<AuthContextProps>({
     signOut: () => {},
     handleMenuOpen: () => {},
     isMenuOpen: false,
-    cart: null
 })
 
 function AuthProvider({ children }:any) {
@@ -50,8 +37,6 @@ function AuthProvider({ children }:any) {
     const [data, setData] = useState<{
         user: User | null
     }>({ user: null })
-    const [cart, setCart] = useState<CartProps[] | null>(null)
-    const [totalCart, setTotalCart] = useState<number>(0)
     const router = useRouter()
     
     function handleMenuOpen(menuStats: boolean) {
@@ -83,31 +68,6 @@ function AuthProvider({ children }:any) {
         setData({user: null})
         router.push('/login')
     }
-
-    async function fetchCart(data_id: number) {
-        try {
-            if (data_id) {
-                const response = await api.get(`/cart/${data_id}`, { withCredentials: true })
-                setCart(response.data)
-            }
-        } catch (error) {
-            console.log('Error fetching cart: ', error)
-        }
-    }
-    
-    useEffect(() => {
-        async function getCartUpdate () {
-            if (data) {
-                try {
-                    const response = await api.get(`/cart/${data.user?.id}`, { withCredentials: true })
-                    setCart(response.data)
-                } catch (error) {
-                    console.error('Error fetching cart: ', error)
-                }
-            }
-        }
-        getCartUpdate()
-    }, [cart, data])
     
     useEffect(() => {
        const user = localStorage.getItem("@estock:user")
@@ -127,7 +87,6 @@ function AuthProvider({ children }:any) {
             router.push('/login')
         } else {
             router.push('/home')
-            fetchCart(data.user.id)
         }
     }, [router, data])
 
@@ -141,7 +100,6 @@ function AuthProvider({ children }:any) {
                 signOut,
                 handleMenuOpen,
                 isMenuOpen,
-                cart
             }}
         >
             {children}

@@ -1,6 +1,5 @@
 import { api } from "@/services/api";
 import { createContext, useContext, useEffect, useState } from "react";
-import { CartProps } from "./auth";
 
 interface OrderProps {
     order_id: number;
@@ -8,7 +7,16 @@ interface OrderProps {
     total_price: number;
     user_id: number;
 }
-
+export interface CartProps {
+    cart_item_id: number
+    user_id: number
+    meal_id: number
+    quantity: number
+    name: string
+    description: string
+    price: number
+    category: string
+}
 interface OrderItemProps {
     order_item_id: number
     order_id: number
@@ -28,6 +36,7 @@ interface OrderContextProps {
     fetchOrderItems: (order_id: number) => void
     addDisheOnCart: ( arg: addDisheOnCartProps ) => void
     RemoveDisheOnCart: ( cart_item_id: number ) => void
+    cart: CartProps[] | null
 }
 
 export const OrderContext = createContext<OrderContextProps>({
@@ -36,13 +45,15 @@ export const OrderContext = createContext<OrderContextProps>({
     fetchOrders: () => {},
     fetchOrderItems: () => {},
     addDisheOnCart: () => {},
-    RemoveDisheOnCart: () => {}
+    RemoveDisheOnCart: () => {},
+    cart: null
 })
 
 function OrdersProvider({ children }: any) {
     const [orders, setOrders] = useState<OrderProps[] | null>(null)
     const [orderItems, setOrderItems] = useState<OrderItemProps[] | null>(null)
-    
+    const [cart, setCart] = useState<CartProps[] | null>(null)
+
 
     async function fetchOrders() {
         try {
@@ -67,6 +78,17 @@ function OrdersProvider({ children }: any) {
         }
     }
 
+    async function fetchCart(data_id: number) {
+        try {
+            if (data_id) {
+                const response = await api.get(`/cart/${data_id}`, { withCredentials: true })
+                setCart(response.data)
+            }
+        } catch (error) {
+            console.log('Error fetching cart: ', error)
+        }
+    }
+
     async function addDisheOnCart({ user_id, meal_id, quantity }: addDisheOnCartProps) {
         try {
             const response = await api.post(`/cart`, {
@@ -75,6 +97,7 @@ function OrdersProvider({ children }: any) {
                 quantity
             })
             console.log('print response', response.data)
+            fetchCart(user_id)
         } catch (error) {
             console.error('Error fetching cart items: ', error)
         }
@@ -84,16 +107,27 @@ function OrdersProvider({ children }: any) {
         try {
             if (cart_item_id) {
                 const response = await api.delete(`/cart/${cart_item_id}`)
+                console.log('removed item', response.data)
+
+                const user = localStorage.getItem('@estock:user')
+                
+                if (user) {
+                    const { id } = JSON.parse(user)
+                    fetchCart(id)
+                }
             }
         } catch (error) {
             console.error('Error to removing the item: ', error)
         }
     }
 
-    
-
     useEffect(() => {
-        fetchOrders()
+        const user = localStorage.getItem('@estock:user')
+        if (user) {
+            const { id } = JSON.parse(user)
+            fetchOrders()
+            fetchCart(id)
+        }
     }, [])
 
     return (
@@ -104,7 +138,8 @@ function OrdersProvider({ children }: any) {
                 fetchOrders,
                 fetchOrderItems,
                 addDisheOnCart,
-                RemoveDisheOnCart
+                RemoveDisheOnCart,
+                cart
             }}
         >
             {children}
