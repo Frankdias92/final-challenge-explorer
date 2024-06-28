@@ -19,10 +19,21 @@ export function ReceiptCart() {
     return (
         <Dropdown backdrop="blur">
             <DropdownTrigger>
-                <Button variant="bordered" className="h-full rounded-full">
-                    <span className="flex flex-1  relative items-center  ">
+                <Button variant="bordered" className="h-full rounded-full md:rounded-md">
+                    {/* Desktop */}
+                    <span className="hidden md:flex  h-full gap-2 items-center px-4 justify-center rounded-md bg-tint-tomato-400">
+                        <PiReceipt className="text-4xl" />
+                        <span>
+                            pedidos 
+                            ({totalQuantity})
+                        </span>
+                    </span>
+
+                    {/* Mobile */}
+                    <span className="flex flex-1  relative items-center md:hidden">
                         <PiReceipt className="flex text-4xl text-center" />
-                        <span className="flex w-6 h-6 p-2 justify-center items-center rounded-full bg-tint-tomato-400 absolute -top-1 right-1">
+                        <span className="flex w-6 h-6 p-2 justify-center items-center rounded-full bg-tint-tomato-400 absolute -top-1 right-1
+                            ">
                             <span className="flex items-center justify-center font-medium text-sm">
                                 {totalQuantity}
                             </span>

@@ -42,10 +42,16 @@ export function Header() {
                 
 
                 <div className="hidden md:flex gap-8 m-auto min-w-[216px] w-full h-full items-center text-light-100">
-                    {user?.role === 'admin' && <ButtonText text="Novo prato" size={48} onclick={() => router.push('/home/new')}/> }
-                    {user?.role !== 'admin' && <ButtonText text="Pedidos (0)" size={48} onclick={() => router.push('/home/test')}>
-                    <PiReceiptLight />   
-                    </ButtonText> }
+                    {user?.role === 'admin' ? (
+                            <ButtonText text="Novo prato" size={48} onclick={() => router.push('/home/new')}/> 
+                        ) : (
+                            <ReceiptCart />
+                         )
+                    }
+                    {/* {user?.role !== 'admin' && <ButtonText text="Pedidos (0)" size={48} onclick={() => router.push('/home/test')}>
+                        <PiReceiptLight />   
+                        </ButtonText> 
+                    } */}
                     <FiLogOut className="text-4xl cursor-pointer hover:text-light-400 duration-300" onClick={signOut}/>
                 </div>
 
