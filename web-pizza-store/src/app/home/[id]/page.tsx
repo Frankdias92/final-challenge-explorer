@@ -3,7 +3,7 @@
 import { ButtonText } from "@/components/buttonText";
 import { ProductProps } from "@/components/home/features";
 import { UseAuth } from "@/hooks/auth";
-import { useOrders } from "@/hooks/orderRequest";
+import { CartProps, useOrders } from "@/hooks/orderRequest";
 import { api } from "@/services/api";
 import { Image } from "@nextui-org/react"
 import NextImage from "next/image";
@@ -28,12 +28,15 @@ interface ProductsProps {
 export default function ProductId() {
     const [data, setData] = useState<ProductProps[]>([])
     const [itemValue, setItemValue] = useState<number>(1)
+    // const [cartItem, setCartItem] = useState<number>(5)
+    const { cart, addDisheOnCart } = useOrders()
     const params = useParams()
     const productId = Number(params.id)
     
+    const { user } = UseAuth()
     const router = useRouter()
 
-
+    // console.log('print cartItem', cartItem)
     // const orders = useOrders()
     // console.log('test', orders)
 
@@ -64,7 +67,25 @@ export default function ProductId() {
 
     const filteredProductId = data.find(item => item.meal_id === productId)
     const item = filteredProductId
-    const { user } = UseAuth()
+    
+    function handleAddDicherOnCart({user_id, meal_id, quantity}: any) {
+        // console.log('user', user_id, 'meal', meal_id, 'quantity', quantity)
+        addDisheOnCart({
+            user_id: user?.id as number, 
+            meal_id: filteredProductId?.meal_id as number, 
+            quantity: itemValue
+        })
+    }
+    
+    useEffect(() => {
+        if (cart) {
+            const cartItem= cart.filter(itemCart => itemCart.meal_id === productId)[0]
+            
+            if ( cartItem )
+            setItemValue(cartItem.quantity)
+        }
+
+    }, [cart, productId])
 
 
     return (
@@ -124,12 +145,14 @@ export default function ProductId() {
                         : (
                             <div className="flex w-full justify-center items-center gap-x-4 text-lg text-white pt-12 mb-12">
                                 <GoDash className="text-6xl" onClick={() => setItemValue(itemValue -1)}/>
-                                <span className="text-light-300 font-roboto font-bold text-2xl">{itemValue}</span>
+                                <span className="text-light-300 font-roboto font-bold text-2xl">
+                                    {itemValue}
+                                </span>
                                 <GoPlus className="text-6xl"
                                     onClick={() => setItemValue(itemValue+1)}
                                 />
                                 <Link href={''}
-                                    onClick={() => console.log({card: itemValue})}
+                                    onClick={handleAddDicherOnCart}
                                     className="flex w-full items-center justify-center h-11 gap-2 rounded-md text-white text-xs bg-tint-tomato-400 hover:bg-tint-tomato-300 duration-75"
                                 >
                                     <PiReceipt className="text-xl"/> 

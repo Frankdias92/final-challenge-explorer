@@ -16,11 +16,9 @@ import { ReceiptCart } from "../header/receiptCart";
 
 
 export function Header() {
-    const  { signOut, user, isMenuOpen, handleMenuOpen, cart }  = UseAuth()
-    const [cardItem, setCardItem] = useState<number>(0)
+    const  { signOut, user, isMenuOpen, handleMenuOpen }  = UseAuth()
     const router = useRouter()
 
-    
     return (
         <header className={`flex  w-full h-28 items-center bg-dark-400 text-light-100
             ${isMenuOpen && 'fixed z-50'}`}

@@ -67,6 +67,7 @@ export function ReceiptCart() {
                         {cart?.map((item) => (
                             <li key={item.cart_item_id}
                                 className="hover:bg-dark-100 rounded-md p-2"
+                                onClick={() => router.push(`home/${item.meal_id}`)}
                             >
                                     <DrobMenuCart item={item}/>
                                     <div className="w-full h-0.5 bg-dark-100"/>

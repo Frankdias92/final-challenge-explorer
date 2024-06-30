@@ -96,7 +96,7 @@ function OrdersProvider({ children }: any) {
                 meal_id: Number(meal_id),
                 quantity
             })
-            console.log('print response', response.data)
+            // console.log('print response', response.data)
             fetchCart(user_id)
         } catch (error) {
             console.error('Error fetching cart items: ', error)
