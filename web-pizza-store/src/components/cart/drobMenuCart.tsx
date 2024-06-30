@@ -1,4 +1,5 @@
 import { CartProps, useOrders } from "@/hooks/orderRequest";
+import { useEffect, useState } from "react";
 import { IoBagRemove } from "react-icons/io5";
 
 interface ItemProps {
@@ -9,7 +10,6 @@ export function DrobMenuCart ({item}: ItemProps) {
     const { RemoveDisheOnCart } = useOrders()
 
     function removingItemCart() {
-        console.log('cart item id', item.cart_item_id)
         RemoveDisheOnCart(item.cart_item_id)
     }
     

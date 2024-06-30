@@ -8,13 +8,31 @@ import { DrobMenuCart } from "../cart/drobMenuCart";
 import { ButtonText } from "../buttonText";
 import { useRouter } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
-import { useOrders } from "@/hooks/orderRequest";
+import { CartProps, useOrders } from "@/hooks/orderRequest";
 
 export function ReceiptCart() {
     const {cart } = useOrders();
+    // const [test, setTest] = useState()
     const router = useRouter()
     const totalQuantity = cart ? cart.map(item => item.quantity).reduce((sum, current) => sum + current, 0) : 0
 
+    function getFilteredCartItems(cart: CartProps[]) {
+        return cart.reduce((acc, item) => {
+            const existingItem = acc.find(i => i.meal_id === item.meal_id)
+            if (existingItem) {
+                existingItem.quantity += item.quantity
+                existingItem.price += item.price * item.quantity
+            } else {
+                acc.push({ ...item, price: item.price * item.quantity })
+            }
+            return acc
+        }, [] as CartProps[])
+    }
+
+    const groupedCartItems = cart ? getFilteredCartItems(cart) : []
+    const totalPrice = groupedCartItems.reduce((sum, item) => sum + item.price, 0).toFixed(2)
+
+    console.log('print filtered')
 
     return (
         <Dropdown backdrop="blur">
@@ -57,15 +75,15 @@ export function ReceiptCart() {
                             </span>
                         </div>
                         <span className="flex text-light-500">
-                            Total: R$ 120,90
+                            Total: {totalPrice}
                         </span>
                     </div>
 
                     <ul className="flex flex-col w-72 bg-dark-300 text-light-300 font-poppins gap-2
                     h-[350px] overscroll-y-contain overflow-y-scroll my-4">
                         
-                        {cart?.map((item) => (
-                            <li key={item.cart_item_id}
+                        {groupedCartItems?.map((item) => (
+                            <li key={item.meal_id}
                                 className="hover:bg-dark-100 rounded-md p-2"
                                 onClick={() => router.push(`home/${item.meal_id}`)}
                             >

@@ -106,8 +106,8 @@ function OrdersProvider({ children }: any) {
     async function RemoveDisheOnCart ( cart_item_id : number) {
         try {
             if (cart_item_id) {
-                const response = await api.delete(`/cart/${cart_item_id}`)
-                console.log('removed item', response.data)
+                await api.delete(`/cart/${cart_item_id}`)
+                setCart(prevCart => prevCart?.filter(item => item.cart_item_id !== cart_item_id) || null)
 
                 const user = localStorage.getItem('@estock:user')
                 
