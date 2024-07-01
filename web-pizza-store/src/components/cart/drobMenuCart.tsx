@@ -1,4 +1,5 @@
 import { CartProps, useOrders } from "@/hooks/orderRequest";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IoBagRemove } from "react-icons/io5";
 
@@ -14,8 +15,8 @@ export function DrobMenuCart ({item}: ItemProps) {
     }
     
     return (
-        <div className="grid grid-cols-3 justify-stretch items-center m-auto">
-            <div className="flex flex-col w-full col-span-2">
+        <div className="grid grid-cols-3 justify-stretch items-center m-auto z-10">
+            <Link href={`/home/${item.meal_id}`} className="flex flex-col w-full col-span-2">
                 <span>
                     {item.name}
                 </span>
@@ -26,9 +27,9 @@ export function DrobMenuCart ({item}: ItemProps) {
                     </span>
                     <span>unit: {item.quantity}</span>
                 </div>
-            </div>
+            </Link>
 
-            <IoBagRemove className="text-xl justify-self-end z-50 hover:text-light-500"
+            <IoBagRemove className="text-xl justify-self-end z-50 hover:text-light-500 cursor-grabbing"
                 onClick={removingItemCart}
             />
         </div>

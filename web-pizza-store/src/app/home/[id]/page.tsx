@@ -151,7 +151,7 @@ export default function ProductId() {
                                 <GoPlus className="text-6xl"
                                     onClick={() => setItemValue(itemValue+1)}
                                 />
-                                <Link href={''}
+                                <Link href={'/checkout'}
                                     onClick={handleAddDicherOnCart}
                                     className="flex w-full items-center justify-center h-11 gap-2 rounded-md text-white text-xs bg-tint-tomato-400 hover:bg-tint-tomato-300 duration-75"
                                 >
