@@ -103,7 +103,7 @@ export default function ProductId() {
 
                 {/* col 1 */}
                 <div className="flex flex-col flex-wrap mt-10 md:col-span-2 lg:col-span-1">
-                    <span className="flex size-[264px] md:size-full md:pr-8 xl:size-[390px] items-center rounded-full overflow-hidden bg-cover my-4 drop-shadow-2xl">
+                    <span className="flex size-[264px] md:size-full md:mr-8 xl:size-[390px] items-center rounded-full overflow-hidden bg-cover my-4 drop-shadow-2xl">
                         <Image
                             as={NextImage}
                             width={690}
@@ -116,7 +116,7 @@ export default function ProductId() {
                 </div>
 
                 {/* col 2 */}
-                <div className="flex flex-col font-poppins antialiased w-full gap-6 items-center md:justify-self-start md:items-start md:col-span-1 md:z-20">
+                <div className="flex flex-col font-poppins antialiased w-full gap-6 items-center md:justify-self-start md:items-start md:col-span-1 md:z-20 md:pl-8">
 
                     <h2 className="text-3xl flex md:font-medium md:text-[40px]">
                         {filteredProductId?.name}
