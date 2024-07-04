@@ -5,13 +5,21 @@ import { ButtonText } from "@/components/buttonText"
 import { CheckoutCartItems } from "@/components/checkout/checkoutCartItems"
 import { GetFilteredCartItems } from "@/components/header/receiptCart"
 import { useOrders } from "@/hooks/orderRequest"
+import { useRouter } from "next/navigation"
 import { IoIosArrowBack } from "react-icons/io"
 
 
 export default function CheckOut () {
-    // const { cart } = useOrders()
+    const { currentStep, HandleWithCurrentStep } = useOrders()
+
 
     // const groupedCartItems = cart ? GetFilteredCartItems(cart) : []
+    const router = useRouter()
+
+    function handleWithCheckout() {
+        router.push('/checkout/delivery')
+        HandleWithCurrentStep(currentStep + 1)
+    }
 
     return (
         <section className="flex flex-col w-full h-full text-light-100 font-poppins py-8">
@@ -39,7 +47,7 @@ export default function CheckOut () {
             </div>
 
             <span className="w-3/4 m-auto">
-                <ButtonText text="Continue com o pagamento" size={48}/>
+                <ButtonText text="Continue com o pagamento" size={48} onclick={handleWithCheckout}/>
             </span>
         </section>
     )

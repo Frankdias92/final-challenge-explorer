@@ -37,6 +37,8 @@ interface OrderContextProps {
     addDisheOnCart: ( arg: addDisheOnCartProps ) => void
     RemoveDisheOnCart: ( cart_item_id: number ) => void
     cart: CartProps[] | null
+    currentStep: number | 1
+    HandleWithCurrentStep: (step: number) => void
 }
 
 export const OrderContext = createContext<OrderContextProps>({
@@ -46,13 +48,16 @@ export const OrderContext = createContext<OrderContextProps>({
     fetchOrderItems: () => {},
     addDisheOnCart: () => {},
     RemoveDisheOnCart: () => {},
-    cart: null
+    cart: null,
+    currentStep: 1,
+    HandleWithCurrentStep: () => {}
 })
 
 function OrdersProvider({ children }: any) {
     const [orders, setOrders] = useState<OrderProps[] | null>(null)
     const [orderItems, setOrderItems] = useState<OrderItemProps[] | null>(null)
     const [cart, setCart] = useState<CartProps[] | null>(null)
+    const [currentStep, setCurrentStep] = useState<number>(1)
 
 
     async function fetchOrders() {
@@ -121,6 +126,10 @@ function OrdersProvider({ children }: any) {
         }
     }
 
+    function HandleWithCurrentStep (step: number) {
+        setCurrentStep(step)
+    }
+
     useEffect(() => {
         const user = localStorage.getItem('@estock:user')
         if (user) {
@@ -139,7 +148,9 @@ function OrdersProvider({ children }: any) {
                 fetchOrderItems,
                 addDisheOnCart,
                 RemoveDisheOnCart,
-                cart
+                cart,
+                currentStep,
+                HandleWithCurrentStep
             }}
         >
             {children}
