@@ -1,3 +1,4 @@
+import { CheckoutStatus } from "@/components/checkout/checkoutStatus";
 import { Footer } from "@/components/home/footer";
 import { Metadata } from "next";
 
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
   }>) {
     return (
       <section className="flex flex-col w-full h-screen justify-between">
+        <CheckoutStatus />
         {children}
         <Footer />
       </section>
