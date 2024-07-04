@@ -1,4 +1,5 @@
 import { api } from "@/services/api";
+import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface OrderProps {
@@ -58,6 +59,7 @@ function OrdersProvider({ children }: any) {
     const [orderItems, setOrderItems] = useState<OrderItemProps[] | null>(null)
     const [cart, setCart] = useState<CartProps[] | null>(null)
     const [currentStep, setCurrentStep] = useState<number>(1)
+    const router = useRouter()
 
 
     async function fetchOrders() {
@@ -127,7 +129,17 @@ function OrdersProvider({ children }: any) {
     }
 
     function HandleWithCurrentStep (step: number) {
-        setCurrentStep(step)
+        
+        if (step === 0) {
+            setCurrentStep(1)
+            router.push('/checkout')
+        } else if (step === 1) {
+            setCurrentStep(2)
+            router.push('/checkout/delivery')
+        } else if (step === 2) {
+            setCurrentStep(3)
+            router.push('')
+        }
     }
 
     useEffect(() => {

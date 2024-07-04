@@ -1,3 +1,5 @@
+import { useOrders } from "@/hooks/orderRequest";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 type StepProps = {
@@ -5,17 +7,26 @@ type StepProps = {
     numberOfSteps: number
 }
 export function Steps({currentStep, numberOfSteps}: StepProps) {
-    const activeColor = (index: number) => (currentStep - 1) >= index ? 'bg-dark-300 text-light-100 cursor-pointer' : 'bg-light-400/30  text-light-100/30 cursor-progress'
+    const activeColor = (index: number) => (currentStep - 1) >= index ? 'bg-dark-300 text-light-100 cursor-pointer' : 'bg-light-400/30  text-light-100/30 cursor-pointer'
     const isFinalStep = (index: number) => index === numberOfSteps - 1
     const arrayp: string[] = ['1', '2', '3']
     const steps: string[] = ['Checkout', 'Delivery', 'Sucesso']
+    const router = useRouter()
+    const { HandleWithCurrentStep } = useOrders()
+
+
+    function handleWithSteps (step: number) {
+        HandleWithCurrentStep(step)
+    }
 
     return (
         <div className="flex items-center w-3/4 m-auto relative">
             {Array.from({length: numberOfSteps}).map((_, index) => (
                 <React.Fragment key={index}>
-                    <div className={`flex items-center justify-center rounded-full w-6 h-6 p-4 ${activeColor(index)}`}>
-                    {arrayp[index]}
+                    <div className={`flex items-center justify-center rounded-full w-6 h-6 p-4 ${activeColor(index)}`}
+                        onClick={() => handleWithSteps(index)}
+                    >
+                        {arrayp[index]}
                     </div>
                     {isFinalStep(index) ? null : 
                         <span className={`h-1 w-full  ${activeColor(index)} relative`}>

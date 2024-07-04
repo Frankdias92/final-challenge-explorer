@@ -17,8 +17,7 @@ export default function CheckOut () {
     const router = useRouter()
 
     function handleWithCheckout() {
-        router.push('/checkout/delivery')
-        HandleWithCurrentStep(currentStep + 1)
+        HandleWithCurrentStep(1)
     }
 
     return (
