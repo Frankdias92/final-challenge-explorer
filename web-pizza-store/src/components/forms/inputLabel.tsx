@@ -11,7 +11,7 @@ interface LabelInputProps {
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-export function LabelInput({ type, label, placeholder, value, onChange, size }: LabelInputProps) {
+export function LabelInput({ type, label, placeholder, value, onChange, size, ...rest }: LabelInputProps) {
 
     return (
         <div className="flex flex-col w-full h-full">
@@ -23,6 +23,7 @@ export function LabelInput({ type, label, placeholder, value, onChange, size }: 
                 placeholder={placeholder}
                 value={value}
                 onChange={onChange}
+                {...rest}
                 className={`flex text-light-500 mt-2 shadow bg-dark-200 appearance-none border-none rounded-lg w-full ${size === 48 ? 'h-14 py-5' : 'h-11' } py-2 px-3 leading-tight antialiased
                 focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 placeholder:text-light-400 hover:placeholder:text-light-500 duration-300`}
             />
