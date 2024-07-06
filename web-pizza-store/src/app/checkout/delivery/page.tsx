@@ -24,8 +24,11 @@ export default function Delivery () {
     const [neighborHood, setNeighborHood] = useState<string>('')
     const [location, setLocation] = useState<string>('')
     
+    // DgHh0J2Fujo3Q4y8rGdCaw
     
-    const { HandleWithCurrentStep, currentStep } = useOrders()
+    // https://chat.whatsapp.com/CITkK4QrDOV0Sum6bdwPSO
+    
+    const { HandleWithCurrentStep, currentStep, cart,  } = useOrders()
     const router = useRouter()
 
     function handleWithFinalStep() {
@@ -34,6 +37,19 @@ export default function Delivery () {
         }
         HandleWithCurrentStep(2)
         router.push('')
+
+        const message = `
+         🍕 NOVO PEDIDO
+         \n Entregar em: ${adress}
+         \n ${cart?.map(item => item.name)}
+        \nValor total: ${'test'}
+        `
+        const encodedMessage = encodeURIComponent(message)
+        const PHONE_NUMBER = '5584994508010'        // Phone number
+        const groupId = 'DgHh0J2Fujo3Q4y8rGdCaw'         // Group Id
+        // const url = `http://api.whatsapp.com/send?phone=${PHONE_NUMBER}&text=${encodedMessage}` // phone number
+        const url = `https://api.whatsapp.com/send?group_id=${groupId}` // group id
+        window.open(url, '_blank')
     }
 
     useEffect(() => {
@@ -68,50 +84,49 @@ export default function Delivery () {
                             size={48}
                             onChange={(e) => setCep(e.target.value)}
                         />
-{/* <ButtonText text="Consultar" onclick={handleWithCep} size={48}/> */}
 
-                    {cep &&
-                        (
-                        <section className={`flex flex-col w-full`}
-                        >
-                            <LabelInput 
-                                label="Rua" 
-                                type="string"
-                                placeholder="Rua Vila Nova"
-                                value={adress}
-                                size={48}
-                                onChange={(e) => setAdress(e.target.value)}
-                            />
+                        {/* {cep && ( */}
+                            <section className={`flex flex-col w-full  ${cep.length !== 8 ? 'opacity-45' : 'opacity-100'}`}
+                            >
+                                <LabelInput 
+                                    label="Rua" 
+                                    type="string"
+                                    placeholder="Rua Vila Nova"
+                                    value={adress}
+                                    size={48}
+                                    onChange={(e) => setAdress(e.target.value)}
+                                />
 
-                            <LabelInput 
-                                label="Numero" 
-                                type="number"
-                                placeholder="2024"
-                                value={adressNumber}
-                                size={48}
-                                onChange={(e) => setAdressNumber(e.target.value)}
-                                {...require}
-                            />
+                                <LabelInput 
+                                    label="Numero" 
+                                    type="number"
+                                    placeholder="2024"
+                                    value={adressNumber}
+                                    size={48}
+                                    onChange={(e) => setAdressNumber(e.target.value)}
+                                    {...require}
+                                />
 
-                            <LabelInput 
-                                label="Localidade" 
-                                type="string"
-                                placeholder="Pipa"
-                                value={location}
-                                size={48}
-                                onChange={(e) => setLocation(e.target.value)}
-                            />
+                                <LabelInput 
+                                    label="Localidade" 
+                                    type="string"
+                                    placeholder="Pipa"
+                                    value={location}
+                                    size={48}
+                                    onChange={(e) => setLocation(e.target.value)}
+                                />
 
-                            <LabelInput 
-                                label="Bairro" 
-                                type="string"
-                                placeholder="Tibau do Sul"
-                                value={neighborHood}
-                                size={48}
-                                onChange={(e) => setAdressNumber(e.target.value)}
-                            />
-                        </section>
-                    )}
+                                <LabelInput 
+                                    label="Bairro" 
+                                    type="string"
+                                    placeholder="Tibau do Sul"
+                                    value={neighborHood}
+                                    size={48}
+                                    onChange={(e) => setAdressNumber(e.target.value)}
+                                />
+                            </section>
+
+                        {/*  )} */}
 
                     </form>
                 </div>
