@@ -6,7 +6,7 @@ import { LabelInput } from "@/components/forms/inputLabel"
 import { useOrders } from "@/hooks/orderRequest"
 import axios from "axios"
 import { useRouter } from "next/navigation"
-import { FormEvent, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 
 type CepProps =  {
         cep: string
@@ -23,8 +23,8 @@ export function HandleWithDelivery () {
         const [neighborHood, setNeighborHood] = useState<string>('')
         const [location, setLocation] = useState<string>('')
 
-        const { HandleWithCurrentStep, currentStep, cart,  } = useOrders()
-    const router = useRouter()
+        const { HandleWithCurrentStep, cart,  } = useOrders()
+        const router = useRouter()
 
     function handleWithFinalStep() {
         if (adressNumber === '')  {
@@ -38,7 +38,7 @@ export function HandleWithDelivery () {
                 \n Entregar em: ${adress}
                 \n ${cart?.map(item => item.name)}
                 \nValor total: ${'test'}
-                `
+                `;
                 const encodedMessage = encodeURIComponent(message)
                 const PHONE_NUMBER = '5584994508010'        // Phone number
                 const groupId = 'DgHh0J2Fujo3Q4y8rGdCaw'         // Group Id
@@ -105,7 +105,6 @@ export function HandleWithDelivery () {
                                                 value={adressNumber}
                                                 size={48}
                                                 onChange={(e) => setAdressNumber(e.target.value)}
-                                                {...require}
                                                 />
 
                                                 <LabelInput 
