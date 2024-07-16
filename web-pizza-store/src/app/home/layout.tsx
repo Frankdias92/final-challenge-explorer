@@ -1,4 +1,4 @@
-import Footer from "@/components/home/footer";
+import { Footer } from "@/components/home/footer";
 import Header from "@/components/home/header";
 import { Metadata } from "next";
 

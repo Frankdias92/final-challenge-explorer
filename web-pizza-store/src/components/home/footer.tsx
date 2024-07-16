@@ -3,7 +3,7 @@ import Link from "next/link";
 import { BsFillHexagonFill } from "react-icons/bs";
 
 
-export default function Footer() {
+export function Footer() {
 
     return (
         <footer className="flex w-full px-7 md:h-[72px]  bg-dark-500 py-6"

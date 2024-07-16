@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     children: React.ReactNode;
   }>) {
     return (
-      <section className="flex flex-col w-full min-h-full">
+      <section className="flex flex-col w-full min-h-screen justify-between">
         <CheckoutStatus />
         {children}
         <Footer />
