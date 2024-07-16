@@ -1,3 +1,5 @@
+'use client'
+
 import { Main } from "@/components/home/main";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";

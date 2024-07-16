@@ -1,3 +1,5 @@
+'use client'
+
 import { UseAuth } from "@/hooks/auth";
 import HandleViewHeader from "../header/handleViewHeader";
 import { Suspense } from "react";
