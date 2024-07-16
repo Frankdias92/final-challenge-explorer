@@ -1,12 +1,11 @@
-'use client'
-
-//import { HandleWithLogin } from "@/components/login/handleWithLogin";
-import { Suspense } from "react";
 import { BsFillHexagonFill } from "react-icons/bs";
+import { Suspense } from "react";
 import dynamic from "next/dynamic";
 
 const HandleWithLogin = dynamic(() => 
-    import('../../components/login/handleWithLogin'), { ssr: false }
+    import(
+        /* webpackChunkName: "handleWith-Login"*/
+        '../../components/login/handleWithLogin'), { ssr: false }
 )
 
 export default function LogIn() {
@@ -25,8 +24,6 @@ export default function LogIn() {
                     </Suspense>
                 </div>
             </div>
-            
-
         </section>
     )
 }
