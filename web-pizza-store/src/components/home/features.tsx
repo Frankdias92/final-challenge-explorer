@@ -3,10 +3,7 @@
 import { useEffect, useState } from "react";
 import { ListProductsFeatures } from "./listProdutsFeatures";
 import Slider from "react-slick"
-import { UseAuth } from "@/hooks/auth";
-import { api } from "@/services/api";
 import axios from "axios";
-
 
 interface FeaturesProps {
     section: string
@@ -83,7 +80,6 @@ export function Features({ section }: FeaturesProps ) {
                         )
                     })}
                 
-
             </Slider>
 
             <div className="hidden lg:flex bg-gradient-to-r from-dark-700 to-dark-700/0 w-[233px] h-full absolute left-0 top-0 z-10 pointer-events-none"/>

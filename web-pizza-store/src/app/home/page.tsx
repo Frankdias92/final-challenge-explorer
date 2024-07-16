@@ -1,6 +1,13 @@
-import { Features } from "@/components/home/features";
 import { Main } from "@/components/home/main";
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
 
+const Features = dynamic(() =>
+    import(
+        /* webpackChuckName: "Features"*/
+        "@/components/home/features")
+        .then((module) => module.Features)
+  );
 
 export default function Home() {
 
@@ -9,9 +16,11 @@ export default function Home() {
             md:pb-12 md:pt-28 lg:pt-44"
         >
             <Main />
-            <Features section="Refeições"/>
-            <Features section="Pratos principais"/>
-            <Features section="Pratos principais"/>
+            <Suspense fallback={<p>Carregando Refeições...</p>}>
+                <Features section="Refeições"/>
+                <Features section="Pratos principais"/>
+                <Features section="Pratos principais"/>
+            </Suspense>
         </section>
     )
 }
