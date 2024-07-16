@@ -1,12 +1,15 @@
 'use client'
 
-
-import { HandleWithLogin } from "@/components/login/handleWithLogin";
+//import { HandleWithLogin } from "@/components/login/handleWithLogin";
+import { Suspense } from "react";
 import { BsFillHexagonFill } from "react-icons/bs";
+import dynamic from "next/dynamic";
 
+const HandleWithLogin = dynamic(() => 
+    import('../../components/login/handleWithLogin'), { ssr: false }
+)
 
 export default function LogIn() {
-
     return (
         <section className="flex w-full min-h-full flex-col px-12 pt-[98px] lg:pt-24 m-auto bg-dark-700 text-white lg:px-[108px] lg:overflow-y-auto min-w-[428px]">
 
@@ -17,7 +20,9 @@ export default function LogIn() {
                 </span>
 
                 <div className="flex flex-col w-full min-h-full gap-8  m-auto rounded-2xl lg:bg-dark-400 lg:p-16 max-w-[476px]">
-                    <HandleWithLogin />
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <HandleWithLogin />
+                    </Suspense>
                 </div>
             </div>
             

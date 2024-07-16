@@ -4,13 +4,11 @@ import { ButtonText } from "@/components/buttonText";
 import { LabelInput } from "@/components/forms/inputLabel";
 import { Paragraph } from "@/components/paragraph";
 import { useState } from "react";
-
 import { api } from '../../services/api'
 import { UseAuth } from "@/hooks/auth";
 import { useRouter } from "next/navigation";
 
-
-export function HandleWithLogin() {
+export default function HandleWithLogin() {
     const [isActive, setIsActive] = useState(true)
     const { singIn, user, signOut } = UseAuth()
     const router = useRouter()
@@ -19,25 +17,24 @@ export function HandleWithLogin() {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
 
-    
     function handleSignIn() {  
+        if (!email || !password) {
+            return alert('Preencha os dados')
+        }
         singIn({ email, password })
     }
-    
     async function handleSignUp() {
         if (!name || !email || !password) {
             return alert('Preencha os dados')
         }
-
         try {
             const data = await api.post('users', { name, email, password })
             alert('Usuário cadastrado com sucesso')
             setIsActive(true)
         } catch (error: any) {
-            alert(error.response.data.message)
+            alert(error.response.data.message || 'Erro ao cadastrar usuario')
         }
     }
-    
  
     return (
         <>
