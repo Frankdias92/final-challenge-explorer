@@ -109,27 +109,25 @@ function OrdersProvider({ children }: any) {
         }
     }, [])
 
-    
-    async function RemoveDisheOnCart ( cart_item_id : number) {
+    const RemoveDisheOnCart = useCallback(async (cart_item_id: number) => {
         try {
             if (cart_item_id) {
                 await api.delete(`/cart/${cart_item_id}`)
                 setCart(prevCart => prevCart?.filter(item => item.cart_item_id !== cart_item_id) || null)
 
                 const user = localStorage.getItem('@estock:user')
-                
+
                 if (user) {
                     const { id } = JSON.parse(user)
                     fetchCart(id)
                 }
-            }
+            }   
         } catch (error) {
             console.error('Error to removing the item: ', error)
         }
-    }
+    }, [fetchCart])
 
-    function HandleWithCurrentStep (step: number) {
-        
+    const HandleWithCurrentStep = useCallback((step: number) => {
         if (step === 0) {
             setCurrentStep(1)
             router.push('/checkout')
@@ -140,7 +138,7 @@ function OrdersProvider({ children }: any) {
             setCurrentStep(3)
             router.push('')
         }
-    }
+    }, [router])
 
     useEffect(() => {
         const user = localStorage.getItem('@estock:user')
@@ -149,7 +147,7 @@ function OrdersProvider({ children }: any) {
             fetchOrders()
             fetchCart(id)
         }
-    }, [])
+    }, [fetchCart, fetchOrders])
 
     return (
         <OrderContext.Provider
