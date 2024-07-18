@@ -2,9 +2,9 @@
 
 import { api } from "@/services/api";
 import { useRouter } from "next/navigation";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
-interface SingInProps {
+interface SignInProps {
     email: string
     password: string
 }
@@ -18,7 +18,7 @@ interface User {
 
 interface AuthContextProps {
     user: User | null
-    singIn: (SingInProps: SingInProps) => void
+    signIn: (SignInProps: SignInProps) => void
     signOut: () => void
     handleMenuOpen: (menuStats: boolean) => void
     isMenuOpen: boolean
@@ -26,7 +26,7 @@ interface AuthContextProps {
 
 export const AuthContext = createContext<AuthContextProps>({
     user: null,
-    singIn: () => {},
+    signIn: () => {},
     signOut: () => {},
     handleMenuOpen: () => {},
     isMenuOpen: false,
@@ -39,18 +39,18 @@ function AuthProvider({ children }:any) {
     }>({ user: null })
     const router = useRouter()
     
-    function handleMenuOpen(menuStats: boolean) {
+    const handleMenuOpen = useCallback((menuStats: boolean) => {
         setMenuOpen(menuStats)
-    }
+    }, [])
 
-    async function singIn({ email, password }: SingInProps) {
+    const signIn = useCallback(async ({ email, password }: SignInProps) => {
         try {
             const response = await api.post('/sessions', 
                 { email, password },
                 { withCredentials: true }
             )
             const { user  } = response.data
-
+    
             if (user) {
                 localStorage.setItem("@estock:user", JSON.stringify(user))
                 setData({  user }) 
@@ -61,34 +61,31 @@ function AuthProvider({ children }:any) {
         } catch (error: any) {
             alert(error.response.data.message)
         }
-    }
+    }, [router])
 
-    function signOut() {
+    const signOut = useCallback(() => {
         localStorage.removeItem("@estock:user")
         setData({user: null})
         router.push('/login')
-    }
+    }, [router])
     
     useEffect(() => {
        const user = localStorage.getItem("@estock:user")
 
        if (user) {
             setData({ user: JSON.parse(user)})
-       } else if (!user) {
-        router.push('/login')
        } else {
-           setData({ user: null})
-       }
+        router.push('/login')
+       } 
     }, [router])
 
-
-    useEffect(() => {
-        if (!data.user) {
-            router.push('/login')
-        } else {
-            router.push('/home')
-        }
-    }, [router, data])
+    // useEffect(() => {
+    //     if (!data.user) {
+    //         router.push('/login')
+    //     } else {
+    //         router.push('/home')
+    //     }
+    // }, [router, data])
 
     
 
@@ -96,7 +93,7 @@ function AuthProvider({ children }:any) {
         <AuthContext.Provider
             value={{
                 user: data.user,
-                singIn,
+                signIn,
                 signOut,
                 handleMenuOpen,
                 isMenuOpen,

@@ -1,5 +1,5 @@
 import { Image } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import NextImage from "next/image";
 
 import { GoDash, GoPlus } from "react-icons/go";
@@ -33,6 +33,8 @@ export function ListProductsFeatures({ productList }: ListProps) {
     const [isFavorite, setIsFavorite] = useState(false);
     const router = useRouter();
 
+    const blurData = 'http://localhost:3333/files/44d6d72e16447cb98ec4-63c83ebeef5ea2f341f3dd4c_OG-perpetuo.jpg'
+
     const { user } = UseAuth();
     const { addDisheOnCart } = useOrders()
 
@@ -64,8 +66,13 @@ export function ListProductsFeatures({ productList }: ListProps) {
                         <span className="flex items-center size-[88px] md:size-[172px]">
                             <Image
                                 as={NextImage}
+                                // priority={false}
+                                placeholder="blur"
+                                blurDataURL={blurData}
+                                loading="lazy"
                                 width={488}
                                 height={488}
+                                quality={100}
                                 src={`http://localhost:3333/files/${product.image}`}
                                 alt="NextUI hero Image"
                                 className="flex bg-contain rounded-full overflow-hidden"

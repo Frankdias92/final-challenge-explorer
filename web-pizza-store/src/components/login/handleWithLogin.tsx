@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 
 export default function HandleWithLogin() {
     const [isActive, setIsActive] = useState(true)
-    const { singIn, user, signOut } = UseAuth()
+    const { signIn, user, signOut } = UseAuth()
     const router = useRouter()
 
     const [name, setName] = useState('')
@@ -21,7 +21,7 @@ export default function HandleWithLogin() {
         if (!email || !password) {
             return alert('Preencha os dados')
         }
-        singIn({ email, password })
+        signIn({ email, password })
     }
     async function handleSignUp() {
         if (!name || !email || !password) {
