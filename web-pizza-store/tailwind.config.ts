@@ -46,6 +46,9 @@ module.exports = {
         poppins: ['var(--font-poppins)'],
         dmsams: ['var(--font-dmSams)']
       },
+      borderRadius: {
+        large: '1.5',
+      }
     },
 
     darkMode: "class",
