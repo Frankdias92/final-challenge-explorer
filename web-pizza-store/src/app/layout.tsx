@@ -5,7 +5,6 @@ import "./globals.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-
 const roboto = Roboto({ subsets: ["latin"], weight: ["300","400","700"], variable: '--font-roboto' })
 const poppins = Poppins({  subsets: ["latin-ext"], weight: ["400", "300"], variable: '--font-poppins' })
 const dmSans = DM_Sans({ subsets: ["latin-ext"], variable: '--font-dmSams' })

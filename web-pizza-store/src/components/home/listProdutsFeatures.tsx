@@ -31,12 +31,12 @@ export function ListProductsFeatures({ productList }: ListProps) {
     const [itemValue, setItemValue] = useState<number>(1);
     const [data, setData] = useState<DataProps>();
     const [isFavorite, setIsFavorite] = useState(false);
+    const { addDisheOnCart } = useOrders()
     const router = useRouter();
+    const { user } = UseAuth();
 
     const blurData = 'http://localhost:3333/files/44d6d72e16447cb98ec4-63c83ebeef5ea2f341f3dd4c_OG-perpetuo.jpg'
 
-    const { user } = UseAuth();
-    const { addDisheOnCart } = useOrders()
 
     function handleAddDicherOnCart({user_id, meal_id, quantity}: any) {
         // console.log('user', user_id, 'meal', meal_id, 'quantity', quantity)
@@ -53,14 +53,15 @@ export function ListProductsFeatures({ productList }: ListProps) {
                 <div key={product.id} className="flex flex-col w-[210px] h-[292px]  rounded-lg bg-dark-900 border-0 outline-none
                 ring-1 ring-dark-800 relative md:w-[304px] md:h-[462px]">
                     <div className="absolute flex right-4 top-4 text-light-300 text-2xl">
-                        {user && user.role === 'admin' ?  
+                        {user && user.role === 'admin' ?  (
                             <PiPencilSimple  onClick={() => router.push(`/home/${product.id}/edit`)}
                                 className="hover:text-light-400 hover:scale-105 duration-100 hover:cursor-pointer"
-                            /> : 
+                            /> 
+                        ) : (
                             <span className="flex size-8 items-center justify-center">
                                 {isFavorite ? <FaHeart onClick={() => setIsFavorite(false)} className=" hover:cursor-pointer"/> : <CiHeart className="text-3xl  hover:cursor-pointer" onClick={() => setIsFavorite(true)}/>}
                             </span>
-                        }
+                        )}
                     </div>
                     <div className="flex flex-col w-full h-full items-center justify-center m-auto gap-3 p-6">
                         <span className="flex items-center size-[88px] md:size-[172px]">
