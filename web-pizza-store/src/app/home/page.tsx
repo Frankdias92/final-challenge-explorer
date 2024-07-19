@@ -1,11 +1,10 @@
-'use client'
-
 import { Main } from "@/components/home/main";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
 
 const Features = dynamic(() =>
     import(
+        // webpackPrefetch: true
         /* webpackChuckName: "Features"*/
         "@/components/home/features")
         .then((module) => module.Features)

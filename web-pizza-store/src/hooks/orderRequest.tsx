@@ -24,7 +24,7 @@ interface OrderItemProps {
     meal_id: number
     quantity: number
 }
-type addDisheOnCartProps = {
+export type addDisheOnCartProps = {
     user_id: number
     meal_id: number
     quantity: number

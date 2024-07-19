@@ -1,19 +1,19 @@
-import { Image } from "@nextui-org/react";
 import { useState } from "react";
-import NextImage from "next/image";
+import { UseAuth } from "@/hooks/auth";
+import { useRouter } from "next/navigation";
+import { useOrders } from "@/hooks/orderRequest";
 
-import { GoDash, GoPlus } from "react-icons/go";
+import NextImage from "next/image";
+import { Image } from "@nextui-org/react";
+
 import { PiPencilSimple } from "react-icons/pi";
 import { FaHeart } from "react-icons/fa";
+import { GoDash, GoPlus } from "react-icons/go";
+import { TbArrowBadgeRightFilled } from "react-icons/tb";
 
-import { DataProps } from "@/types/types";
 import { ButtonText } from "../buttonText";
-import { UseAuth } from "@/hooks/auth";
 import Link from "next/link";
 import { CiHeart } from "react-icons/ci";
-import { useRouter } from "next/navigation";
-import { TbArrowBadgeRightFilled } from "react-icons/tb";
-import { useOrders } from "@/hooks/orderRequest";
 
 interface Product {
     id: number
@@ -29,14 +29,11 @@ interface ListProps {
 
 export function ListProductsFeatures({ productList }: ListProps) {
     const [itemValue, setItemValue] = useState<number>(1);
-    const [data, setData] = useState<DataProps>();
+    // const [data, setData] = useState<DataProps>();
     const [isFavorite, setIsFavorite] = useState(false);
     const { addDisheOnCart } = useOrders()
     const router = useRouter();
     const { user } = UseAuth();
-
-    const blurData = 'http://localhost:3333/files/44d6d72e16447cb98ec4-63c83ebeef5ea2f341f3dd4c_OG-perpetuo.jpg'
-
 
     function handleAddDicherOnCart({user_id, meal_id, quantity}: any) {
         // console.log('user', user_id, 'meal', meal_id, 'quantity', quantity)
@@ -69,7 +66,7 @@ export function ListProductsFeatures({ productList }: ListProps) {
                                 as={NextImage}
                                 // priority={false}
                                 placeholder="blur"
-                                blurDataURL={blurData}
+                                blurDataURL={process.env.BLUR_DATA}
                                 loading="lazy"
                                 width={488}
                                 height={488}

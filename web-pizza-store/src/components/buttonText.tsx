@@ -1,4 +1,5 @@
-import Link from "next/link"
+'use client'
+
 import { ReactNode } from "react"
 
 interface ButtonTextProps {

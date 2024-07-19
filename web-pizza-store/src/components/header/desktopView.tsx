@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from "react";
 import { FiLogOut } from "react-icons/fi";
 import { LogoHeader } from "../header/logo";
 import { ButtonText } from "../buttonText";
