@@ -30,6 +30,7 @@ export type addDisheOnCartProps = {
     quantity: number
 }
 
+
 interface OrderContextProps {
     orders: OrderProps[] | null
     orderItems: OrderItemProps[] | null
@@ -40,6 +41,9 @@ interface OrderContextProps {
     cart: CartProps[] | null
     currentStep: number | 1
     HandleWithCurrentStep: (step: number) => void
+    ingredients: string[]
+    handleAddIngredients: (newIngredients: string) => void
+    handleRemoveIngredients: (ingredientToRemove: string) => void
 }
 
 export const OrderContext = createContext<OrderContextProps>({
@@ -51,7 +55,10 @@ export const OrderContext = createContext<OrderContextProps>({
     RemoveDisheOnCart: () => {},
     cart: null,
     currentStep: 1,
-    HandleWithCurrentStep: () => {}
+    HandleWithCurrentStep: () => {},
+    ingredients: [],
+    handleAddIngredients: () => {},
+    handleRemoveIngredients: () => {}
 })
 
 function OrdersProvider({ children }: any) {
@@ -59,7 +66,15 @@ function OrdersProvider({ children }: any) {
     const [orderItems, setOrderItems] = useState<OrderItemProps[] | null>(null)
     const [cart, setCart] = useState<CartProps[] | null>(null)
     const [currentStep, setCurrentStep] = useState<number>(1)
+    const [ingredients, setIngredients] = useState<string[]> ([])
     const router = useRouter()
+
+    const handleAddIngredients = useCallback((newIngredients: string) => {
+        setIngredients(prevState => [...prevState, newIngredients])
+    }, [])
+    const handleRemoveIngredients = useCallback((ingredientToRemove: string) => {
+        setIngredients(prevState => prevState.filter(item => item !== ingredientToRemove))
+    }, [])
 
     const fetchOrders = useCallback(async () => {
         try {
@@ -160,7 +175,10 @@ function OrdersProvider({ children }: any) {
                 RemoveDisheOnCart,
                 cart,
                 currentStep,
-                HandleWithCurrentStep
+                HandleWithCurrentStep,
+                ingredients,
+                handleAddIngredients,
+                handleRemoveIngredients
             }}
         >
             {children}
