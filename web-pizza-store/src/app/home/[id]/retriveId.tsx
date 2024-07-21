@@ -36,6 +36,8 @@ const fetchProducts = async (id: number): Promise<ProductProps[]> => {
     }
 }
 
+
+console.log('test url: ', process.env.URL_FILES)
 export default function RetriveId () {
     const [data, setData] = useState<ProductProps[]>([]);
     const [itemValue, setItemValue] = useState<number>(1);
@@ -94,7 +96,7 @@ export default function RetriveId () {
                             as={NextImage}
                             width={690}
                             height={690}
-                            src={`${process.env.URL_FILES}/${filteredProductId?.productImg}`}
+                            src={`http://localhost:3333/files/${filteredProductId?.productImg}`}
                             alt="Product Image"
                             className="flex"
                         />

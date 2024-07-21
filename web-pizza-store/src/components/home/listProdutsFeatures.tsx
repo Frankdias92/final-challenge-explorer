@@ -65,8 +65,8 @@ export function ListProductsFeatures({ productList }: ListProps) {
                             <Image
                                 as={NextImage}
                                 // priority={false}
-                                placeholder="blur"
-                                blurDataURL={process.env.BLUR_DATA}
+                                // placeholder="blur"
+                                // blurDataURL={process.env.BLUR_DATA}
                                 loading="lazy"
                                 width={488}
                                 height={488}

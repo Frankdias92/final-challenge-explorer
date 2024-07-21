@@ -4,7 +4,7 @@ import { ProductProps } from "../features";
 import { GoDash, GoPlus } from "react-icons/go";
 import { PiReceipt } from "react-icons/pi";
 import { ButtonText } from "@/components/buttonText";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useOrders } from "@/hooks/orderRequest";
 import Link from "next/link";
 
