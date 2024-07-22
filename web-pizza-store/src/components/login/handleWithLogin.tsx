@@ -6,12 +6,10 @@ import { Paragraph } from "@/components/paragraph";
 import { useState } from "react";
 import { api } from '../../services/api'
 import { UseAuth } from "@/hooks/auth";
-import { useRouter } from "next/navigation";
 
 export default function HandleWithLogin() {
     const [isActive, setIsActive] = useState(true)
-    const { signIn, user, signOut } = UseAuth()
-    const router = useRouter()
+    const { signIn } = UseAuth()
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState<string>('')

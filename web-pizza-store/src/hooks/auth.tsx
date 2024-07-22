@@ -74,18 +74,19 @@ function AuthProvider({ children }:any) {
 
        if (user) {
             setData({ user: JSON.parse(user)})
-       } else {
-        router.push('/login')
        } 
+    //    else {
+    //     router.push('/login')
+    //    } 
     }, [router])
 
-    useEffect(() => {
-        if (!data.user) {
-            router.push('/login')
-        } else {
-            router.push('/home')
-        }
-    }, [router, data])
+    // useEffect(() => {
+    //     if (!data.user) {
+    //         router.push('/login')
+    //     } else {
+    //         router.push('/home')
+    //     }
+    // }, [router, data])
 
     
 
