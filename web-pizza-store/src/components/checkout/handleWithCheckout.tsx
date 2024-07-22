@@ -8,12 +8,12 @@ import { useRouter } from "next/navigation"
 
 
 export function HandleWithCheckout () {
-        const { HandleWithCurrentStep } = useOrders()
-        const router = useRouter()
+        const { HandleWithCurrentStep, cart } = useOrders()
     
         function handleWithCheckout() {
             HandleWithCurrentStep(1)
         }
+
     
         return (
                 <section className="flex flex-col w-full h-full text-light-100 font-poppins py-8">

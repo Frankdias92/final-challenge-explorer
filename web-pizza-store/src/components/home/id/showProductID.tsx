@@ -50,16 +50,18 @@ export function ShowProductID({ filteredProductId, user, itemValue, setItemValue
                     <ButtonText text="Editar prato" size={48} onclick={() => router.push(`/home/${filteredProductId.meal_id}/edit`)} />
                 </span>  
             ) : (
-                <div className="flex w-full justify-center items-center gap-x-4 text-lg text-white pt-12 mb-12">
-                    <GoDash className="text-6xl" onClick={() => setItemValue(itemValue - 1)} />
-                    <span className="text-light-300 font-roboto font-bold text-2xl">
-                        {itemValue}
+                <div className="flex w-full flex-col lg:flex-row justify-center items-center gap-x-4 text-lg text-white pt-12 mb-12">
+                    <span className="flex m-auto items-center gap-4">
+                        <GoDash className="text-6xl" onClick={() => setItemValue(itemValue - 1)} />
+                        <span className="text-light-300 font-roboto font-bold text-2xl">
+                            {itemValue}
+                        </span>
+                        <GoPlus className="text-6xl" onClick={() => setItemValue(itemValue + 1)} />
                     </span>
-                    <GoPlus className="text-6xl" onClick={() => setItemValue(itemValue + 1)} />
                     <Link 
                         href={'/checkout'}
                         onClick={handleAddDicherOnCart}
-                        className="flex w-full items-center justify-center h-11 gap-2 rounded-md text-white text-xs bg-tint-tomato-400 hover:bg-tint-tomato-300 duration-75"
+                        className="flex w-full min-w-[180px] items-center justify-center h-11 gap-2 rounded-md text-white text-xs bg-tint-tomato-400 hover:bg-tint-tomato-300 duration-75"
                     >
                         <PiReceipt className="text-xl" /> 
                         pedir ∙ R$ {filteredProductId?.price}

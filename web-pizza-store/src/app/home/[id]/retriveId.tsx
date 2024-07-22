@@ -77,17 +77,18 @@ export default function RetriveId () {
         return <p>Loading...</p>
     }
 
+
     return (
-        <section className="flex flex-col px-7 justify-start md:w-3/4 md:m-auto pb-12 pt-8 w-full items-center min-h-screen font-poppins antialiased text-light-200 bg-dark-700">
+        <section className="flex flex-col px-7 justify-start md:w-3/4 md:m-auto pb-12 pt-8 w-full items-center min-h-lvh font-poppins antialiased text-light-200 bg-dark-700">
             <Link
                 href='/home'
                 className="flex items-center text-left mr-auto text-2xl font-medium hover:text-light-400 duration-75"
             >
                 <IoIosArrowBack className="size-8"/> voltar
             </Link>
-            <div className="flex flex-col items-center w-full h-full md:grid grid-cols-3 lg:grid-cols-2 md:justify-items-start">
+            <div className="flex flex-col items-center w-full h-full md:flex-row md:justify-items-start">
                 <div className="flex flex-col flex-wrap mt-10 md:col-span-2 lg:col-span-1">
-                    <span className="flex size-[264px] md:size-full md:mr-8 xl:size-[390px] items-center rounded-full overflow-hidden bg-cover my-4 drop-shadow-2xl">
+                    <span className="flex size-[264px] md:mr-8 xl:size-[390px] items-center rounded-full overflow-hidden bg-cover my-4 drop-shadow-2xl">
                         <Image
                             as={NextImage}
                             width={690}
