@@ -7,7 +7,10 @@ const Features = dynamic(() =>
         // webpackPrefetch: true
         /* webpackChuckName: "Features"*/
         "@/components/home/features")
-        .then((module) => module.Features)
+        .then((module) => module.Features), {
+            loading: () => <p>Loading...</p>,
+            ssr: false
+        }
   );
 
 export default function Home() {
@@ -17,11 +20,9 @@ export default function Home() {
             md:pb-12 md:pt-28 lg:pt-44"
         >
             <Main />
-            <Suspense fallback={<p>Carregando Refeições...</p>}>
-                <Features section="Refeições"/>
-                <Features section="Pratos principais"/>
-                <Features section="Pratos principais"/>
-            </Suspense>
+            <Features section="Refeições"/>
+            <Features section="Pratos principais"/>
+            <Features section="Pratos principais"/>
         </section>
     )
 }

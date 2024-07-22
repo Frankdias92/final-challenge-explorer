@@ -12,7 +12,6 @@ import Link from "next/link";
 import { IoIosArrowBack } from "react-icons/io";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-
 const fetchProducts = async (id: number): Promise<ProductProps[]> => {
     try {
         const response = await api.get(`/meals/${id}`)
@@ -36,8 +35,6 @@ const fetchProducts = async (id: number): Promise<ProductProps[]> => {
     }
 }
 
-
-console.log('test url: ', process.env.URL_FILES)
 export default function RetriveId () {
     const [data, setData] = useState<ProductProps[]>([]);
     const [itemValue, setItemValue] = useState<number>(1);
@@ -70,7 +67,6 @@ export default function RetriveId () {
             const cartItem = cart.find(itemCart => itemCart.meal_id === productId);
             if (cartItem) setItemValue(cartItem.quantity);
         }
-
     }, [cart, productId, filteredProductId]);
 
     const handleSetItemValue = useCallback((value: number) => {
