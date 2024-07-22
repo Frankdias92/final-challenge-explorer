@@ -49,10 +49,8 @@ module.exports = {
       borderRadius: {
         large: '1.5',
       }
-    },
-
-    darkMode: "class",
-    plugins: [nextui()]
+    }
   },
-  plugins: [],
+  darkMode: "class",
+  plugins: [nextui()]
 };
