@@ -1,3 +1,5 @@
+'use client'
+
 import { UseAuth } from "@/hooks/auth";
 import Link from "next/link";
 import { BsFillHexagonFill } from "react-icons/bs";

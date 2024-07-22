@@ -1,6 +1,6 @@
 'use client'
 
-import { Dropdown, DropdownTrigger, DropdownMenu, Button } from "@nextui-org/react";
+import { Dropdown, DropdownTrigger, DropdownMenu, Button, DropdownSection } from "@nextui-org/react";
 
 import { PiReceipt } from "react-icons/pi";
 import { DropdownItem } from "@nextui-org/react";
@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { CartProps, useOrders } from "@/hooks/orderRequest";
 
 export function ReceiptCart() {
-    const {cart } = useOrders();
+    const { cart } = useOrders();
     // const [test, setTest] = useState()
     const router = useRouter()
     const totalQuantity = cart ? cart.map(item => item.quantity).reduce((sum, current) => sum + current, 0) : 0
@@ -19,11 +19,17 @@ export function ReceiptCart() {
     const totalPrice = groupedCartItems.reduce((sum, item) => sum + item.price, 0).toFixed(2)
 
     return (
-        <Dropdown backdrop="blur">
+        <Dropdown backdrop="blur"
+            showArrow
+            radius="sm"
+            className="bg-transparent border-0 ring-0 rounded-full "
+        >
             <DropdownTrigger>
-                <Button variant="bordered" className="h-full rounded-full md:rounded-md">
+                <Button variant="bordered" 
+                    className="h-full rounded-full md:rounded-md border-0"
+                >
                     {/* Desktop */}
-                    <span className="hidden md:flex  h-full gap-2 items-center px-4 justify-center rounded-md bg-tint-tomato-400">
+                    <span className="hidden md:flex  h-full gap-2 items-center px-4 justify-center rounded-md bg-tint-tomato-400 text-light-100">
                         <PiReceipt className="text-4xl" />
                         <span>
                             pedidos 
@@ -48,40 +54,58 @@ export function ReceiptCart() {
                 variant="faded" 
                 aria-label="Static Actions" 
                 className="max-h-[550px]"
+
+                // aria-label="Custom item styles"
+                disabledKeys={["profile"]}
+                // className="p-3"
+                itemClasses={{
+                base: [
+                    "rounded-md",
+                    "text-default-500",
+                    "transition-opacity",
+                    "data-[hover=true]:text-foreground",
+                    "dark:data-[hover=true]:bg-dark-300",
+                    "data-[selectable=true]:focus:bg-red-800",
+                    "data-[focus-visible=true]:ring-red-800",
+                ],
+                }}
             >
-                
-                <DropdownItem key='new' className="flex bg-dark-300 p-4 rounded-lg">
-                    <div className="flex text-light-100 justify-between items-center">
-                        <div className="flex items-center gap-2">
-                            <PiReceipt className="flex text-4xl text-center" />
-                            <span className="flex size-6 text-xs justify-center items-center bg-tint-tomato-400 rounded-full">
-                                {totalQuantity}
+                <DropdownSection title='action'>
+                    <DropdownItem key='new' className="flex bg-dark-300 p-4 rounded-lg">
+                        <div className="flex text-light-100 justify-between items-center">
+                            <div className="flex items-center gap-2">
+                                <PiReceipt className="flex text-4xl text-center" />
+                                <span className="flex size-6 text-xs justify-center items-center bg-tint-tomato-400 rounded-full">
+                                    {totalQuantity}
+                                </span>
+                            </div>
+                            <span className="flex text-light-500">
+                                Total: {totalPrice}
                             </span>
                         </div>
-                        <span className="flex text-light-500">
-                            Total: {totalPrice}
+
+                        <ul className="flex flex-col w-72 bg-dark-300 text-light-300 font-poppins gap-2
+                        h-[350px] overscroll-y-contain overflow-y-scroll my-4">
+                            
+                            {groupedCartItems?.map((item) => (
+                                <li key={item.meal_id}
+                                    className="hover:bg-dark-100 rounded-md p-2 z-10"
+                                    // onClick={() => router.push(`home/${item.meal_id}`)}
+                                >
+                                        <DrobMenuCart item={item}/>
+                                        <div className="w-full h-0.5 bg-dark-100"/>
+                                </li>
+                            ))}
+
+                        </ul>
+
+                        <span className="flex">
+                            <ButtonText text="Checkout" size={48} onclick={() => router.push('/checkout')}/>
                         </span>
-                    </div>
+                    </DropdownItem>
 
-                    <ul className="flex flex-col w-72 bg-dark-300 text-light-300 font-poppins gap-2
-                    h-[350px] overscroll-y-contain overflow-y-scroll my-4">
-                        
-                        {groupedCartItems?.map((item) => (
-                            <li key={item.meal_id}
-                                className="hover:bg-dark-100 rounded-md p-2 z-10"
-                                // onClick={() => router.push(`home/${item.meal_id}`)}
-                            >
-                                    <DrobMenuCart item={item}/>
-                                    <div className="w-full h-0.5 bg-dark-100"/>
-                            </li>
-                        ))}
-
-                    </ul>
-
-                    <span className="flex">
-                        <ButtonText text="Checkout" size={48} onclick={() => router.push('/checkout')}/>
-                    </span>
-                </DropdownItem>
+                </DropdownSection>
+                
             </DropdownMenu>
         </Dropdown>   
     )

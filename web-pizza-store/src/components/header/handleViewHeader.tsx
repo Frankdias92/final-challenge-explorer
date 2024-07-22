@@ -8,6 +8,7 @@ const DesktopView = dynamic(() =>
 
 const MobiViewHeader = dynamic(() => 
     import(
+        /* webpackPrefetch: true */
         /* webpackChuckName: "MobiView"*/
         "./mobiViewHeader"), { ssr: true }
 )
