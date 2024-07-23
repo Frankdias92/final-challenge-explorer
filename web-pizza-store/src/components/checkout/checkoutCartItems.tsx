@@ -4,6 +4,7 @@ import { api } from "@/services/api";
 import { Image } from "@nextui-org/react"
 import NextImage from "next/image";
 import { useCallback, useEffect, useState } from "react";
+import { IoBagRemove } from "react-icons/io5";
 
 type CheckoutItems = {
     image: number
@@ -41,22 +42,30 @@ export function CheckoutCartItems ({image, label, price, quantity}: CheckoutItem
                         quality={100}
                         src={`${process.env.NEXT_PUBLIC_URL_FILES}/${productImg}` /* || 'http://localhost:3000/_next/image?url=http%3A%2F%2Flocalhost%3A3333%2Ffiles%2F44d6d72e16447cb98ec4-63c83ebeef5ea2f341f3dd4c_OG-perpetuo.jpg&w=640&q=75' */}
                         alt={`Imagem de ${label}`}
-                        className="flex rounded-full size-auto"
+                        className="flex rounded-full w-48"
                     />
             </div>
 
-            <div className="flex flex-col  w-2/3 justify-around text-light-100 py-2">
-                    <span className="font-medium text-base">
+            <div className="flex flex-col w-full justify-between mt-0 py-8 text-light-100">
+                <div className="flex flex-col leading-6 ">
+                    <h3 className="flex font-semibold font-roboto text-xl">
                         {label}
-                    </span>
-                <div className="flex justify-between ">
-                    <span className="text-sm font-roboto">
-                        R$ {price}
-                    </span>
-                    <span className="flex items-center bg-dark-600 text-light-500 text-xs font-roboto px-2 rounded-md">
-                        quantidade: {quantity}
-                    </span>
+                    </h3>
+                    <p className="font-poppins text-base text-light-300">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam minus sapiente nulla eius.
+                    </p>
                 </div>
+
+                <p className="w-full text-sm font-roboto">
+                    R$ {price}
+                </p>
+            </div>
+
+            <div className="flex flex-col m-auto min-w-fit h-full py-8 justify-end items-end">
+                <IoBagRemove className="h-full text-2xl hover:text-light-400 cursor-pointer"/>
+                <p className="flex w-full items-center bg-dark-600 text-light-500 text-xs font-roboto px-2 rounded-md">
+                    quantidade: {quantity}
+                </p>
             </div>
         </div>
     )
