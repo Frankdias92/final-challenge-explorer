@@ -92,11 +92,14 @@ export function ListProductsFeatures({ productList }: ListProps) {
                                         <span className="text-light-300">{itemValue}</span>
                                         <GoPlus onClick={() => setItemValue(prev => prev + 1)}/>
                                     </div>
-                                    <ButtonText text="incluir" onclick={() => handleAddDicherOnCart({
-                                        user_id: user.id,
-                                        meal_id: productList.map(item => item.id),
-                                        quantity: itemValue
-                                    })} />
+                                    <ButtonText text="incluir" 
+                                        onclick={() => handleAddDicherOnCart({
+                                            user_id: user.id,
+                                            meal_id: productList.map(item => item.id),
+                                            quantity: itemValue
+                                        })} 
+                                        size={48}
+                                    />
                                 </>
                             }
                         </div>

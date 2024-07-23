@@ -13,7 +13,7 @@ export function LogoHeader() {
             <Link
                 href={'/home'}
                 className="flex md:w-[178px] md:flex-col items-center gap-x-2 relative">
-                <span className=" flex items-center font-bold gap-2 text-xl">
+                <span className=" flex w-full items-center font-bold gap-2 text-xl">
                     <span className="text-tint-cake-400 text-4xl"><BsFillHexagonFill /></span>
                     food explorer
                 </span>

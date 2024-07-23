@@ -69,7 +69,7 @@ export function HandleWithDelivery () {
 
         return (
         <section className="flex w-full h-full text-light-100 py-8">
-                <div className="flex flex-col w-3/4 min-h-screen m-auto justify-between">
+                <div className="flex flex-col w-full min-h-screen m-auto justify-between">
                         <div className="flex flex-col w-full h-full">
                                 <ButtonReturn 
                                         label="Endereço para entrega" 

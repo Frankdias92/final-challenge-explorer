@@ -16,9 +16,9 @@ export function HandleWithCheckout () {
         return (
                 <section className="flex flex-col w-full h-full text-light-100 font-poppins py-8">
 
-                        <div className="flex w-3/4 h-full m-auto items-center ">
+                        <div className="flex w-full h-full m-auto items-center ">
                         <div className="flex flex-col w-full h-full gap-4">
-                                <ButtonReturn label="Checkout" center/>
+                                <ButtonReturn label="Checkout Cart" center/>
 
                                 <span>Cart Items</span>
 
@@ -45,9 +45,6 @@ export function HandleWithCheckout () {
                         </div>
                         </div>
 
-                        <span className="w-3/4 m-auto">
-                        <ButtonText text="Continue com o pagamento" size={48} onclick={handleWithCheckout}/>
-                        </span>
                 </section>
         )
 }
