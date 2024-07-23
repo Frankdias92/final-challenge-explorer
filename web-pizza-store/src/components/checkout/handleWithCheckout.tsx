@@ -4,7 +4,6 @@ import { ButtonReturn } from "@/components/buttonReturn"
 import { ButtonText } from "@/components/buttonText"
 import { CheckoutCartItems } from "@/components/checkout/checkoutCartItems"
 import { useOrders } from "@/hooks/orderRequest"
-import { useRouter } from "next/navigation"
 
 
 export function HandleWithCheckout () {
@@ -14,7 +13,6 @@ export function HandleWithCheckout () {
             HandleWithCurrentStep(1)
         }
 
-    
         return (
                 <section className="flex flex-col w-full h-full text-light-100 font-poppins py-8">
 
@@ -24,12 +22,19 @@ export function HandleWithCheckout () {
 
                                 <span>Cart Items</span>
 
-                                <CheckoutCartItems 
-                                image={''}
-                                label={'Test'}
-                                price={49.90}
-                                quantity={2}
-                                />
+                                {cart && cart.length > 0 ? (
+                                        cart.map(item => (
+                                                <CheckoutCartItems 
+                                                        key={item.cart_item_id}
+                                                        image={item.meal_id}
+                                                        label={item.name}
+                                                        price={item.price}
+                                                        quantity={item.quantity}
+                                                />
+                                        ))) : (
+                                                 <span>Seu carrinho está vazio</span>
+                                )}
+
 
                                 <span>Pagamento</span>
                                 <div className="flex w-full justify-between p-2 bg-dark-500 rounded-lg">
