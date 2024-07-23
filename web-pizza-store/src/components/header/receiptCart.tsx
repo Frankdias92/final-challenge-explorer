@@ -10,24 +10,22 @@ import { useRouter } from "next/navigation";
 import { CartProps, useOrders } from "@/hooks/orderRequest";
 
 export function ReceiptCart() {
+    const {groupedCartItems, totalPrice} = useOrders()
     const { cart } = useOrders();
     // const [test, setTest] = useState()
     const router = useRouter()
     const totalQuantity = cart ? cart.map(item => item.quantity).reduce((sum, current) => sum + current, 0) : 0
-
-    const groupedCartItems = cart ? GetFilteredCartItems(cart) : []
-    const totalPrice = groupedCartItems.reduce((sum, item) => sum + item.price, 0).toFixed(2)
 
     return (
         <Dropdown backdrop="blur"
             showArrow
             radius="sm"
             className="bg-transparent border-0 ring-0 rounded-full "
-        >
+            >
             <DropdownTrigger>
                 <Button variant="bordered" 
                     className="h-full rounded-full md:rounded-md border-0"
-                >
+                    >
                     {/* Desktop */}
                     <span className="hidden md:flex  h-full gap-2 items-center px-4 justify-center rounded-md bg-tint-tomato-400 text-light-100">
                         <PiReceipt className="text-4xl" />
@@ -109,18 +107,4 @@ export function ReceiptCart() {
             </DropdownMenu>
         </Dropdown>   
     )
-}
-
-
-export function GetFilteredCartItems(cart: CartProps[]) {
-    return cart.reduce((acc, item) => {
-        const existingItem = acc.find(i => i.meal_id === item.meal_id)
-        if (existingItem) {
-            existingItem.quantity += item.quantity
-            existingItem.price += item.price * item.quantity
-        } else {
-            acc.push({ ...item, price: item.price * item.quantity })
-        }
-        return acc
-    }, [] as CartProps[])
 }

@@ -44,6 +44,8 @@ interface OrderContextProps {
     ingredients: string[]
     handleAddIngredients: (newIngredients: string) => void
     handleRemoveIngredients: (ingredientToRemove: string) => void
+    groupedCartItems: CartProps[] | null
+    totalPrice: string
 }
 
 export const OrderContext = createContext<OrderContextProps>({
@@ -58,7 +60,9 @@ export const OrderContext = createContext<OrderContextProps>({
     HandleWithCurrentStep: () => {},
     ingredients: [],
     handleAddIngredients: () => {},
-    handleRemoveIngredients: () => {}
+    handleRemoveIngredients: () => {},
+    groupedCartItems: null,
+    totalPrice: '0,00'
 })
 
 function OrdersProvider({ children }: any) {
@@ -155,6 +159,25 @@ function OrdersProvider({ children }: any) {
         }
     }, [router])
 
+    const getFilteredCartItems = (cart: CartProps[]): CartProps[] => {
+        const filteredCartItems = cart.reduce((acc, item) => {
+            const existingItem = acc.find((i) => i.meal_id === item.meal_id);
+            if (existingItem) {
+                existingItem.quantity += item.quantity;
+                existingItem.price += item.price * item.quantity;
+            } else {
+                acc.push({ ...item, price: item.price * item.quantity });
+            }
+            return acc;
+        }, [] as CartProps[]);
+
+        return filteredCartItems;
+    }
+    const groupedCartItems = cart ? getFilteredCartItems(cart) : [];
+    const totalPrice = groupedCartItems.reduce((sum, item) => sum + item.price, 0).toFixed(2);
+
+    
+
     useEffect(() => {
         const user = localStorage.getItem('@estock:user')
         if (user) {
@@ -178,7 +201,9 @@ function OrdersProvider({ children }: any) {
                 HandleWithCurrentStep,
                 ingredients,
                 handleAddIngredients,
-                handleRemoveIngredients
+                handleRemoveIngredients,
+                groupedCartItems,
+                totalPrice
             }}
         >
             {children}

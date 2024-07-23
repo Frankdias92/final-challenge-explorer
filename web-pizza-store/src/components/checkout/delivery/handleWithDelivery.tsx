@@ -23,7 +23,7 @@ export function HandleWithDelivery () {
         const [neighborHood, setNeighborHood] = useState<string>('')
         const [location, setLocation] = useState<string>('')
 
-        const { HandleWithCurrentStep, cart,  } = useOrders()
+        const { HandleWithCurrentStep, groupedCartItems, totalPrice } = useOrders()
         const router = useRouter()
 
     function handleWithFinalStep() {
@@ -35,15 +35,14 @@ export function HandleWithDelivery () {
 
         const message = `
                 🍕 NOVO PEDIDO
-                \n Entregar em: ${adress}
-                \n ${cart?.map(item => item.name)}
-                \nValor total: ${'test'}
-                `;
+                \nEntregar em: \n RUA: ${adress}, ${adressNumber}, CEP: ${cep}, \n ${neighborHood}
+                \n${groupedCartItems?.map(item =>  ` \n${item.name} ${item.quantity} x ${item.price}`)}
+                \nValor total: R$ ${totalPrice}`;
+
                 const encodedMessage = encodeURIComponent(message)
-                const PHONE_NUMBER = '5584994508010'        // Phone number
-                const groupId = 'DgHh0J2Fujo3Q4y8rGdCaw'         // Group Id
-                // const url = `http://api.whatsapp.com/send?phone=${PHONE_NUMBER}&text=${encodedMessage}` // phone number
-                const url = `https://api.whatsapp.com/send?group_id=${groupId}` // group id
+                // const groupId = 'DgHh0J2Fujo3Q4y8rGdCaw'         // Group Id
+                const url = `http://api.whatsapp.com/send?phone=${process.env.NEXT_PUBLIC_PHONE_NUMBER}&text=${encodedMessage}` // phone number
+                // const url = `https://api.whatsapp.com/send?group_id=${}` // group id
                 window.open(url, '_blank')
         }      
         

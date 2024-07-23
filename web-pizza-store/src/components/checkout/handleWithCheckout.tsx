@@ -7,7 +7,7 @@ import { useOrders } from "@/hooks/orderRequest"
 
 
 export function HandleWithCheckout () {
-        const { HandleWithCurrentStep, cart } = useOrders()
+        const { HandleWithCurrentStep, groupedCartItems, totalPrice } = useOrders()
     
         function handleWithCheckout() {
             HandleWithCurrentStep(1)
@@ -22,8 +22,8 @@ export function HandleWithCheckout () {
 
                                 <span>Cart Items</span>
 
-                                {cart && cart.length > 0 ? (
-                                        cart.map(item => (
+                                {groupedCartItems && groupedCartItems.length > 0 ? (
+                                        groupedCartItems.map(item => (
                                                 <CheckoutCartItems 
                                                         key={item.cart_item_id}
                                                         image={item.meal_id}
@@ -39,7 +39,7 @@ export function HandleWithCheckout () {
                                 <span>Pagamento</span>
                                 <div className="flex w-full justify-between p-2 bg-dark-500 rounded-lg">
                                 <span>Valor Total:</span>
-                                <span>R$ 49,99</span>
+                                <span>R$ {totalPrice}</span>
                                 </div>
 
                         </div>
