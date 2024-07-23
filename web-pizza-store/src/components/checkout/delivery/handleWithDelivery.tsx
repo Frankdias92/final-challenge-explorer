@@ -1,11 +1,9 @@
 'use client'
 
-import { ButtonReturn } from "@/components/buttonReturn"
 import { ButtonText } from "@/components/buttonText"
 import { LabelInput } from "@/components/forms/inputLabel"
 import { useOrders } from "@/hooks/orderRequest"
 import axios from "axios"
-import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
 type CepProps =  {
@@ -23,27 +21,26 @@ export function HandleWithDelivery () {
         const [neighborHood, setNeighborHood] = useState<string>('')
         const [location, setLocation] = useState<string>('')
 
-        const { HandleWithCurrentStep, groupedCartItems, totalPrice } = useOrders()
-        const router = useRouter()
+        const { groupedCartItems, totalPrice } = useOrders()
+        // const router = useRouter()
 
-    function handleWithFinalStep() {
-        if (adressNumber === '')  {
-            return alert('Informe o numero da residencia')
-        }
-        HandleWithCurrentStep(2)
-        router.push('')
+        function handleWithFinalStep() {
+                if (adressNumber === '')  {
+                return alert('Informe o numero da residencia')
+                }
+                // router.push('')
 
-        const message = `
-                🍕 NOVO PEDIDO
-                \nEntregar em: \n RUA: ${adress}, ${adressNumber}, CEP: ${cep}, \n ${neighborHood}
-                \n${groupedCartItems?.map(item =>  ` \n${item.name} ${item.quantity} x ${item.price}`)}
-                \nValor total: R$ ${totalPrice}`;
+                const message = `
+                        🍕 NOVO PEDIDO
+                        \nEntregar em: \n RUA: ${adress}, ${adressNumber}, CEP: ${cep}, \n ${neighborHood}
+                        \n${groupedCartItems?.map(item =>  ` \n${item.name} ${item.quantity} x ${item.price}`)}
+                        \nValor total: R$ ${totalPrice}`;
 
-                const encodedMessage = encodeURIComponent(message)
-                // const groupId = 'DgHh0J2Fujo3Q4y8rGdCaw'         // Group Id
-                const url = `http://api.whatsapp.com/send?phone=${process.env.NEXT_PUBLIC_PHONE_NUMBER}&text=${encodedMessage}` // phone number
-                // const url = `https://api.whatsapp.com/send?group_id=${}` // group id
-                window.open(url, '_blank')
+                        const encodedMessage = encodeURIComponent(message)
+                        // const groupId = 'DgHh0J2Fujo3Q4y8rGdCaw'         // Group Id
+                        const url = `http://api.whatsapp.com/send?phone=${process.env.NEXT_PUBLIC_PHONE_NUMBER}&text=${encodedMessage}` // phone number
+                        // const url = `https://api.whatsapp.com/send?group_id=${}` // group id
+                        window.open(url, '_blank')
         }      
         
 
@@ -67,13 +64,12 @@ export function HandleWithDelivery () {
         }, [cep]);
 
         return (
-        <section className="flex w-full h-full text-light-100 py-8">
-                <div className="flex flex-col w-full min-h-screen m-auto justify-between">
-                        <div className="flex flex-col w-full h-full">
-                                <ButtonReturn 
-                                        label="Endereço para entrega" 
-                                        context="Dados cadastrais"
-                                />
+        <section className="flex w-full h-full text-light-100 py-8 lg:px-0 md:px-16 px-4">
+                <div className="flex flex-col w-full min-h-screen mt-28 gap-8">
+                        <div className="flex flex-col w-full">
+                                <h2 className="font-poppins font-bold tracking-wider text-2xl leading-normal">
+                                        Endereço para entrega
+                                </h2>
 
                                 <form className="flex flex-col w-full">
                                         <LabelInput 
@@ -125,12 +121,11 @@ export function HandleWithDelivery () {
                                                 />
                                         </section>
 
-                                        {/*  )} */}
-
+                                        <div className="flex w-full h-full mt-12">
+                                                <ButtonText text="Continuar com o pagamento"  onclick={handleWithFinalStep} size={48}/>
+                                        </div>
                                 </form>
                         </div>
-
-                        <ButtonText text="Enviar Pedido" onclick={handleWithFinalStep} size={48}/>
                 </div>
         </section>
         )

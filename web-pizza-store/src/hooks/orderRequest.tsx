@@ -46,6 +46,7 @@ interface OrderContextProps {
     handleRemoveIngredients: (ingredientToRemove: string) => void
     groupedCartItems: CartProps[] | null
     totalPrice: string
+    RemoveOrderId: (order_item_id: number) => void
 }
 
 export const OrderContext = createContext<OrderContextProps>({
@@ -62,7 +63,8 @@ export const OrderContext = createContext<OrderContextProps>({
     handleAddIngredients: () => {},
     handleRemoveIngredients: () => {},
     groupedCartItems: null,
-    totalPrice: '0,00'
+    totalPrice: '0,00',
+    RemoveOrderId: () => {}
 })
 
 function OrdersProvider({ children }: any) {
@@ -146,6 +148,24 @@ function OrdersProvider({ children }: any) {
         }
     }, [fetchCart])
 
+    const RemoveOrderId = useCallback(async (order_item_id: number) => {
+        try {
+            if (order_item_id) {
+                await api.delete(`/order_items/${order_item_id}`)
+            }
+
+            const user = localStorage.getItem('@estock:user')
+
+            if (user) {
+                const { id } = JSON.parse(user)
+                fetchCart(id)
+            }
+        } catch (error) {
+            console.error('Error ao deletar ordem')
+        }
+    }, [fetchCart])
+
+
     const HandleWithCurrentStep = useCallback((step: number) => {
         if (step === 0) {
             setCurrentStep(1)
@@ -203,7 +223,8 @@ function OrdersProvider({ children }: any) {
                 handleAddIngredients,
                 handleRemoveIngredients,
                 groupedCartItems,
-                totalPrice
+                totalPrice,
+                RemoveOrderId
             }}
         >
             {children}

@@ -9,11 +9,11 @@ export function LogoHeader() {
     const {user} = UseAuth()
     
     return (
-        <div className="flex w-fit h-full items-center z-20">
+        <div className="flex w-full h-full items-center z-20">
             <Link
                 href={'/home'}
                 className="flex md:w-[178px] md:flex-col items-center gap-x-2 relative">
-                <span className=" flex w-full items-center font-bold gap-2 text-xl">
+                <span className=" flex min-w-full items-center font-bold gap-2 text-xl">
                     <span className="text-tint-cake-400 text-4xl"><BsFillHexagonFill /></span>
                     food explorer
                 </span>

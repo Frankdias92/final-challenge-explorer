@@ -1,5 +1,6 @@
 'use client'
 
+import { useOrders } from "@/hooks/orderRequest";
 import { api } from "@/services/api";
 import { Image } from "@nextui-org/react"
 import NextImage from "next/image";
@@ -15,6 +16,7 @@ type CheckoutItems = {
 
 export function CheckoutCartItems ({image, label, price, quantity}: CheckoutItems) {
     const [productImg, setProductImg] = useState<string>('')
+    const {RemoveOrderId} = useOrders()
 
     const fetchImgCard = useCallback(async () => {
         try {
@@ -62,7 +64,9 @@ export function CheckoutCartItems ({image, label, price, quantity}: CheckoutItem
             </div>
 
             <div className="flex flex-col m-auto min-w-fit h-full py-8 justify-end items-end">
-                <IoBagRemove className="h-full text-2xl hover:text-light-400 cursor-pointer"/>
+                <IoBagRemove className="h-full text-2xl hover:text-light-400 cursor-pointer"
+                    onClick={() => RemoveOrderId(2)}
+                />
                 <p className="flex w-full items-center bg-dark-600 text-light-500 text-xs font-roboto px-2 rounded-md">
                     quantidade: {quantity}
                 </p>
