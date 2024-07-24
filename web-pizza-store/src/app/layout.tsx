@@ -4,6 +4,7 @@ import { Providers } from './providers'
 import "./globals.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Head from "next/head";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ["300","400","700"], variable: '--font-roboto' })
 const poppins = Poppins({  subsets: ["latin-ext"], weight: ["400", "300"], variable: '--font-poppins' })
@@ -21,6 +22,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className="!scroll-smooth dark">
+      <Head>
+        <link rel="icon" href="/favicon.ico" sizes="32x32" type="image/x-icon" />
+      </Head>
       <body className={`${roboto.variable} ${poppins.variable} ${dmSans.variable} relative bg-dark-700 overflow-x-hidden`}>
         <Providers>
           {children}

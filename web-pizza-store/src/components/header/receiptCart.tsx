@@ -7,14 +7,22 @@ import { DropdownItem } from "@nextui-org/react";
 import { DrobMenuCart } from "../cart/drobMenuCart";
 import { ButtonText } from "../buttonText";
 import { useRouter } from "next/navigation";
-import { CartProps, useOrders } from "@/hooks/orderRequest";
+import { useOrders } from "@/hooks/orderRequest";
+import { useEffect, useState } from "react";
 
 export function ReceiptCart() {
     const {groupedCartItems, totalPrice} = useOrders()
+    const [totalQuantity, seTotalQuantity] = useState<number>(0)
     const { cart } = useOrders();
-    // const [test, setTest] = useState()
     const router = useRouter()
-    const totalQuantity = cart ? cart.map(item => item.quantity).reduce((sum, current) => sum + current, 0) : 0
+
+    useEffect(() => {
+        const totalQuantity = cart?.reduce((sum, item) => sum + item.quantity, 0) ?? 0
+        // const totalPriceValue = parseFloat(totalPrice) || 0.00
+        seTotalQuantity(totalQuantity)
+
+        console.log('total quantity: ', totalQuantity)
+    }, [cart])
 
     return (
         <Dropdown backdrop="blur"
@@ -41,7 +49,7 @@ export function ReceiptCart() {
                         <span className="flex w-6 h-6 p-2 justify-center items-center rounded-full bg-tint-tomato-400 absolute -top-1 right-1
                             ">
                             <span className="flex items-center justify-center font-medium text-sm">
-                                {totalQuantity}
+                                {'totalPriceValue'}
                             </span>
                         </span>
                     </span>
@@ -68,7 +76,7 @@ export function ReceiptCart() {
                 ],
                 }}
             >
-                <DropdownSection title='action'>
+                <DropdownSection title='Seu Carrinho'>
                     <DropdownItem key='new' className="flex bg-dark-300 p-4 rounded-lg">
                         <div className="flex text-light-100 justify-between items-center">
                             <div className="flex items-center gap-2">
@@ -78,21 +86,15 @@ export function ReceiptCart() {
                                 </span>
                             </div>
                             <span className="flex text-light-500">
-                                Total: {totalPrice}
+                                Total: {totalQuantity}
                             </span>
                         </div>
 
                         <ul className="flex flex-col w-72 bg-dark-300 text-light-300 font-poppins gap-2
-                        h-[350px] overscroll-y-contain overflow-y-scroll my-4">
+                            h-[350px] overscroll-y-contain overflow-y-scroll my-4">
                             
                             {groupedCartItems?.map((item) => (
-                                <li key={item.meal_id}
-                                    className="hover:bg-dark-100 rounded-md p-2 z-10"
-                                    // onClick={() => router.push(`home/${item.meal_id}`)}
-                                >
-                                        <DrobMenuCart item={item}/>
-                                        <div className="w-full h-0.5 bg-dark-100"/>
-                                </li>
+                                <DrobMenuCart key={item.cart_item_id} item={item}/>
                             ))}
 
                         </ul>

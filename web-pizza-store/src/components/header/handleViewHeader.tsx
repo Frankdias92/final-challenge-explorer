@@ -1,16 +1,17 @@
+
 import dynamic from "next/dynamic";
 
 const DesktopView = dynamic(() => 
     import(
         /* webpackChuckName: "Desktop View"*/
-        "./desktopView"), { ssr: true }
+        "./desktopView"), { ssr: false }
 )
 
 const MobiViewHeader = dynamic(() => 
     import(
         /* webpackPrefetch: true */
         /* webpackChuckName: "MobiView"*/
-        "./mobiViewHeader"), { ssr: true }
+        "./mobiViewHeader"), { ssr: false }
 )
 
 export default function HandleViewHeader () {

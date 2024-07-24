@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 import { ListProductsFeatures } from "./listProdutsFeatures";
 
+import Slider from "react-slick"
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-import Slider from "react-slick"
 import axios from "axios";
 
 interface FeaturesProps {
@@ -20,6 +20,7 @@ export interface ProductProps {
     price: number
     productImg: string
 }
+
 
 export function Features({ section }: FeaturesProps ) {
     const [data, setData] = useState<ProductProps[]>([])
@@ -67,20 +68,17 @@ export function Features({ section }: FeaturesProps ) {
                     {data && data.map(item => {
                         return (
                             (data && 
-                            <div className="flex px-4 z-0" key={item.meal_id}>
-                                <ListProductsFeatures
-                                    productList={[{
-                                        id: item.meal_id,
-                                        image: item.productImg,
-                                        title: item.name,
-                                        description: item.description,
-                                        price: item.price,
-                                        ingredients: item.ingredients
-                                    }]}
-                                />
-
-                            </div>
-                                )
+                                <div className="flex px-4 z-0" key={item.meal_id}>
+                                    <ListProductsFeatures
+                                        id={item.meal_id}
+                                        title={item.name}
+                                        description={item.description}
+                                        ingredients={item.ingredients}
+                                        price={item.price}
+                                        image={item.productImg}
+                                    />
+                                </div>
+                            )
                         )
                     })}
                 

@@ -45,7 +45,7 @@ interface OrderContextProps {
     handleAddIngredients: (newIngredients: string) => void
     handleRemoveIngredients: (ingredientToRemove: string) => void
     groupedCartItems: CartProps[] | null
-    totalPrice: string
+    totalPrice: number | 0
     RemoveOrderId: (order_item_id: number) => void
 }
 
@@ -63,7 +63,7 @@ export const OrderContext = createContext<OrderContextProps>({
     handleAddIngredients: () => {},
     handleRemoveIngredients: () => {},
     groupedCartItems: null,
-    totalPrice: '0,00',
+    totalPrice: 0,
     RemoveOrderId: () => {}
 })
 
@@ -120,7 +120,7 @@ function OrdersProvider({ children }: any) {
         try {
             const response = await api.post(`/cart`, {
                 user_id,
-                meal_id: Number(meal_id),
+                meal_id: meal_id,
                 quantity
             })
             // console.log('print response', response.data)
@@ -181,20 +181,20 @@ function OrdersProvider({ children }: any) {
 
     const getFilteredCartItems = (cart: CartProps[]): CartProps[] => {
         const filteredCartItems = cart.reduce((acc, item) => {
-            const existingItem = acc.find((i) => i.meal_id === item.meal_id);
+            const existingItem = acc.find((i) => i.meal_id === item.meal_id)
             if (existingItem) {
-                existingItem.quantity += item.quantity;
-                existingItem.price += item.price * item.quantity;
+                existingItem.quantity += item.quantity
+                existingItem.price += item.price * item.quantity
             } else {
-                acc.push({ ...item, price: item.price * item.quantity });
+                acc.push({ ...item, price: item.price * item.quantity })
             }
             return acc;
-        }, [] as CartProps[]);
+        }, [] as CartProps[])
 
-        return filteredCartItems;
+        return filteredCartItems
     }
-    const groupedCartItems = cart ? getFilteredCartItems(cart) : [];
-    const totalPrice = groupedCartItems.reduce((sum, item) => sum + item.price, 0).toFixed(2);
+    const groupedCartItems = cart ? getFilteredCartItems(cart) : []
+    const totalPrice = Number(groupedCartItems.reduce((sum, item) => sum + item.price, 0).toFixed(2))
 
     
 
