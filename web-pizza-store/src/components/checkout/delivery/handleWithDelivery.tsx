@@ -64,8 +64,8 @@ export function HandleWithDelivery () {
         }, [cep]);
 
         return (
-        <section className="flex w-full h-full text-light-100 py-8 lg:px-0 md:px-16 px-4">
-                <div className="flex flex-col w-full min-h-screen mt-28 gap-8">
+        <section className="flex w-full h-fit text-light-100 my-24 lg:px-0 md:px-16 px-4 ">
+                <div className="flex flex-col w-full  gap-8">
                         <div className="flex flex-col w-full">
                                 <h2 className="font-poppins font-bold tracking-wider text-2xl leading-normal">
                                         Endereço para entrega

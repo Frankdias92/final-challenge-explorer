@@ -8,15 +8,16 @@ import { useCallback, useEffect, useState } from "react";
 import { IoBagRemove } from "react-icons/io5";
 
 type CheckoutItems = {
+    cart_item_id: number
     image: number
     label: string
     price: number
     quantity: number
 }
 
-export function CheckoutCartItems ({image, label, price, quantity}: CheckoutItems) {
+export function CheckoutCartItems ({ image, label, price, quantity, cart_item_id }: CheckoutItems) {
     const [productImg, setProductImg] = useState<string>('')
-    const {RemoveOrderId} = useOrders()
+    const { RemoveDisheOnCart } = useOrders()
 
     const fetchImgCard = useCallback(async () => {
         try {
@@ -65,7 +66,7 @@ export function CheckoutCartItems ({image, label, price, quantity}: CheckoutItem
 
             <div className="flex flex-col m-auto min-w-fit h-full py-8 justify-end items-end">
                 <IoBagRemove className="h-full text-2xl hover:text-light-400 cursor-pointer"
-                    onClick={() => RemoveOrderId(2)}
+                    onClick={() => RemoveDisheOnCart(cart_item_id)}
                 />
                 <p className="flex w-full items-center bg-dark-600 text-light-500 text-xs font-roboto px-2 rounded-md">
                     quantidade: {quantity}

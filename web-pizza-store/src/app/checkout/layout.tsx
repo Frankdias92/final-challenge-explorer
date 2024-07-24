@@ -1,5 +1,4 @@
-import { CheckoutStatus } from "@/components/checkout/checkoutStatus";
-import { Footer } from "@/components/home/footer";
+
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -13,7 +12,7 @@ export const metadata: Metadata = {
     children: React.ReactNode;
   }>) {
     return (
-      <section className="flex flex-col w-full min-h-screen justify-between">
+      <section className="flex flex-col w-full min-h-screen justify-between overflow-hidden overscroll-y-auto">
         {children}
       </section>
     );

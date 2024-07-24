@@ -1,13 +1,13 @@
 import { HandleWithCheckout } from "@/components/checkout/handleWithCheckout"
 import Delivery from "./delivery/page"
-import { CheckoutStatus } from "@/components/checkout/checkoutStatus"
+import { LogoHeader } from "@/components/header/logo"
 
 export default function CheckOut () {
     return (
-        <section className="flex w-full flex-col lg:flex-row m-auto gap-16 xl:px-16 sm:px-12 px-4 xl:pl-40">
+        <section className="flex w-full min-h-screen flex-col lg:flex-row  gap-16 sm:px-12 px-4 xl:px-0 xl:pl-40">
             
-            <span className="flex flex-col w-full">
-                <CheckoutStatus />
+            <span className="flex flex-col w-full h-full mt-24">
+                <LogoHeader />
                 <HandleWithCheckout />
             </span>
 
