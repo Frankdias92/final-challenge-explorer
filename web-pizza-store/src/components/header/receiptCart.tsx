@@ -8,21 +8,10 @@ import { DrobMenuCart } from "../cart/drobMenuCart";
 import { ButtonText } from "../buttonText";
 import { useRouter } from "next/navigation";
 import { useOrders } from "@/hooks/orderRequest";
-import { useEffect, useState } from "react";
 
 export function ReceiptCart() {
-    const {groupedCartItems, totalPrice} = useOrders()
-    const [totalQuantity, seTotalQuantity] = useState<number>(0)
-    const { cart } = useOrders();
+    const {groupedCartItems, totalPrice, totalCartPrice, totalCartQuantity} = useOrders()
     const router = useRouter()
-
-    useEffect(() => {
-        const totalQuantity = cart?.reduce((sum, item) => sum + item.quantity, 0) ?? 0
-        // const totalPriceValue = parseFloat(totalPrice) || 0.00
-        seTotalQuantity(totalQuantity)
-
-        console.log('total quantity: ', totalQuantity)
-    }, [cart])
 
     return (
         <Dropdown backdrop="blur"
@@ -39,7 +28,7 @@ export function ReceiptCart() {
                         <PiReceipt className="text-4xl" />
                         <span>
                             pedidos 
-                            ({totalQuantity})
+                            ({totalCartQuantity})
                         </span>
                     </span>
 
@@ -49,7 +38,7 @@ export function ReceiptCart() {
                         <span className="flex w-6 h-6 p-2 justify-center items-center rounded-full bg-tint-tomato-400 absolute -top-1 right-1
                             ">
                             <span className="flex items-center justify-center font-medium text-sm">
-                                {'totalPriceValue'}
+                                {totalCartQuantity}
                             </span>
                         </span>
                     </span>
@@ -82,11 +71,11 @@ export function ReceiptCart() {
                             <div className="flex items-center gap-2">
                                 <PiReceipt className="flex text-4xl text-center" />
                                 <span className="flex size-6 text-xs justify-center items-center bg-tint-tomato-400 rounded-full">
-                                    {totalQuantity}
+                                    {totalCartQuantity}
                                 </span>
                             </div>
                             <span className="flex text-light-500">
-                                Total: {totalQuantity}
+                                Total: {totalCartPrice}
                             </span>
                         </div>
 

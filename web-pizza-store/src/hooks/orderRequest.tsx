@@ -39,14 +39,14 @@ interface OrderContextProps {
     addDisheOnCart: ( arg: addDisheOnCartProps ) => void
     RemoveDisheOnCart: ( cart_item_id: number ) => void
     cart: CartProps[] | null
-    currentStep: number | 1
-    HandleWithCurrentStep: (step: number) => void
     ingredients: string[]
     handleAddIngredients: (newIngredients: string) => void
     handleRemoveIngredients: (ingredientToRemove: string) => void
     groupedCartItems: CartProps[] | null
     totalPrice: number | 0
     RemoveOrderId: (order_item_id: number) => void
+    totalCartQuantity: number | 0
+    totalCartPrice: number | 0
 }
 
 export const OrderContext = createContext<OrderContextProps>({
@@ -57,23 +57,23 @@ export const OrderContext = createContext<OrderContextProps>({
     addDisheOnCart: () => {},
     RemoveDisheOnCart: () => {},
     cart: null,
-    currentStep: 1,
-    HandleWithCurrentStep: () => {},
     ingredients: [],
     handleAddIngredients: () => {},
     handleRemoveIngredients: () => {},
     groupedCartItems: null,
     totalPrice: 0,
-    RemoveOrderId: () => {}
+    RemoveOrderId: () => {},
+    totalCartQuantity: 0,
+    totalCartPrice: 0
 })
 
 function OrdersProvider({ children }: any) {
     const [orders, setOrders] = useState<OrderProps[] | null>(null)
     const [orderItems, setOrderItems] = useState<OrderItemProps[] | null>(null)
-    const [cart, setCart] = useState<CartProps[] | null>(null)
-    const [currentStep, setCurrentStep] = useState<number>(1)
+    const [cart, setCart] = useState<CartProps[] >([])
     const [ingredients, setIngredients] = useState<string[]> ([])
-    const router = useRouter()
+    const [totalCartQuantity, setTotalCartQuantity] = useState<number>(0)
+    const [totalCartPrice, setTotalCartPrice] = useState<number>(0)
 
     const handleAddIngredients = useCallback((newIngredients: string) => {
         setIngredients(prevState => [...prevState, newIngredients])
@@ -122,11 +122,11 @@ function OrdersProvider({ children }: any) {
                 user_id,
                 meal_id: meal_id,
                 quantity
-            })
-            // console.log('print response', response.data)
-            setCart(prevCart => prevCart ? [...prevCart, response.data] : [response.data])
+            });
+    
+            setCart(response.data);
         } catch (error) {
-            console.error('Error fething cart items: ', error)
+            console.error('Error adding dish to cart: ', error);
         }
     }, [])
 
@@ -166,20 +166,11 @@ function OrdersProvider({ children }: any) {
     }, [fetchCart])
 
 
-    const HandleWithCurrentStep = useCallback((step: number) => {
-        if (step === 0) {
-            setCurrentStep(1)
-            router.push('/checkout')
-        } else if (step === 1) {
-            setCurrentStep(2)
-            router.push('/checkout/delivery')
-        } else if (step === 2) {
-            setCurrentStep(3)
-            router.push('')
-        }
-    }, [router])
-
     const getFilteredCartItems = (cart: CartProps[]): CartProps[] => {
+        if (!Array.isArray(cart)) {
+            console.error('Test cart to be an array: ', cart)
+            return []
+        }
         const filteredCartItems = cart.reduce((acc, item) => {
             const existingItem = acc.find((i) => i.meal_id === item.meal_id)
             if (existingItem) {
@@ -193,9 +184,24 @@ function OrdersProvider({ children }: any) {
 
         return filteredCartItems
     }
-    const groupedCartItems = cart ? getFilteredCartItems(cart) : []
-    const totalPrice = Number(groupedCartItems.reduce((sum, item) => sum + item.price, 0).toFixed(2))
 
+    useEffect(() => {
+        const calculateTotals = () => {
+            const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0)
+            const totalPrc = cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
+
+            setTotalCartQuantity(totalQty)
+            setTotalCartPrice(totalPrc)
+        }
+
+        if (Array.isArray(cart)) {
+            calculateTotals()
+        } else {
+            console.error('Cart is not an array: ', cart)
+        }
+    }, [cart])
+    const groupedCartItems = getFilteredCartItems(cart)
+    const totalPrice = Number(groupedCartItems.reduce((sum, item) => sum + item.price, 0).toFixed(2))
     
 
     useEffect(() => {
@@ -217,14 +223,14 @@ function OrdersProvider({ children }: any) {
                 addDisheOnCart,
                 RemoveDisheOnCart,
                 cart,
-                currentStep,
-                HandleWithCurrentStep,
                 ingredients,
                 handleAddIngredients,
                 handleRemoveIngredients,
                 groupedCartItems,
                 totalPrice,
-                RemoveOrderId
+                RemoveOrderId,
+                totalCartQuantity,
+                totalCartPrice
             }}
         >
             {children}
