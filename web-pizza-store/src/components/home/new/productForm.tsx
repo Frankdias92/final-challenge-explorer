@@ -70,15 +70,17 @@ export default function ProductForm() {
     }, [router, user])
 
     return (
-        <form className="w-full h-full justify-items-stretch
-            md:grid grid-cols-5 grid-rows-2 gap-x-8">
+        <form className="w-full h-full justify-stretch justify-items-stretch
+            md:grid grid-cols-5 grid-rows-2 gap-x-8 items-end">
             
-            <HandleImageUpload
-                productImg={productImg}
-                setProductImg={setProductImg}
-                setImgName={setImgName}
-                setImg={setImg}
-            />
+            <div className="flex flex-col flex-1 md:col-span-3 lg:col-span-2 self-end">
+                <HandleImageUpload
+                    productImg={productImg}
+                    setProductImg={setProductImg}
+                    setImgName={setImgName}
+                    setImg={setImg}
+                />
+            </div>
 
             <div className="flex flex-col flex-1 md:col-span-3 lg:col-span-2">
                 <LabelInput
@@ -126,6 +128,7 @@ export default function ProductForm() {
                     text="Salvar"
                     onclick={handleNewProduct}
                     isDisable={isDisabled}
+                    size={48}
                 />
             </div>
         </form>
