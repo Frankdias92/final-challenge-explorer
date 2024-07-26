@@ -1,6 +1,7 @@
 import { api } from "@/services/api";
 import { useRouter } from "next/navigation";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { setTimeout } from "timers/promises";
 
 interface OrderProps {
     order_id: number;
@@ -47,6 +48,7 @@ interface OrderContextProps {
     RemoveOrderId: (order_item_id: number) => void
     totalCartQuantity: number | 0
     totalCartPrice: number | 0
+    showGroupedCartItems: CartProps[]
 }
 
 export const OrderContext = createContext<OrderContextProps>({
@@ -64,7 +66,8 @@ export const OrderContext = createContext<OrderContextProps>({
     totalPrice: 0,
     RemoveOrderId: () => {},
     totalCartQuantity: 0,
-    totalCartPrice: 0
+    totalCartPrice: 0,
+    showGroupedCartItems: []
 })
 
 function OrdersProvider({ children }: any) {
@@ -74,7 +77,9 @@ function OrdersProvider({ children }: any) {
     const [ingredients, setIngredients] = useState<string[]> ([])
     const [totalCartQuantity, setTotalCartQuantity] = useState<number>(0)
     const [totalCartPrice, setTotalCartPrice] = useState<number>(0)
+    const [showGroupedCartItems, setShowGroupedCartItems] = useState<CartProps[] >([])
 
+    // console.log('print total', totalCartQuantity)
     const handleAddIngredients = useCallback((newIngredients: string) => {
         setIngredients(prevState => [...prevState, newIngredients])
     }, [])
@@ -116,19 +121,23 @@ function OrdersProvider({ children }: any) {
         }
     }, [])
 
-    const addDisheOnCart = useCallback(async ({user_id, meal_id, quantity}: addDisheOnCartProps) => {
+    const addDisheOnCart = useCallback(async ({ user_id, meal_id, quantity }: addDisheOnCartProps) => {
         try {
             const response = await api.post(`/cart`, {
                 user_id,
                 meal_id: meal_id,
                 quantity
             });
-    
-            setCart(response.data);
+            setCart(prevCart => {
+                const newCart = [...prevCart, response.data]
+                return newCart
+            } )
+            fetchCart(user_id)
         } catch (error) {
-            console.error('Error adding dish to cart: ', error);
+            // console.error('Erro ao adicionar prato ao carrinho: ', error);
         }
-    }, [])
+    }, [fetchCart]);
+    
 
     const RemoveDisheOnCart = useCallback(async (cart_item_id: number) => {
         try {
@@ -168,41 +177,49 @@ function OrdersProvider({ children }: any) {
 
     const getFilteredCartItems = (cart: CartProps[]): CartProps[] => {
         if (!Array.isArray(cart)) {
-            console.error('Test cart to be an array: ', cart)
-            return []
+            console.error('Cart is not an array: ', cart);
+            return [];
         }
+    
         const filteredCartItems = cart.reduce((acc, item) => {
-            const existingItem = acc.find((i) => i.meal_id === item.meal_id)
+            const existingItem = acc.find((i) => i.meal_id === item.meal_id);
             if (existingItem) {
-                existingItem.quantity += item.quantity
-                existingItem.price += item.price * item.quantity
+                existingItem.quantity += item.quantity;
+                existingItem.price += item.price * item.quantity;
             } else {
-                acc.push({ ...item, price: item.price * item.quantity })
+                acc.push({ ...item, price: item.price * item.quantity });
             }
             return acc;
-        }, [] as CartProps[])
-
-        return filteredCartItems
-    }
-
+        }, [] as CartProps[]);
+    
+        // console.log('Itens do carrinho agrupados:', filteredCartItems);
+        return filteredCartItems;
+    };
+    
     useEffect(() => {
-        const calculateTotals = () => {
-            const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0)
-            const totalPrc = cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
-
-            setTotalCartQuantity(totalQty)
-            setTotalCartPrice(totalPrc)
-        }
-
         if (Array.isArray(cart)) {
+            const calculateTotals = () => {
+                const totalPrc = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+                const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+                setTotalCartQuantity(totalQty);
+                setTotalCartPrice(totalPrc);
+                console.log('print test', cart)
+            }
             calculateTotals()
-        } else {
-            console.error('Cart is not an array: ', cart)
         }
-    }, [cart])
+    
+        if (Array.isArray(cart)) {
+            // calculateTotals();
+            setShowGroupedCartItems(getFilteredCartItems(cart));
+        } else {
+            // console.error('Cart is not an array: ', cart);
+        }
+    }, [cart]);
+    
+      
+    
     const groupedCartItems = getFilteredCartItems(cart)
     const totalPrice = Number(groupedCartItems.reduce((sum, item) => sum + item.price, 0).toFixed(2))
-    
 
     useEffect(() => {
         const user = localStorage.getItem('@estock:user')
@@ -211,6 +228,7 @@ function OrdersProvider({ children }: any) {
             fetchOrders()
             fetchCart(id)
         }
+        
     }, [fetchCart, fetchOrders])
 
     return (
@@ -230,7 +248,8 @@ function OrdersProvider({ children }: any) {
                 totalPrice,
                 RemoveOrderId,
                 totalCartQuantity,
-                totalCartPrice
+                totalCartPrice,
+                showGroupedCartItems
             }}
         >
             {children}

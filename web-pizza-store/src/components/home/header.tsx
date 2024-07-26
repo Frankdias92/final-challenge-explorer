@@ -1,11 +1,5 @@
-import dynamic from "next/dynamic";
+import HandleViewHeader from "../header/handleViewHeader";
 
-
-const HandleViewHeader = dynamic(() => 
-    import('../header/handleViewHeader'), {
-        loading: () => <p>Loading...</p>
-    }
-)
 export default function Header() {
     return (
         <header className={`flex  w-full h-28 items-center bg-dark-400 text-light-100`}>
