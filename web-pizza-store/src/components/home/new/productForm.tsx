@@ -11,14 +11,21 @@ import { HandleImageUpload } from "./handleImageUpload";
 import { HandleCategorySelect } from "./handleCategorySelect";
 import { MultiValue } from "react-select";
 import { useOrders } from "@/hooks/orderRequest";
+import { Section } from "@/components/forms/ingredientsSection";
+import { NewItem } from "@/components/forms/newItem";
 
 
 export default function ProductForm() {
     const { user } = UseAuth()
-    const {ingredients} = useOrders()
+    // const {ingredients} = useOrders()
 
     const [name, setName] = useState<string>('')
-    const [price, setPrice] = useState<number>(0)
+    const [price, setPrice] = useState<number | string>('R$ 00,00')
+
+    const [ingredients, setIngredients] = useState<string[]>([])
+    const [newIngredientes, setNewIngredientes] = useState<string>('')
+
+    
     const [description, setDescription] = useState<string>('')
     const [isDisabled, setIsDisabled] = useState(true)
 
@@ -28,6 +35,15 @@ export default function ProductForm() {
     const [category, setCategory] = useState<OptionType[]>([])
 
     const router = useRouter()
+
+
+    function handleAddIngredients() {
+        setIngredients(prevState => Array.isArray(ingredients) ? [...prevState, newIngredientes] : [newIngredientes])
+        setNewIngredientes('')
+    }
+    function handleRemoveIngredients(deleted: string) {
+        setIngredients(prevState => prevState.filter(item => item !== deleted))
+    }
 
     const handleNewProduct = useCallback(async () => {
         try {
@@ -97,6 +113,32 @@ export default function ProductForm() {
                 category={category}
                 handleNewCategory={handleNewCategory}
             />
+
+            {/* INGREDIENTS */}
+            <div className="flex h-full flex-col col-start-1 col-span-5 justify-end">
+                    <Section title="Ingredientes">
+                        <div className="flex flex-wrap justify-start gap-4">
+                            {Array.isArray(ingredients) && ingredients.map((item, index) => {
+                                return (
+                                    <NewItem 
+                                        key={String(index)}
+                                        value={item}
+                                        onClick={() => handleRemoveIngredients(item)}
+                                    />
+                                )
+                            })}
+                            
+                            <NewItem 
+                                isNew
+                                value={newIngredientes}
+                                placeholder='Adicionar'
+                                onChange={(e) => setNewIngredientes(e.target.value)}
+                                onClick={handleAddIngredients}
+                            />
+                        </div>
+                    </Section>
+                </div>       
+                {/* INGREDIENTS */}    
 
             <div className="flex w-full flex-col col-start-6 col-span-2">
                 <LabelInput

@@ -1,7 +1,5 @@
 import { api } from "@/services/api";
-import { useRouter } from "next/navigation";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
-import { setTimeout } from "timers/promises";
 
 interface OrderProps {
     order_id: number;
@@ -41,8 +39,9 @@ interface OrderContextProps {
     RemoveDisheOnCart: ( cart_item_id: number ) => void
     cart: CartProps[] | null
     ingredients: string[]
-    handleAddIngredients: (newIngredients: string) => void
-    handleRemoveIngredients: (ingredientToRemove: string) => void
+    // setIngredients: string[] | any
+    // handleAddIngredients: (newIngredients: string) => void
+    // handleRemoveIngredients: (ingredientToRemove: string) => void
     groupedCartItems: CartProps[] | null
     totalPrice: number | 0
     RemoveOrderId: (order_item_id: number) => void
@@ -60,8 +59,9 @@ export const OrderContext = createContext<OrderContextProps>({
     RemoveDisheOnCart: () => {},
     cart: null,
     ingredients: [],
-    handleAddIngredients: () => {},
-    handleRemoveIngredients: () => {},
+    // setIngredients: [],
+    // handleAddIngredients: () => {},
+    // handleRemoveIngredients: () => {},
     groupedCartItems: null,
     totalPrice: 0,
     RemoveOrderId: () => {},
@@ -72,44 +72,22 @@ export const OrderContext = createContext<OrderContextProps>({
 
 function OrdersProvider({ children }: any) {
     const [orders, setOrders] = useState<OrderProps[] | null>(null)
-    const [orderItems, setOrderItems] = useState<OrderItemProps[] | null>(null)
+    const [orderItems, setOrderItems] = useState<OrderItemProps[]>([])
     const [cart, setCart] = useState<CartProps[] >([])
     const [ingredients, setIngredients] = useState<string[]> ([])
+    const [newIngredientes, setNewIngredientes] = useState<string>('')
     const [totalCartQuantity, setTotalCartQuantity] = useState<number>(0)
     const [totalCartPrice, setTotalCartPrice] = useState<number>(0)
     const [showGroupedCartItems, setShowGroupedCartItems] = useState<CartProps[] >([])
 
-    // console.log('print total', totalCartQuantity)
-    const handleAddIngredients = useCallback((newIngredients: string) => {
-        setIngredients(prevState => [...prevState, newIngredients])
-    }, [])
-    const handleRemoveIngredients = useCallback((ingredientToRemove: string) => {
-        setIngredients(prevState => prevState.filter(item => item !== ingredientToRemove))
-    }, [])
+    // const handleAddIngredients = useCallback((ingredients: string) => {
+    //     setIngredients(prevState => Array.isArray(ingredients) ? [...prevState, newIngredientes]: [newIngredientes])
+    // }, [newIngredientes])
+    // const handleRemoveIngredients = useCallback((deleted: string) => {
+    //     setIngredients(prevState => prevState.filter(item => item !== deleted))
+    // }, [])
 
-    const fetchOrders = useCallback(async () => {
-        try {
-            const user = localStorage.getItem("@estock:user")
-            if (user) {
-                const response = await api.get('/orders')
-                setOrders(response.data)
-            }
-        } catch (error) {
-            console.error("Error fetching orders: ", error)
-        }
-    }, [])
-
-    const fetchOrderItems = useCallback(async (order_id: number) => {
-        try {
-            if (order_id) {
-                const response = await api.get(`/order_request/${order_id}`)
-                setOrderItems(response.data)
-            }
-        } catch (error) {
-            console.error('Error fetching order items: ', error)
-        }
-    }, [])
-
+    // CART
     const fetchCart = useCallback(async (data_id: number) => {
         try {
             if (data_id) {
@@ -120,7 +98,6 @@ function OrdersProvider({ children }: any) {
             console.error("Error fetching cart: ", error)
         }
     }, [])
-
     const addDisheOnCart = useCallback(async ({ user_id, meal_id, quantity }: addDisheOnCartProps) => {
         try {
             const response = await api.post(`/cart`, {
@@ -137,8 +114,6 @@ function OrdersProvider({ children }: any) {
             // console.error('Erro ao adicionar prato ao carrinho: ', error);
         }
     }, [fetchCart]);
-    
-
     const RemoveDisheOnCart = useCallback(async (cart_item_id: number) => {
         try {
             if (cart_item_id) {
@@ -156,26 +131,7 @@ function OrdersProvider({ children }: any) {
             console.error('Error to removing the item: ', error)
         }
     }, [fetchCart])
-
-    const RemoveOrderId = useCallback(async (order_item_id: number) => {
-        try {
-            if (order_item_id) {
-                await api.delete(`/order_items/${order_item_id}`)
-            }
-
-            const user = localStorage.getItem('@estock:user')
-
-            if (user) {
-                const { id } = JSON.parse(user)
-                fetchCart(id)
-            }
-        } catch (error) {
-            console.error('Error ao deletar ordem')
-        }
-    }, [fetchCart])
-
-
-    const getFilteredCartItems = (cart: CartProps[]): CartProps[] => {
+       const getFilteredCartItems = (cart: CartProps[]): CartProps[] => {
         if (!Array.isArray(cart)) {
             console.error('Cart is not an array: ', cart);
             return [];
@@ -194,7 +150,53 @@ function OrdersProvider({ children }: any) {
     
         // console.log('Itens do carrinho agrupados:', filteredCartItems);
         return filteredCartItems;
-    };
+    }; 
+
+    // Orders
+    const fetchOrders = useCallback(async () => {
+        try {
+            const user = localStorage.getItem("@estock:user")
+            if (user) {
+                const response = await api.get('/orders')
+                setOrders(response.data)
+            }
+        } catch (error) {
+            console.error("Error fetching orders: ", error)
+        }
+    }, [])
+
+    // order_request
+    const fetchOrderItems = useCallback(async (order_id: number) => {
+        try {
+            if (order_id) {
+                const response = await api.get(`/order_request/${order_id}`)
+                setOrderItems(response.data)
+            }
+        } catch (error) {
+            console.error('Error fetching order items: ', error)
+        }
+    }, [])
+
+    // order_items
+    const RemoveOrderId = useCallback(async (order_item_id: number) => {
+        try {
+            if (order_item_id) {
+                await api.delete(`/order_items/${order_item_id}`)
+            }
+
+            const user = localStorage.getItem('@estock:user')
+
+            if (user) {
+                const { id } = JSON.parse(user)
+                fetchCart(id)
+            }
+        } catch (error) {
+            console.error('Error ao deletar ordem')
+        }
+    }, [fetchCart])
+
+
+
     
     useEffect(() => {
         if (Array.isArray(cart)) {
@@ -242,8 +244,9 @@ function OrdersProvider({ children }: any) {
                 RemoveDisheOnCart,
                 cart,
                 ingredients,
-                handleAddIngredients,
-                handleRemoveIngredients,
+                // setIngredients,
+                // handleAddIngredients,
+                // handleRemoveIngredients,
                 groupedCartItems,
                 totalPrice,
                 RemoveOrderId,

@@ -6,6 +6,7 @@ import { LabelInput  } from "@/components/forms/inputLabel"
 import { InputSelect } from "@/components/forms/inputSelect"
 import { NewItem } from "@/components/forms/newItem"
 import { UseAuth } from "@/hooks/auth"
+import { useOrders } from "@/hooks/orderRequest"
 import { OptionType, categorys } from "@/lib/categorys"
 import { api } from "@/services/api"
 import { Image, spacer } from "@nextui-org/react"
@@ -51,6 +52,7 @@ export default function UpdateDisher() {
     const fileInputRef = useRef<HTMLInputElement>(null)    
     const params = useParams()
     const router = useRouter()
+    // const {handleAddIngredients, handleRemoveIngredients, ingredients, setIngredients} = useOrders()
 
     
 
@@ -152,7 +154,7 @@ export default function UpdateDisher() {
         }
         getDisheId()
         
-    }, [params])
+    }, [params, setIngredients])
 
     useEffect(() => {
         if (!name || !category || !price || !description || !ingredients) {
