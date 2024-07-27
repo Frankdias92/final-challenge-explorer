@@ -10,7 +10,7 @@ interface CategorySelectProps {
 
 export function HandleCategorySelect({ category, handleNewCategory }: CategorySelectProps) {
     return (
-        <div className="flex h-full flex-col col-span-2 md:col-span-5 lg:col-span-2">
+        <div className="flex h-full flex-col col-span-3">
             <label className="flex gap-2 w-full h-full text-xs text-light-400 font-roboto pt-8">
                 Categoria
             </label>

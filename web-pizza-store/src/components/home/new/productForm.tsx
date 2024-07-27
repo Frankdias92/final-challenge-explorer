@@ -71,9 +71,9 @@ export default function ProductForm() {
 
     return (
         <form className="w-full h-full justify-stretch justify-items-stretch
-            md:grid grid-cols-5 grid-rows-2 gap-x-8 items-end">
+            md:grid grid-cols-7 gap-x-8 items-end">
             
-            <div className="flex flex-col flex-1 md:col-span-3 lg:col-span-2 self-end">
+            <div className="col-start-1 col-span-2">
                 <HandleImageUpload
                     productImg={productImg}
                     setProductImg={setProductImg}
@@ -82,7 +82,7 @@ export default function ProductForm() {
                 />
             </div>
 
-            <div className="flex flex-col flex-1 md:col-span-3 lg:col-span-2">
+            <div className="flex flex-col flex-1 col-start-3 col-span-2">
                 <LabelInput
                     label="Nome"
                     value={name}
@@ -98,7 +98,7 @@ export default function ProductForm() {
                 handleNewCategory={handleNewCategory}
             />
 
-            <div className="flex h-full flex-col">
+            <div className="flex w-full flex-col col-start-6 col-span-2">
                 <LabelInput
                     label="Preço"
                     value={price}
@@ -109,7 +109,7 @@ export default function ProductForm() {
                 />
             </div>
 
-            <div className="flex h-fit flex-col col-span-5">
+            <div className="flex h-fit flex-col col-start-1 col-span-7">
                 <label className="flex gap-2 w-full h-full text-xs text-light-400 font-roboto pt-8">
                     Descrição
                 </label>
@@ -123,7 +123,7 @@ export default function ProductForm() {
                 </textarea>
             </div>
 
-            <div className="flex flex-col col-span-5 mt-8">
+            <div className="flex flex-col col-start-1 col-span-7 mt-8">
                 <ButtonText
                     text="Salvar"
                     onclick={handleNewProduct}
