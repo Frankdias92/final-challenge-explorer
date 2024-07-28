@@ -115,9 +115,9 @@ export default function ProductForm() {
             />
 
             {/* INGREDIENTS */}
-            <div className="flex h-full flex-col col-start-1 col-span-5 justify-end">
+            <div className="flex w-full h-full flex-col col-start-1 col-span-5 justify-end">
                     <Section title="Ingredientes">
-                        <div className="flex flex-wrap justify-start gap-4">
+                        <div className="flex flex-wrap w-full justify-start gap-4">
                             {Array.isArray(ingredients) && ingredients.map((item, index) => {
                                 return (
                                     <NewItem 

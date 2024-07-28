@@ -19,14 +19,14 @@ export function NewItem({ isNew, value, onClick, onChange, ...rest}: NewItemProp
     }, [value])
 
     return (
-            <div className='flex flex-wrap relative m-0'
+            <div className='flex w-fit h-fit flex-wrap relative m-0'
             >
                 <input
                     ref={inputRef}
                     type="text" 
                     value={value}
                     readOnly={!isNew}
-                    className={`${isNew ? 'focus:ring-2 focus:bg-cake-400 bg-transparent border-2 tex border-light-500 border-dashed text-light-10 w-32' 
+                    className={`${isNew ? 'focus:ring-2 focus:bg-cake-400 bg-transparent border-2 tex border-light-500 border-dashed text-light-10 max-w-32 focus-within:min-w-48' 
                                             : 'text-center ring-1 ring-store-secondary/35 bg-light-600 w-16'} 
                                             invalid:text-red-600 rounded-lg outline-none border-0 placeholder:opacity-30 text-light-100  
                                             flex  py-2 pl-3 pr-8`}
