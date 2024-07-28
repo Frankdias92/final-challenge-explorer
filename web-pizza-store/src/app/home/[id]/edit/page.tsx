@@ -5,6 +5,7 @@ import { Section } from "@/components/forms/ingredientsSection"
 import { LabelInput  } from "@/components/forms/inputLabel"
 import { InputSelect } from "@/components/forms/inputSelect"
 import { NewItem } from "@/components/forms/newItem"
+import { HandleImageUpload } from "@/components/home/new/handleImageUpload"
 import { UseAuth } from "@/hooks/auth"
 import { useOrders } from "@/hooks/orderRequest"
 import { OptionType, categorys } from "@/lib/categorys"
@@ -186,11 +187,26 @@ export default function UpdateDisher() {
             </h2>
 
 
-            <form className="w-full h-full justify-items-stretch
-            md:grid grid-cols-5 grid-rows-2  gap-x-8 ">
+            <form className="w-full h-full justify-stretch justify-items-stretch
+            md:grid grid-cols-7 gap-x-8 items-end">
                 
                 {/* INPUT FILE IMG */}
-                <div className="flex flex-col h-full justify-end sm:col-span-2 lg:col-span-1">
+                <div className="col-start-1 col-span-2 relative">
+                <HandleImageUpload 
+                    productImg={productImg}
+                    setProductImg={setProductImg}
+                    setImgName={setImgName}
+                    setImg={setImg}
+                    />
+                    <div  className={`${isInputFocused ? 'ring-2 ring-light-700 shadow-outline' : 'ring-0'} duration-75 absolute flex w-full left-0 h-11 px-8 top-0 rounded-lg text-light-400 z-10`}>
+                            <span className="flex h-11 md:h-14 items-center">
+                                {productImg ? ` ./ ${imgName || img.split('-')[1]}` : <span className="flex gap-2 items-center"><PiUploadSimple className=" text-3xl h-full hover:text-light-500"/> Selecione imagem</span>}
+                            </span>
+                        </div>
+                    {/* {productImg ? ` ./ ${imgName || img.split('-')[1]}` : <span className="flex gap-2 items-center"><PiUploadSimple className=" text-3xl h-full hover:text-light-500"/> Selecione imagem</span>} */}
+                </div>
+                
+                {/* <div className="flex flex-col h-full justify-end sm:col-span-2 lg:col-span-1">
                     {img &&
                         <div className="relative m-auto w-fit md:hidden">
                             <span className="flex items-center w-[88px] h-[88px] rounded-full overflow-hidden">
@@ -233,11 +249,11 @@ export default function UpdateDisher() {
                             </span>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 {/* END OF FILE IMG */}
                 
                 {/* name */}
-                <div className="flex flex-col flex-1 md:col-span-3 lg:col-span-2">
+                <div className="flex flex-col flex-1 col-start-3 col-span-2">
                     <LabelInput 
                         label="Nome" 
                         value={name}
@@ -249,7 +265,7 @@ export default function UpdateDisher() {
                 </div>
 
                 {/* category */}
-                <div className="flex h-full flex-col col-span-2 md:col-span-5 lg:col-span-2">
+                <div className="flex h-full flex-col col-span-3">
                     <label className="flex gap-2 w-full h-full text-xs text-light-400 font-roboto pt-8">
                         Categoria
                     </label>    
@@ -261,7 +277,7 @@ export default function UpdateDisher() {
                 </div>
 
                 {/* INGREDIENTS */}
-                <div className="flex h-full flex-col col-span-4 justify-end">
+                <div className="flex w-full h-full flex-col col-start-1 col-span-5 justify-end">
                     <Section title="Ingredientes">
                         <div className="flex flex-wrap justify-start gap-4">
                             {Array.isArray(ingredients) && ingredients.map((item, index) => {
@@ -287,7 +303,7 @@ export default function UpdateDisher() {
                 {/* INGREDIENTS */}          
                 
                 {/*  price */}
-                <div className="flex h-full flex-col">
+                <div className="flex w-full flex-col col-start-6 col-span-2">
                     <LabelInput 
                         label="Preço" 
                         value={price}
@@ -299,7 +315,7 @@ export default function UpdateDisher() {
                 </div>
                 
                 {/*  description */}
-                <div className="flex h-fit flex-col col-span-5">
+                <div className="flex h-fit flex-col col-start-1 col-span-7">
                     <label className="flex flex-col w-full h-full mt-8 text-xs text-light-400 font-roboto">
                         Descrição
                     </label>

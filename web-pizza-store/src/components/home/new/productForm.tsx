@@ -17,7 +17,6 @@ import { NewItem } from "@/components/forms/newItem";
 
 export default function ProductForm() {
     const { user } = UseAuth()
-    // const {ingredients} = useOrders()
 
     const [name, setName] = useState<string>('')
     const [price, setPrice] = useState<number | string>('R$ 00,00')
@@ -25,7 +24,6 @@ export default function ProductForm() {
     const [ingredients, setIngredients] = useState<string[]>([])
     const [newIngredientes, setNewIngredientes] = useState<string>('')
 
-    
     const [description, setDescription] = useState<string>('')
     const [isDisabled, setIsDisabled] = useState(true)
 
