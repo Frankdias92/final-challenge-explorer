@@ -199,7 +199,7 @@ export default function UpdateDisher() {
                         setImg={setImg}
                         >
                         
-                        {productImg && <span className="flex gap-2 items-center h-12">` ./ ${imgName || img.split('-')[1]}`</span>}
+                        {productImg && <span className="flex gap-2 items-center h-12">./ ${imgName || img.split('-')[1]}</span>}
                     </HandleImageUpload>
                 </div>
                 {/* END OF FILE IMG */}

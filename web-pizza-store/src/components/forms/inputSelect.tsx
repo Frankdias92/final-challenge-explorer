@@ -32,8 +32,9 @@ export function InputSelect({category, handleNewCategory, size}: InputSelectProp
       ...provided,
       backgroundColor: '#0D1D25', // Cor de fundo do input
       color: '#FFFAF1', // Cor do texto
-      height: minHeith,
+      height: 14,
       minHeight: sizeSet,
+      overflowY: 'auto',
       borderRadius: 8,
       marginTop: 12,
       borderColor: state.isFocused ? '#0D161B' : '#192227', // Cor da borda
@@ -87,17 +88,17 @@ export function InputSelect({category, handleNewCategory, size}: InputSelectProp
 };
   
 
-    return (
-      <Select
-        value={category}
-        isMulti
-        name="category"
-        options={categorys}
-        styles={customStyles}
-        classNamePrefix="select"
-        onChange={handleNewCategory}
-        components={animatedComponents}
-        placeholder='Selecione uma ou mais categorias'
-      />
-    )
+  return (
+    <Select
+      value={category}
+      isMulti
+      name="category"
+      options={categorys}
+      styles={customStyles}
+      classNamePrefix="select"
+      onChange={handleNewCategory}
+      components={animatedComponents}
+      placeholder='Selecione uma ou mais categorias'
+    />
+  )
 }

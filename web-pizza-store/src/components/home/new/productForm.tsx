@@ -34,7 +34,6 @@ export default function ProductForm() {
 
     const router = useRouter()
 
-
     function handleAddIngredients() {
         setIngredients(prevState => Array.isArray(ingredients) ? [...prevState, newIngredientes] : [newIngredientes])
         setNewIngredientes('')
@@ -56,8 +55,12 @@ export default function ProductForm() {
                 formData.append('productImg', productImg as Blob)
             }
             
-            category.forEach(item => formData.append('category', item.value))
-            
+            if (category.length > 0) {
+                formData.append('category', JSON.stringify(category.map(item => item.value)))
+            } else {
+                formData.append('category', '[]')
+            }
+                        
             await api.post('/meals', formData)
             alert('Produto adicionado com sucesso')
         } catch (error: any) {
