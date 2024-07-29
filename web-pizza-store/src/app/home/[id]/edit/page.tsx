@@ -192,64 +192,16 @@ export default function UpdateDisher() {
                 
                 {/* INPUT FILE IMG */}
                 <div className="col-start-1 col-span-2 relative">
-                <HandleImageUpload 
-                    productImg={productImg}
-                    setProductImg={setProductImg}
-                    setImgName={setImgName}
-                    setImg={setImg}
-                    />
-                    <div  className={`${isInputFocused ? 'ring-2 ring-light-700 shadow-outline' : 'ring-0'} duration-75 absolute flex w-full left-0 h-11 px-8 top-0 rounded-lg text-light-400 z-10`}>
-                            <span className="flex h-11 md:h-14 items-center">
-                                {productImg ? ` ./ ${imgName || img.split('-')[1]}` : <span className="flex gap-2 items-center"><PiUploadSimple className=" text-3xl h-full hover:text-light-500"/> Selecione imagem</span>}
-                            </span>
-                        </div>
-                    {/* {productImg ? ` ./ ${imgName || img.split('-')[1]}` : <span className="flex gap-2 items-center"><PiUploadSimple className=" text-3xl h-full hover:text-light-500"/> Selecione imagem</span>} */}
+                    <HandleImageUpload 
+                        productImg={productImg}
+                        setProductImg={setProductImg}
+                        setImgName={setImgName}
+                        setImg={setImg}
+                        >
+                        
+                        {productImg && <span className="flex gap-2 items-center h-12">` ./ ${imgName || img.split('-')[1]}`</span>}
+                    </HandleImageUpload>
                 </div>
-                
-                {/* <div className="flex flex-col h-full justify-end sm:col-span-2 lg:col-span-1">
-                    {img &&
-                        <div className="relative m-auto w-fit md:hidden">
-                            <span className="flex items-center w-[88px] h-[88px] rounded-full overflow-hidden">
-                                <Image
-                                    as={NextImage}
-                                    width={488}
-                                    height={488}
-                                    src={`${img}`}
-                                    alt="NextUI hero Image"
-                                    className="flex"
-                                />
-                            </span>
-                                <button type="button" 
-                                    onClick={() => fileInputRef.current?.click()}
-                                    className="flex gap-2 bg-tint-tomato-200 p-1 rounded-full text-light-300 absolute right-0 bottom-0 z-10"
-                                >
-                                    <LuImagePlus />
-                                </button>
-                        </div>
-                    }
-                    <div  className="flex  shadow bg-dark-200 appearance-none border-none rounded-lg w-full h-12 md:h-14 mt-8 md:mt-0 leading-tight
-                        focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 duration-75 relative">
-                            <label className="flex gap-2 w-full h-full text-xs text-light-400 font-roboto absolute bottom-8 group/checked">
-                                Imagem do prato 
-                            </label>       
-                            <input
-                                ref={fileInputRef}
-                                name="productImg"
-                                type="file"
-                                accept="image/png, image/jpeg"
-                                onChange={handleUploadImg}
-                                onFocus={() => setIsInputFocused(true)}
-                                onBlur={() => setIsInputFocused(false)}
-                                className="flex bg-transparent w-full rounded-lg appearance-none border-none opacity-100 placeholder-transparent file:opacity-0 only-of-type:opacity-0
-                                focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 duration-75 relative z-20" 
-                            />
-                        <div  className={`${isInputFocused ? 'ring-2 ring-light-700 shadow-outline' : 'ring-0'} duration-75 absolute flex w-full left-0 h-11 px-8 top-0 rounded-lg text-light-400 z-10`}>
-                            <span className="flex h-11 md:h-14 items-center">
-                                {productImg ? ` ./ ${imgName || img.split('-')[1]}` : <span className="flex gap-2 items-center"><PiUploadSimple className=" text-3xl h-full hover:text-light-500"/> Selecione imagem</span>}
-                            </span>
-                        </div>
-                    </div>
-                </div> */}
                 {/* END OF FILE IMG */}
                 
                 {/* name */}

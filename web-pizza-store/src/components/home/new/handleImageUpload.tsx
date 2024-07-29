@@ -39,18 +39,16 @@ export function HandleImageUpload ({ productImg, setProductImg, setImg, children
                 onFocus={() => setIsInputFocused(true)}
                 onBlur={() => setIsInputFocused(false)}
                 className="flex bg-transparent rounded-lg appearance-none border-none opacity-0 w-fit
-                focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 duration-75 relative z-20"
+                focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 duration-75 relative z-20 h-14"
             />
-            {children ? 
-                ( children ) :
             <div  className={`${isInputFocused ? 'ring-2 ring-light-700 shadow-outline' : 'ring-0'} duration-75 absolute flex w-full left-0 h-full px-8 top-0 rounded-lg text-light-400 z-10  group-hover:text-light-500`}>
-                <span className="flex w-fit h-11 md:h-14 items-center bg-red-800">
+                <span className="flex w-fit h-full items-center">
                     {
-                        productImg ?` ${imgName}` : <span className="flex gap-2 items-center"><PiUploadSimple className="text-3xl h-full"/> Selecione imagem</span>
-                    }
+                        productImg ? ` ${imgName}` : <span className="flex gap-2 items-center"><PiUploadSimple className="text-3xl h-full"/> Selecione imagem</span>                    
+                    } 
+                    {children}
                 </span>
             </div>
-            }
         </div>
     )
 }
