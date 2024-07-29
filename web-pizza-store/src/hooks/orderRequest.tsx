@@ -1,4 +1,5 @@
 import { api } from "@/services/api";
+import { useRouter } from "next/navigation";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
 interface OrderProps {
@@ -39,15 +40,13 @@ interface OrderContextProps {
     RemoveDisheOnCart: ( cart_item_id: number ) => void
     cart: CartProps[] | null
     ingredients: string[]
-    // setIngredients: string[] | any
-    // handleAddIngredients: (newIngredients: string) => void
-    // handleRemoveIngredients: (ingredientToRemove: string) => void
     groupedCartItems: CartProps[] | null
     totalPrice: number | 0
     RemoveOrderId: (order_item_id: number) => void
     totalCartQuantity: number | 0
     totalCartPrice: number | 0
     showGroupedCartItems: CartProps[]
+    DeleteMealId: (meal_id: number) => void
 }
 
 export const OrderContext = createContext<OrderContextProps>({
@@ -59,15 +58,13 @@ export const OrderContext = createContext<OrderContextProps>({
     RemoveDisheOnCart: () => {},
     cart: null,
     ingredients: [],
-    // setIngredients: [],
-    // handleAddIngredients: () => {},
-    // handleRemoveIngredients: () => {},
     groupedCartItems: null,
     totalPrice: 0,
     RemoveOrderId: () => {},
     totalCartQuantity: 0,
     totalCartPrice: 0,
-    showGroupedCartItems: []
+    showGroupedCartItems: [],
+    DeleteMealId: () => {}
 })
 
 function OrdersProvider({ children }: any) {
@@ -75,17 +72,11 @@ function OrdersProvider({ children }: any) {
     const [orderItems, setOrderItems] = useState<OrderItemProps[]>([])
     const [cart, setCart] = useState<CartProps[] >([])
     const [ingredients, setIngredients] = useState<string[]> ([])
-    const [newIngredientes, setNewIngredientes] = useState<string>('')
     const [totalCartQuantity, setTotalCartQuantity] = useState<number>(0)
     const [totalCartPrice, setTotalCartPrice] = useState<number>(0)
     const [showGroupedCartItems, setShowGroupedCartItems] = useState<CartProps[] >([])
+    const router = useRouter()
 
-    // const handleAddIngredients = useCallback((ingredients: string) => {
-    //     setIngredients(prevState => Array.isArray(ingredients) ? [...prevState, newIngredientes]: [newIngredientes])
-    // }, [newIngredientes])
-    // const handleRemoveIngredients = useCallback((deleted: string) => {
-    //     setIngredients(prevState => prevState.filter(item => item !== deleted))
-    // }, [])
 
     // CART
     const fetchCart = useCallback(async (data_id: number) => {
@@ -195,7 +186,18 @@ function OrdersProvider({ children }: any) {
         }
     }, [fetchCart])
 
-
+    //meal_id
+    const DeleteMealId = useCallback(async (meal_id: number) => {
+        try {
+            const response = await api.delete(`/meals/${meal_id}`)
+            console.log(response.data)
+            if (response) {
+                router.push('/home')
+            }
+        } catch (error: any) {
+            console.error(error.response.data.message)
+        }
+    }, [router])
 
     
     useEffect(() => {
@@ -244,15 +246,13 @@ function OrdersProvider({ children }: any) {
                 RemoveDisheOnCart,
                 cart,
                 ingredients,
-                // setIngredients,
-                // handleAddIngredients,
-                // handleRemoveIngredients,
                 groupedCartItems,
                 totalPrice,
                 RemoveOrderId,
                 totalCartQuantity,
                 totalCartPrice,
-                showGroupedCartItems
+                showGroupedCartItems,
+                DeleteMealId
             }}
         >
             {children}

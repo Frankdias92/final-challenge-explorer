@@ -70,7 +70,7 @@ export function Features({ section }: FeaturesProps ) {
                             (data && 
                                 <div className="flex px-4 z-0" key={item.meal_id}>
                                     <ListProductsFeatures
-                                        id={item.meal_id}
+                                        meal_id={item.meal_id}
                                         title={item.name}
                                         description={item.description}
                                         ingredients={item.ingredients}

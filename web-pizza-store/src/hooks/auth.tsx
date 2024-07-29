@@ -80,16 +80,6 @@ function AuthProvider({ children }:any) {
     //    } 
     }, [router])
 
-    // useEffect(() => {
-    //     if (!data.user) {
-    //         router.push('/login')
-    //     } else {
-    //         router.push('/home')
-    //     }
-    // }, [router, data])
-
-    
-
     return (
         <AuthContext.Provider
             value={{

@@ -43,10 +43,9 @@ export function HandleImageUpload ({ productImg, setProductImg, setImg, children
             />
             <div  className={`${isInputFocused ? 'ring-2 ring-light-700 shadow-outline' : 'ring-0'} duration-75 absolute flex w-full left-0 h-full px-8 top-0 rounded-lg text-light-400 z-10  group-hover:text-light-500`}>
                 <span className="flex w-fit h-full items-center">
-                    {
-                        productImg ? ` ${imgName}` : <span className="flex gap-2 items-center"><PiUploadSimple className="text-3xl h-full"/> Selecione imagem</span>                    
-                    } 
-                    {children}
+                    {children ? children : 
+                    productImg ? ` ${imgName}` : <span className="flex gap-2 items-center"><PiUploadSimple className="text-3xl h-full"/> Selecione imagem</span>                    
+                    }
                 </span>
             </div>
         </div>

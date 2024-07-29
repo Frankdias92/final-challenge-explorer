@@ -18,7 +18,7 @@ import Link from "next/link";
 import { CiHeart } from "react-icons/ci";
 
 interface productList {
-    id: number
+    meal_id: number
     image: string 
     description: string
     title: string 
@@ -26,7 +26,7 @@ interface productList {
     ingredients: string[]
 }
 
-export function ListProductsFeatures({ id, image, description, title, price, ingredients }: productList) {
+export function ListProductsFeatures({ meal_id, image, description, title, price, ingredients }: productList) {
     const [itemValue, setItemValue] = useState<number>(1);
     // const [data, setData] = useState<DataProps>();
     const [isFavorite, setIsFavorite] = useState(false);
@@ -45,12 +45,12 @@ export function ListProductsFeatures({ id, image, description, title, price, ing
     return (
         <>
             {/* {productList.map((productList) => ( */}
-                <div key={id} className="flex flex-col w-[210px] h-[292px]  rounded-lg bg-dark-900 border-0 outline-none
+                <div key={meal_id} className="flex flex-col w-[210px] h-[292px]  rounded-lg bg-dark-900 border-0 outline-none
                 ring-1 ring-dark-800 relative md:w-[304px] md:h-[462px]"
                     >
                     <div className="absolute flex right-4 top-4 text-light-300 text-2xl">
                         {user && user.role === 'admin' ?  (
-                            <PiPencilSimple  onClick={() => router.push(`/home/${id}/edit`)}
+                            <PiPencilSimple  onClick={() => router.push(`/home/${meal_id}/edit`)}
                                 className="hover:text-light-400 hover:scale-105 duration-100 hover:cursor-pointer"
                             /> 
                         ) : (
@@ -77,7 +77,7 @@ export function ListProductsFeatures({ id, image, description, title, price, ing
                         </span>
 
                         <div className="flex flex-col items-center w-full gap-3">
-                            <Link className="flex items-center font-medium text-sm md:font-bold md:text-2xl" href={`/home/${id}`}>
+                            <Link className="flex items-center font-medium text-sm md:font-bold md:text-2xl" href={`/home/${meal_id}`}>
                                 {title} <TbArrowBadgeRightFilled className="flex flex-1 md:text-2xl"/>
                             </Link>
 
@@ -94,7 +94,7 @@ export function ListProductsFeatures({ id, image, description, title, price, ing
                                     <ButtonText text="incluir" 
                                         onclick={() => handleAddDicherOnCart({
                                             user_id: user.id,
-                                            meal_id: id,
+                                            meal_id: meal_id,
                                             quantity: itemValue
                                         })} 
                                         size={48}

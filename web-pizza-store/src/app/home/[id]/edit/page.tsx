@@ -14,7 +14,7 @@ import { Image, spacer } from "@nextui-org/react"
 import NextImage from "next/image";
 import { useParams } from "next/navigation"
 import { useRouter } from "next/navigation"
-import { FormEvent, useEffect, useRef, useState } from "react"
+import { FormEvent, useCallback, useEffect, useRef, useState } from "react"
 import { IoIosArrowBack } from "react-icons/io"
 import { LuImagePlus } from "react-icons/lu"
 import { PiUploadSimple } from "react-icons/pi"
@@ -34,6 +34,7 @@ interface DisheProps {
 
 export default function UpdateDisher() {
     const { user } = UseAuth()
+    const { DeleteMealId } = useOrders()
 
     const [data, setData] = useState<DisheProps>()
     const [name, setName] = useState<string>('')
@@ -96,16 +97,11 @@ export default function UpdateDisher() {
     function handleNewCategory(selectedOptions: MultiValue<OptionType>) {
         setCategory(selectedOptions as OptionType[])
     }
-    async function handleUploadImg(e: FormEvent<HTMLInputElement>) {
-        const file = e.currentTarget.files?.[0]
 
-        if (file) {
-            setProductImg(file)
-            setImgName(file.name)
-            const imgPreview = URL.createObjectURL(file)
-            setImg(imgPreview)
-        }
-    }
+    const handleDeletMeal = useCallback(() => {
+        DeleteMealId(Number(params.id))
+    }, [params, DeleteMealId])
+
     function cleanString(input: string) {
         return input.replace(/\\/g, '').replace(/"/g, '');
     }
@@ -198,8 +194,7 @@ export default function UpdateDisher() {
                         setImgName={setImgName}
                         setImg={setImg}
                         >
-                        
-                        {productImg && <span className="flex gap-2 items-center h-12">./ ${imgName || img.split('-')[1]}</span>}
+                        {productImg && <span className="flex gap-2 items-center h-12">./ {img.split('-')[1]}</span>}
                     </HandleImageUpload>
                 </div>
                 {/* END OF FILE IMG */}
@@ -282,8 +277,16 @@ export default function UpdateDisher() {
 
             </form>
 
-            <div className="flex m-auto w-full md:mr-0 md:w-fit">
+            <div className="flex m-auto w-full md:mr-0 md:w-fit gap-x-12 gap-y-4 flex-col sm:flex-row">
                 <ButtonText 
+                    text="Excluir prato" 
+                    size={48} 
+                    // isDisable={isDisabled}
+                    colorDark={true}
+                    onclick={handleDeletMeal}
+                />
+
+            <ButtonText 
                     text="Salvar alterações" 
                     size={48} 
                     isDisable={isDisabled}
