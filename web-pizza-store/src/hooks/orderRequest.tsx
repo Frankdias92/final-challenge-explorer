@@ -24,6 +24,7 @@ export interface ProductProps {
     name: string
     description: string
     ingredients: string[]
+    category: string
     price: number
     productImg: string
 }

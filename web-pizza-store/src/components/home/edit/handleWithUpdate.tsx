@@ -10,44 +10,31 @@ import { UseAuth } from "@/hooks/auth"
 import { useOrders } from "@/hooks/orderRequest"
 import { OptionType, categorys } from "@/lib/categorys"
 import { api } from "@/services/api"
-import { useParams } from "next/navigation"
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useParams, useRouter } from "next/navigation"
+import { useCallback, useEffect, useState } from "react"
 import { MultiValue } from "react-select"
 
 
-interface DisheProps {
-    meal_id: number
-    name: string
-    description: string
-    price: number
-    category:  string[]
-    ingredients: string[]
-    productImg: string
-    created_by: number
-}
-
 export function HandleWithUpdate () {
-    const [data, setData] = useState<DisheProps>()
+    const { user } = UseAuth()
+    const { DeleteMealId, meals } = useOrders()
+
+    const [imgName, setImgName] = useState<string>('')
     const [name, setName] = useState<string>('')
     const [category, setCategory] = useState<OptionType[]>([])
-
-    const [description, setDescription] = useState<string>('')
     const [ingredients, setIngredients] = useState<string[]>([])
     const [newIngredientes, setNewIngredientes] = useState<string>('')
     const [price, setPrice] = useState<number>(0)
+    const [description, setDescription] = useState<string>('')
+
     const [isDisabled, setIsDisabled] = useState(true)
 
     const [img, setImg] = useState<string>('')
-    const [imgName, setImgName] = useState<string>('')
     const [productImg, setProductImg] = useState<File | string >('')
-    const [isInputFocused, setIsInputFocused] = useState(false)
-    
-    const fileInputRef = useRef<HTMLInputElement>(null)    
-    const params = useParams()
-    const { DeleteMealId } = useOrders()
-    const { user } = UseAuth()
 
-    
+    const params = useParams()
+    const router = useRouter()
+
     function handleAddIngredients() {
         setIngredients(prevState => Array.isArray(ingredients) ? [...prevState, newIngredientes] : [newIngredientes])
         setNewIngredientes('')
@@ -55,6 +42,7 @@ export function HandleWithUpdate () {
     function handleRemoveIngredients(deleted: string) {
         setIngredients(prevState => prevState.filter(item => item !== deleted))
     }
+
     async function handleWithUpdateDisher() {
         try {
             const formData = new FormData()
@@ -63,22 +51,22 @@ export function HandleWithUpdate () {
             formData.append('ingredients', JSON.stringify(ingredients))
             formData.append('price', price.toString())
             formData.append('created_by', String(user?.id))
-            
-            
+                    
             // category.forEach(item => formData.append('category', item.value))
             if (category.length > 0) {
                 formData.append('category', JSON.stringify(category.map(item => item.value)))
             } else {
                 formData.append('category', '[]')
             }
-            
             // check if img already exist
             if (productImg) {
                 formData.append('productImg', productImg as Blob)
             }
             
             const response = await api.put(`/meals/${params.id}` , formData ) 
-            // console.log('response', response.data)
+            if (response) {
+                router.push('/home')
+            }
             return alert('Produto atualizado com sucesso')
         } catch (error: any) {
             alert(error.response?.data?.message || error.message)
@@ -98,60 +86,53 @@ export function HandleWithUpdate () {
 
     useEffect(() => {
         async function getDisheId() {
-            const response = await api.get(`/meals/${params.id}`)
-            const data = response.data[0]
-            
-            if (data) {
-                setName(data.name)
-                setDescription(data.description)
-                setPrice(data.price)
-                
-                try {
-                    let ingredients = JSON.parse(data.ingredients)
-                    setIngredients(ingredients)
-                } catch (error) {
-                    console.error(error)
+            try {
+                const product = meals?.find(meal => meal.meal_id === Number(params.id)) 
+                if (product) {
+                    setName(product.name)
+                    setDescription(product.description)
+                    setPrice(product.price)
+                    try {
+                        let ingredients = JSON.parse(product.ingredients as unknown as string)
+                        setIngredients(ingredients)
+                    } catch (error) {
+                        console.error ('Error to parse ingredients')
+                    }
+                    if (Array.isArray(product.category)) {
+                        setCategory(product.category.map((gory: string) => {
+                            const cleanedGory = cleanString(gory)
+                            const found = categorys.find(option => option.value === cleanedGory)
+                            return found ? found : { value: cleanedGory, label: cleanedGory }
+                        }))
+                    } else if (typeof product.category === 'string') {
+                        // Remove colchetes e espaços extras, depois separa por vírgula
+                        const cleanedCategoryString = product.category.replace(/[\[\]]/g, '').trim();
+                        const categoryArray = cleanedCategoryString.split(',').map((gory: string) => cleanString(gory.trim()));
+                    
+                        setCategory(categoryArray.map((gory: string) => {
+                            const found = categorys.find(option => option.value === gory);
+                            return found ? found : { value: gory, label: gory };
+                        }));
+                    } else {
+                        console.error("Category data is not in a recognized format");
+                    }
+                    setImg(`http://localhost:3333/files/${product.productImg}`)
+                    setProductImg(product.productImg)
                 }
-                          
-                if (Array.isArray(data.category)) {
-                    setCategory(data.category.map((gory: string) => {
-                        const cleanedGory = cleanString(gory);
-                        const found = categorys.find(option => option.value === cleanedGory);
-                        return found ? found : { value: cleanedGory, label: cleanedGory };
-                    }));
-                } else if (typeof data.category === 'string') {
-                    // Remove colchetes e espaços extras, depois separa por vírgula
-                    const cleanedCategoryString = data.category.replace(/[\[\]]/g, '').trim();
-                    const categoryArray = cleanedCategoryString.split(',').map((gory: string) => cleanString(gory.trim()));
-                
-                    setCategory(categoryArray.map((gory: string) => {
-                        const found = categorys.find(option => option.value === gory);
-                        return found ? found : { value: gory, label: gory };
-                    }));
-                } else {
-                    console.error("Category data is not in a recognized format");
-                }
-
-                setImg(`http://localhost:3333/files/${data.productImg}`)
-                setProductImg(data.productImg)
-
-            } else {
-                console.log("Error to get products")
+            } catch (error) {
+                console.error('Product not found')
             }
         }
         getDisheId()
-        
-    }, [params, setIngredients])
+    }, [params, setIngredients, meals])
 
     useEffect(() => {
-        if (!name || !category || !price || !description || !ingredients) {
+        if (!img || !name || !category || !price || !description || !ingredients) {
             setIsDisabled(true)
         } else{
             setIsDisabled(false)
         }
-    }, [name, category, price, description, ingredients])
-
-
+    }, [img, name, category, ingredients, price, description])
 
     return (
         <>
