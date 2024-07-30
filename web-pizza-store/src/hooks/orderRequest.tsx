@@ -1,4 +1,5 @@
 import { api } from "@/services/api";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
@@ -17,6 +18,14 @@ export interface CartProps {
     description: string
     price: number
     category: string
+}
+export interface ProductProps {
+    meal_id: number
+    name: string
+    description: string
+    ingredients: string[]
+    price: number
+    productImg: string
 }
 interface OrderItemProps {
     order_item_id: number
@@ -47,6 +56,7 @@ interface OrderContextProps {
     totalCartPrice: number | 0
     showGroupedCartItems: CartProps[]
     DeleteMealId: (meal_id: number) => void
+    meals: ProductProps[] | null
 }
 
 export const OrderContext = createContext<OrderContextProps>({
@@ -64,10 +74,12 @@ export const OrderContext = createContext<OrderContextProps>({
     totalCartQuantity: 0,
     totalCartPrice: 0,
     showGroupedCartItems: [],
-    DeleteMealId: () => {}
+    DeleteMealId: () => {},
+    meals: null,
 })
 
 function OrdersProvider({ children }: any) {
+    const [meals, setMeals] = useState<ProductProps[]>([])
     const [orders, setOrders] = useState<OrderProps[] | null>(null)
     const [orderItems, setOrderItems] = useState<OrderItemProps[]>([])
     const [cart, setCart] = useState<CartProps[] >([])
@@ -77,6 +89,18 @@ function OrdersProvider({ children }: any) {
     const [showGroupedCartItems, setShowGroupedCartItems] = useState<CartProps[] >([])
     const router = useRouter()
 
+    // GetMeals
+    const GetMeals = useCallback(async() => {
+        try {
+            const response = await axios.get('http://localhost:3333/meals/index')
+
+            if (response) {
+                setMeals(response.data)
+            }
+        } catch (error: any) {
+            console.error(error.response.data.message || error)
+        }
+    }, [])
 
     // CART
     const fetchCart = useCallback(async (data_id: number) => {
@@ -122,11 +146,11 @@ function OrdersProvider({ children }: any) {
             console.error('Error to removing the item: ', error)
         }
     }, [fetchCart])
-       const getFilteredCartItems = (cart: CartProps[]): CartProps[] => {
-        if (!Array.isArray(cart)) {
-            console.error('Cart is not an array: ', cart);
-            return [];
-        }
+    const getFilteredCartItems = (cart: CartProps[]): CartProps[] => {
+    if (!Array.isArray(cart)) {
+        console.error('Cart is not an array: ', cart);
+        return [];
+    }
     
         const filteredCartItems = cart.reduce((acc, item) => {
             const existingItem = acc.find((i) => i.meal_id === item.meal_id);
@@ -142,6 +166,7 @@ function OrdersProvider({ children }: any) {
         // console.log('Itens do carrinho agrupados:', filteredCartItems);
         return filteredCartItems;
     }; 
+    
 
     // Orders
     const fetchOrders = useCallback(async () => {
@@ -199,6 +224,18 @@ function OrdersProvider({ children }: any) {
         }
     }, [router])
 
+    // Filter Meals
+    const FilterMealsByNameIng = useCallback(() => {
+        try {
+            // const 
+        } catch (error) {
+            console.error('Error ao filtrar refaições', error)
+        }
+    }, [])
+    
+    useEffect(() => {
+        GetMeals()
+    }, [GetMeals])
     
     useEffect(() => {
         if (Array.isArray(cart)) {
@@ -207,16 +244,15 @@ function OrdersProvider({ children }: any) {
                 const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
                 setTotalCartQuantity(totalQty);
                 setTotalCartPrice(totalPrc);
-                console.log('print test', cart)
+                // console.log('print test', cart)
             }
             calculateTotals()
         }
     
         if (Array.isArray(cart)) {
-            // calculateTotals();
             setShowGroupedCartItems(getFilteredCartItems(cart));
         } else {
-            // console.error('Cart is not an array: ', cart);
+            console.error('Cart is not an array: ', cart);
         }
     }, [cart]);
     
@@ -252,7 +288,8 @@ function OrdersProvider({ children }: any) {
                 totalCartQuantity,
                 totalCartPrice,
                 showGroupedCartItems,
-                DeleteMealId
+                DeleteMealId,
+                meals
             }}
         >
             {children}

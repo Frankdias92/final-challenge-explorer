@@ -4,53 +4,37 @@ import { useParams } from "next/navigation";
 import { ProductProps } from "@/components/home/features";
 import { UseAuth } from "@/hooks/auth";
 import { useOrders } from "@/hooks/orderRequest";
-import { api } from "@/services/api";
 import { ShowProductID } from "@/components/home/id/showProductID";
 import { Image } from "@nextui-org/react";
 import NextImage from "next/image";
 import Link from "next/link";
 import { IoIosArrowBack } from "react-icons/io";
-import { useCallback, useEffect, useMemo, useState } from "react";
-
-const fetchProducts = async (id: number): Promise<ProductProps[]> => {
-    try {
-        const response = await api.get(`/meals/${id}`)
-        const data: ProductProps[] = response.data.map((item: any) => {
-            let ingredients
-            try {
-                ingredients = JSON.parse(item.ingredients)
-            } catch (error) {
-                console.error(`Failed to parse ingredients for meal_id ${item.meal_id}: `, error)
-                ingredients = []
-            }
-            return {
-                ...item,
-                ingredients
-            }
-        })
-        return data
-    } catch (error) {
-        console.error(`Failed to parse ingredients for meal_id & : `, error)
-        throw error
-    }
-}
+import { useCallback, useEffect, useState } from "react"
 
 export default function RetriveId () {
-    const [data, setData] = useState<ProductProps[]>([]);
+    const [data, setData] = useState<ProductProps>();
     const [itemValue, setItemValue] = useState<number>(1);
     const [loading, setLoading] = useState<boolean>(true)
-    const { cart } = useOrders();
+    const { meals } = useOrders();
     const params = useParams();
     const { user } = UseAuth();
     
-    const productId = Number(params.id);
+    const meal_id = Number(params.id);
 
     useEffect(() => {
         const getProducts = async () => {
             setLoading(true)
             try {
-                const products = await fetchProducts(productId)
-                setData(products)
+                const product = meals?.find((meal) => meal.meal_id === meal_id)
+                if (product) {
+                    const parsedProduct = {
+                        ...product,
+                        ingredients: JSON.parse(product.ingredients as unknown as string)
+                    }
+                    setData(parsedProduct)
+                } else {
+                    console.error('Product not found')
+                }
             } catch (error) {
                 console.error('Error to getProducts: ', error)
             } finally {
@@ -58,16 +42,8 @@ export default function RetriveId () {
             }
         }
         getProducts()
-    }, [productId])
+    }, [meals, meal_id])
 
-    const filteredProductId = useMemo(() => data.find(item => item.meal_id === productId), [data, productId])
-
-    useEffect(() => {
-        if (cart && filteredProductId) {
-            const cartItem = cart.find(itemCart => itemCart.meal_id === productId);
-            if (cartItem) setItemValue(cartItem.quantity);
-        }
-    }, [cart, productId, filteredProductId]);
 
     const handleSetItemValue = useCallback((value: number) => {
         setItemValue(value)
@@ -93,15 +69,15 @@ export default function RetriveId () {
                             as={NextImage}
                             width={690}
                             height={690}
-                            src={`http://localhost:3333/files/${filteredProductId?.productImg}`}
+                            src={`http://localhost:3333/files/${data?.productImg}`}
                             alt="Product Image"
                             className="flex"
                         />
                     </span>
                 </div>
-                {filteredProductId && (
+                {data && (
                     <ShowProductID
-                        filteredProductId={filteredProductId}
+                        filteredProductId={data}
                         itemValue={itemValue}
                         setItemValue={handleSetItemValue}
                         user={user}

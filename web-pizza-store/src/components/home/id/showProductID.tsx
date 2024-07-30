@@ -27,6 +27,7 @@ export function ShowProductID({ filteredProductId, user, itemValue, setItemValue
         });
     }
 
+    console.log('print filteredCartItems', filteredProductId)
     return (
         <section className="flex flex-col font-poppins antialiased w-full gap-6 items-center md:justify-self-start md:items-start md:col-span-1 md:z-20 md:pl-8">
             <h2 className="text-3xl flex md:font-medium md:text-[40px]">
@@ -36,7 +37,7 @@ export function ShowProductID({ filteredProductId, user, itemValue, setItemValue
                 {filteredProductId?.description}
             </p>
             <div className="flex w-full gap-6 md:gap-3 flex-wrap justify-center md:justify-start">
-                {filteredProductId?.ingredients.map((ingredient, index) => (
+                {filteredProductId.ingredients.map((ingredient, index) => (
                     <span 
                         key={index} 
                         className="flex text-sm py-1 px-3 bg-dark-100 rounded-md font-medium text-light-100"

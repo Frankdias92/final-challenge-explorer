@@ -8,6 +8,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 import axios from "axios";
+import { useOrders } from "@/hooks/orderRequest";
 
 interface FeaturesProps {
     section: string
@@ -24,21 +25,22 @@ export interface ProductProps {
 
 export function Features({ section }: FeaturesProps ) {
     const [data, setData] = useState<ProductProps[]>([])
+    const { meals } = useOrders()
 
-    useEffect(() => {
-        async function getProducts() {
-            try {
-                const response = await axios.get('http://localhost:3333/meals/index')
+    // useEffect(() => {
+    //     async function getProducts() {
+    //         try {
+    //             const response = await axios.get('http://localhost:3333/meals/index')
                 
-                if (response) {
-                    setData(response.data)
-                }
-            } catch (error) {
-                alert(error)
-            }
-        }
-        getProducts()
-    }, [])
+    //             if (response) {
+    //                 setData(response.data)
+    //             }
+    //         } catch (error) {
+    //             alert(error)
+    //         }
+    //     }
+    //     getProducts()
+    // }, [])
     
     // Slider configs
     const settings = {
@@ -65,7 +67,7 @@ export function Features({ section }: FeaturesProps ) {
                 className="flex justify-center w-full h-full overflow-hidden pl-6 pb-11 md:pl-0 z-0"
             >
 
-                    {data && data.map(item => {
+                    {meals && meals.map(item => {
                         return (
                             (data && 
                                 <div className="flex px-4 z-0" key={item.meal_id}>
