@@ -1,24 +1,25 @@
-import { ReactElement } from "react"
+'use client'
 
+import { ChangeEvent } from "react"
+import { LabelInput } from "./inputLabel"
 
 type SearchFormType = {
-    placeHolder: string
-    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
-    children: ReactElement
+    searchTerm: string
+    setSearchForm: (term: string) => void
 }
 
-export function SearchForm({children, placeHolder, onChange}: SearchFormType) {
+export function SearchForm({searchTerm, setSearchForm}: SearchFormType) {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setSearchForm(event.target.value)
+    }
+    
     return (
-        <div className="flex w-full h-full items-center relative ">
-            <input 
-                placeholder={placeHolder}
-                type="text" 
-                onChange={onChange}
-                className="flex w-full h-12 px-14 bg-dark-200  rounded-md overflow-hidden"
-            />
-            <span className="flex items-center text-light-400 px-4 pt-1 absolute">
-                {children}
-            </span>
-        </div>
+        <LabelInput 
+            type="text"
+            value={searchTerm}
+            onChange={handleChange}
+            placeholder="Busque por pratos ou ingredientes"
+            size={48}
+        />
     )
 }

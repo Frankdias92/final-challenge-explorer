@@ -1,6 +1,8 @@
+import { SearchForm } from "@/components/forms/searchForm";
 import { Footer } from "@/components/home/footer";
 import Header from "@/components/home/header";
 import { Metadata } from "next";
+import { SearchProvider } from "./searchProvider";
 
 export const metadata: Metadata = {
     title: "Home | Food explorer",
@@ -13,10 +15,12 @@ export const metadata: Metadata = {
     children: React.ReactNode;
   }>) {
     return (
-      <section className="flex flex-col w-full min-h-screen justify-between">
-        <Header />
-        {children}
-        <Footer />
-      </section>
+      <SearchProvider>
+        <section className="flex flex-col w-full min-h-screen justify-between">
+          <Header />
+            {children}
+          <Footer />
+        </section>
+      </SearchProvider>
     );
   }

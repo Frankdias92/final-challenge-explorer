@@ -8,8 +8,10 @@ import { GoSearch } from "react-icons/go";
 import { UseAuth } from "@/hooks/auth";
 import { ReceiptCart } from "../header/receiptCart";
 import { useRouter } from "next/navigation";
+import { SearchProvider, useSearch } from "@/app/home/searchProvider";
 
 export default function DesktopView () {
+    const { searchTerm, setSearchTerm} = useSearch()
         const { user, signOut } = UseAuth()
         const router = useRouter()
 
@@ -21,11 +23,16 @@ export default function DesktopView () {
                     </div>
                     
                     <div className="hidden md:flex lg:col-span-2">
-                        <SearchForm
+                        <SearchForm 
+                            searchTerm={searchTerm}
+                            setSearchForm={setSearchTerm}
+                        />
+                        {/* <SearchForm
                             placeHolder="Busque por pratos ou ingredientes"
                         >
                             <GoSearch className="text-2xl"/>
-                        </SearchForm>
+                        </SearchForm> */}
+
                     </div>
                     
                     <div className="hidden md:flex gap-8 m-auto min-w-[216px] w-full h-full items-center text-light-100">

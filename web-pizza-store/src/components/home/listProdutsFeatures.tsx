@@ -44,7 +44,6 @@ export function ListProductsFeatures({ meal_id, image, description, title, price
 
     return (
         <>
-            {/* {productList.map((productList) => ( */}
                 <div key={meal_id} className="flex flex-col w-[210px] h-[292px]  rounded-lg bg-dark-900 border-0 outline-none
                 ring-1 ring-dark-800 relative md:w-[304px] md:h-[462px]"
                     >
@@ -104,7 +103,6 @@ export function ListProductsFeatures({ meal_id, image, description, title, price
                         </div>
                     </div>
                 </div>
-            {/* ))} */}
         </>
     );
 }

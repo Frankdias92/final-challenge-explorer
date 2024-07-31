@@ -1,13 +1,10 @@
 'use client'
 
-import { useEffect, useState } from "react";
 import { ListProductsFeatures } from "./listProdutsFeatures";
 
 import Slider from "react-slick"
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-
-import axios from "axios";
 import { useOrders } from "@/hooks/orderRequest";
 
 interface FeaturesProps {
@@ -24,23 +21,7 @@ export interface ProductProps {
 
 
 export function Features({ section }: FeaturesProps ) {
-    const [data, setData] = useState<ProductProps[]>([])
     const { meals } = useOrders()
-
-    // useEffect(() => {
-    //     async function getProducts() {
-    //         try {
-    //             const response = await axios.get('http://localhost:3333/meals/index')
-                
-    //             if (response) {
-    //                 setData(response.data)
-    //             }
-    //         } catch (error) {
-    //             alert(error)
-    //         }
-    //     }
-    //     getProducts()
-    // }, [])
     
     // Slider configs
     const settings = {
@@ -55,8 +36,6 @@ export function Features({ section }: FeaturesProps ) {
         slidesToScroll: 1, 
         rtl: false, 
     }
-
-
     return (
         <div className="flex flex-col w-full h-full justify-center font-poppins text-light-300 antialiased
         md:w-3/4 m-auto relative">
@@ -69,7 +48,7 @@ export function Features({ section }: FeaturesProps ) {
 
                     {meals && meals.map(item => {
                         return (
-                            (data && 
+                            (meals && 
                                 <div className="flex px-4 z-0" key={item.meal_id}>
                                     <ListProductsFeatures
                                         meal_id={item.meal_id}

@@ -1,10 +1,10 @@
 'use client'
 
-import React, { FormEvent } from "react"
+import React from "react"
 
 interface LabelInputProps {
     type: string
-    label: string
+    label?: string
     placeholder: string
     value: string | number | undefined
     size?: number
@@ -15,9 +15,11 @@ export function LabelInput({ type, label, placeholder, value, onChange, size, ..
 
     return (
         <div className="flex flex-col w-full h-full">
-            <label className="flex flex-col w-full h-full mt-8 text-xs text-light-400 font-roboto antialiased">
-                {label}
-            </label>
+            {label && 
+                <label className="flex flex-col w-full h-full mt-8 text-xs text-light-400 font-roboto antialiased">
+                    {label}
+                </label>
+            }
             <input 
                 type={type}
                 placeholder={placeholder}
