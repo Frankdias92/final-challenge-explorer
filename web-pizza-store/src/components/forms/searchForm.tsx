@@ -14,12 +14,14 @@ export function SearchForm({searchTerm, setSearchForm}: SearchFormType) {
     }
     
     return (
-        <LabelInput 
-            type="text"
-            value={searchTerm}
-            onChange={handleChange}
-            placeholder="Busque por pratos ou ingredientes"
-            size={48}
-        />
+        <div className="flex w-full h-full items-center">
+            <input 
+                type="text" 
+                value={searchTerm}
+                onChange={handleChange}
+                placeholder="Busque por pratos ou ingredientes"
+                className="flex w-full h-12 px-4 bg-dark-200  rounded-md overflow-hidden"
+            />
+        </div>
     )
 }

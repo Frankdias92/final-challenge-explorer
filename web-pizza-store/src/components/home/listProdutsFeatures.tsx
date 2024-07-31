@@ -45,7 +45,7 @@ export function ListProductsFeatures({ meal_id, image, description, title, price
     return (
         <>
                 <div key={meal_id} className="flex flex-col w-[210px] h-[292px]  rounded-lg bg-dark-900 border-0 outline-none
-                ring-1 ring-dark-800 relative md:w-[304px] md:h-[462px]"
+                ring-1 ring-dark-800 relative md:w-[304px] md:h-[462px] hover:drop-shadow-lg hover:scale-[101%] duration-150"
                     >
                     <div className="absolute flex right-4 top-4 text-light-300 text-2xl">
                         {user && user.role === 'admin' ?  (

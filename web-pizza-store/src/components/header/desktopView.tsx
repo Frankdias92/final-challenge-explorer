@@ -22,17 +22,11 @@ export default function DesktopView () {
                         <LogoHeader />
                     </div>
                     
-                    <div className="hidden md:flex lg:col-span-2">
+                    <div className="hidden h-auto md:flex lg:col-span-2 ">
                         <SearchForm 
                             searchTerm={searchTerm}
                             setSearchForm={setSearchTerm}
                         />
-                        {/* <SearchForm
-                            placeHolder="Busque por pratos ou ingredientes"
-                        >
-                            <GoSearch className="text-2xl"/>
-                        </SearchForm> */}
-
                     </div>
                     
                     <div className="hidden md:flex gap-8 m-auto min-w-[216px] w-full h-full items-center text-light-100">
