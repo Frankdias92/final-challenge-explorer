@@ -1,13 +1,12 @@
 'use client'
 
-import { LabelInput } from "@/components/forms/inputLabel"
 import { ProductProps, useOrders } from "@/hooks/orderRequest"
-import { ChangeEvent, createContext, ReactNode, useContext, useEffect, useState } from "react"
+import { createContext, ReactNode, useContext, useEffect, useState } from "react"
 
 interface SearchcontextProps {
     searchTerm: string
     setSearchTerm: (term: string) => void
-    filteredProducts: ProductProps[] | string
+    filteredProducts: ProductProps[]
 }
 
 const SearchContext = createContext<SearchcontextProps | undefined>(undefined)
@@ -15,15 +14,15 @@ const SearchContext = createContext<SearchcontextProps | undefined>(undefined)
 function SearchProvider ({children}: { children: ReactNode}) {
     const { meals } = useOrders()
     const [searchTerm, setSearchTerm] = useState('')
-    const [filteredProducts, setFilteredProducts] = useState('')
+    const [filteredProducts, setFilteredProducts] = useState<ProductProps[]>([])
 
     useEffect(() => {
         if (meals) {
             const filtered = meals.filter(product => 
                 product.name.toLowerCase().includes(searchTerm.toLowerCase())
-                || product.name.toLowerCase().includes(searchTerm.toLowerCase())
+                || product.description.toLowerCase().includes(searchTerm.toLowerCase())
             )
-            setFilteredProducts(filtered as unknown as string)
+            setFilteredProducts(filtered)
         }
     }, [meals, searchTerm])
 
