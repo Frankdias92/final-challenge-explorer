@@ -20,7 +20,7 @@ export function Footer() {
                 <p className="flex w-fit flex-col items-end text-light-200 text-xs lg:text-sm font-dmsams gap-2 md:flex-row antialiased">
                     © 2024 - Todos os direitos reservados.
 
-                    <Link href={'https://www.linkedin.com/in/franklinmacedodias/'} target="_blank">
+                    <Link href={'https://www.linkedin.com/in/franklin-md/'} target="_blank">
                         Franklin Macedo
                     </Link>
                 </p>

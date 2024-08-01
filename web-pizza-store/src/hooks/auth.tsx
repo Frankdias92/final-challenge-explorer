@@ -75,9 +75,6 @@ function AuthProvider({ children }:any) {
        if (user) {
             setData({ user: JSON.parse(user)})
        } 
-    //    else {
-    //     router.push('/login')
-    //    } 
     }, [router])
 
     return (

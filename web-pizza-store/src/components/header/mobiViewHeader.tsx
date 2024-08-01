@@ -7,18 +7,25 @@ import { UseAuth } from "@/hooks/auth";
 import { PiReceipt } from "react-icons/pi";
 import { useOrders } from "@/hooks/orderRequest";
 import Link from "next/link";
+import { useSearch } from "@/app/home/searchProvider";
 
 export default function MobiViewHeader () {
         const  { isMenuOpen, handleMenuOpen }  = UseAuth()
         const { totalCartQuantity } = useOrders()
+        const { setSearchTerm } = useSearch()
+
+        const closeDropMenu = () => {
+            handleMenuOpen(false)
+            setSearchTerm('')
+        }
         
         return (
-                <section className="grid md:hidden w-full h-28 px-7 m-auto content-end absolute">
+                <section className="grid md:hidden w-full  px-7 mt-0 content-center absolute">
                     {isMenuOpen ? (
                         <div className=" flex flex-col w-full z-20 bg-dark-400 pb-8">
                             <button
                                 className="flex w-full h-8 items-center gap-4 text-2xl content-end mt-12"
-                                onClick={() => handleMenuOpen(false)}
+                                onClick={closeDropMenu}
                             >
                                 <CgClose/>
                                 Menu
