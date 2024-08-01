@@ -1,0 +1,10 @@
+{
+       "openapi": "3.0.1",
+        "info": {
+            "version": "1.0.1",
+            "title": "Explorer Food Documentation for Node/Express",
+            "description": "Documentation API Node/Express with Swagger - Food Explorer"
+        },
+        "servers": [],
+        "paths": {}
+}

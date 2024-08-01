@@ -18,7 +18,8 @@
     "jsonwebtoken": "^9.0.1",
     "knex": "^2.5.1",
     "multer": "^1.4.5-lts.1",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
