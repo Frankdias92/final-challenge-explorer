@@ -55,7 +55,7 @@ export default function RetriveId () {
 
 
     return (
-        <section className="flex flex-col px-7 justify-start md:w-3/4 md:m-auto pb-12 pt-8 w-full items-center min-h-lvh font-poppins antialiased text-light-200 bg-dark-700">
+        <div className="flex flex-col px-7 justify-start md:w-3/4 md:m-auto pb-12 pt-8 w-full items-center min-h-lvh font-poppins antialiased text-light-200 bg-dark-700">
             <Link
                 href='/home'
                 className="flex items-center text-left mr-auto text-2xl font-medium hover:text-light-400 duration-75"
@@ -84,6 +84,6 @@ export default function RetriveId () {
                     />
                 )}
             </div>
-        </section>
+        </div>
     )
 }

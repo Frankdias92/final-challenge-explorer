@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { useSearch } from "./searchProvider";
 import { ListProductsFeatures } from "@/components/home/listProdutsFeatures";
 import { UseAuth } from "@/hooks/auth";
+import { LoaderProducts } from "../../components/loader/LoaderProducts";
 
 const Features = dynamic(() =>
     import(
@@ -12,7 +13,7 @@ const Features = dynamic(() =>
         /* webpackChuckName: "Features"*/
         "@/components/home/features")
         .then((module) => module.Features), {
-            loading: () => <p>Loading...</p>,
+            loading: () => <LoaderProducts />,
             ssr: false
         }
   );
