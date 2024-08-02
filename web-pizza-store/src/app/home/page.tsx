@@ -6,6 +6,7 @@ import { useSearch } from "./searchProvider";
 import { ListProductsFeatures } from "@/components/home/listProdutsFeatures";
 import { UseAuth } from "@/hooks/auth";
 import { LoaderProducts } from "../../components/loader/LoaderProducts";
+import { Suspense } from "react";
 
 const Features = dynamic(() =>
     import(
@@ -42,9 +43,11 @@ export default function Home() {
             ) : (
                 <>
                     <Main />
-                    <Features section="Refeições"/>
-                    <Features section="Pratos principais"/>
-                    <Features section="Pratos principais"/>
+                    <Suspense fallback={<LoaderProducts />}>
+                        <Features section="Refeições"/>
+                        <Features section="Pratos principais"/>
+                        <Features section="Pratos principais"/>
+                    </Suspense>
                 </>
             )}
         </section>

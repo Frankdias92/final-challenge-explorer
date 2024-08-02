@@ -5,7 +5,7 @@ import { Suspense } from "react";
 
 const RetriveId = dynamic(() => 
     import("./retriveId"), {
-        loading: () => <LoaderProducts />,
+        loading: () => <span className="flex justify-center items-center"><LoaderProducts /></span>,
         ssr: false
     }
 )
