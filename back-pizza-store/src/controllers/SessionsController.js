@@ -6,6 +6,14 @@ const AppError = require("../utils/AppError");
 
 class SessionsController {
   async create(request, response) {
+    /* #swagger.parameters['body'] = {
+      in: 'body',
+      description: 'Create a new user session',
+      schema: {
+        $email: 'Frank@email.com',
+        $password: '12345678@'
+      }
+    } */
     const { email, password } = request.body;
 
     const user = await knex("users").where({ email }).first();

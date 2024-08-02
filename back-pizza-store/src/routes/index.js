@@ -7,11 +7,7 @@ const orderItemsRoutes = require("./orderItems.routes");
 const orderMealsRoutes = require("./orderMeals.routes");
 const cartRoutes = require("./cart.routes");
 
-
 const routes = Router();
-// routes.use('/api-docs', swaggerUi.serve);
-
-
 
 routes.use("/users", usersRouter);
 routes.use("/sessions", sessionsRouter);

@@ -7,7 +7,7 @@ const uploadConfig = require('./configs/upload')
 const AppError = require("./utils/AppError");
 const cookieParser = require("cookie-parser");
 const swaggerUi = require("swagger-ui-express")
-const swaggerDocument = require("../swagger.json")
+const swaggerDocument = require("../swagger-output.json")
 
 const app = express();
 
@@ -23,7 +23,6 @@ app.use('/files', express.static(uploadConfig.UPLOADS_FOLDER))
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(routes);
-
 
 
 app.use((err, request, response, next) => {

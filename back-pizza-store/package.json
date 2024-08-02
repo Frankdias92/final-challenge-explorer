@@ -5,7 +5,9 @@
   "scripts": {
     "start": "node ./src/server.js",
     "dev": "nodemon ./src/server.js",
-    "migrate": "knex migrate:latest"
+    "migrate": "knex migrate:latest",
+    "swagger-autogen": "node ./src/swagger.js",
+    "swagger-dev": "npm run swagger-autogen && npm run start"
   },
   "author": "Franklin Macedo Dias",
   "license": "ISC",
@@ -19,6 +21,7 @@
     "knex": "^2.5.1",
     "multer": "^1.4.5-lts.1",
     "sqlite3": "^5.1.7",
+    "swagger-autogen": "^2.23.7",
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {

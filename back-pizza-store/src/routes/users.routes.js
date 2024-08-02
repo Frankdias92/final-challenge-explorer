@@ -8,7 +8,20 @@ const usersRoutes = Router();
 const usersController = new UsersController();
 const userValidatedController = new UserValidatedController();
 
-usersRoutes.post("/", usersController.create);
+usersRoutes.post("/",
+    /* #swagger.tags = ['users']
+       #swagger.description = 'Endpoint to create a new user.'
+       #swagger.parameters['users'] = {
+            in: 'body',
+            description: 'User information',
+            required: true,
+            schema: {
+                $name: 'Frank',
+                $email: 'frank@email.com',
+                $password: '12345678@'
+            }
+        } 
+    */ usersController.create);
 usersRoutes.get("/validated", ensureAuthenticated, userValidatedController.index);
 
 module.exports = usersRoutes;

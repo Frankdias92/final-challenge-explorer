@@ -5,6 +5,31 @@
             "title": "Explorer Food Documentation for Node/Express",
             "description": "Documentation API Node/Express with Swagger - Food Explorer"
         },
-        "servers": [],
-        "paths": {}
+        "servers": [
+            {
+                "url": "http://localhost:3333",
+                "description": "Developer enverioment"
+            }
+        ],
+        "paths": {
+            "/session": {
+                "post": {
+                    "summary": "creat a new session",
+                    "responses": {
+                        "201": {
+                            "description": "sussefull login"
+                        },
+                        "401": {
+                            "description": "Failed to login"
+                        }
+                    }
+                }
+            }
+        },
+        "components": {
+            "schemas": {
+                "user": "user",
+                "password": "123"
+            }
+        }
 }
