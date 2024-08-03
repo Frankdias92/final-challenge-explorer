@@ -518,12 +518,21 @@
         "tags": [
           "Order Items"
         ],
-        "description": "",
+        "description": "Endpoint to create a new user.",
         "parameters": [
           {
             "name": "cookie",
             "in": "header",
             "type": "string"
+          },
+          {
+            "name": "order_items",
+            "in": "body",
+            "description": "User information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Order_Items"
+            }
           }
         ],
         "responses": {
@@ -580,7 +589,7 @@
         "tags": [
           "Order Items"
         ],
-        "description": "",
+        "description": "Endpoint to create a new user.",
         "parameters": [
           {
             "name": "id",
@@ -592,6 +601,15 @@
             "name": "cookie",
             "in": "header",
             "type": "string"
+          },
+          {
+            "name": "order_items",
+            "in": "body",
+            "description": "User information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Order_Items"
+            }
           }
         ],
         "responses": {
@@ -630,12 +648,21 @@
         "tags": [
           "Cart"
         ],
-        "description": "",
+        "description": "Endpoint to create a new user.",
         "parameters": [
           {
             "name": "cookie",
             "in": "header",
             "type": "string"
+          },
+          {
+            "name": "cart",
+            "in": "body",
+            "description": "User information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Cart"
+            }
           }
         ],
         "responses": {
@@ -795,6 +822,40 @@
         "total_price": {
           "type": "number",
           "example": 19.5
+        }
+      }
+    },
+    "Order_Items": {
+      "type": "object",
+      "properties": {
+        "order_id": {
+          "type": "number",
+          "example": 1
+        },
+        "meal_id": {
+          "type": "number",
+          "example": 1
+        },
+        "quantity": {
+          "type": "number",
+          "example": 2
+        }
+      }
+    },
+    "Cart": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "number",
+          "example": 2
+        },
+        "meal_id": {
+          "type": "number",
+          "example": 1
+        },
+        "quantity": {
+          "type": "number",
+          "example": 2
         }
       }
     }

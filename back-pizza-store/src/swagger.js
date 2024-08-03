@@ -15,7 +15,9 @@ const doc = {
     User: schemas.User,
     Sessions: schemas.Sessions,
     Meals: schemas.Meals,
-    Orders: schemas.Orders
+    Orders: schemas.Orders,
+    Order_Items: schemas.Order_Items,
+    Cart: schemas.Cart
   }
 };
 

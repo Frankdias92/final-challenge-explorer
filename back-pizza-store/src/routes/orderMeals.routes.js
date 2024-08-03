@@ -23,7 +23,8 @@ orderMealsRoutes.get('/', orderMealsController.index)
 orderMealsRoutes.get('/:id', orderMealsController.show)
 
 orderMealsRoutes.post('/checkout', 
-    /* #swagger.description = 'Endpoint to checkout order user'
+    /* 
+        #swagger.description = 'Endpoint to checkout order user'
         #swagger.parameters['checkout] = {
             in: 'body',
             required: true,
