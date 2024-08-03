@@ -9,13 +9,13 @@ const cartRoutes = require("./cart.routes");
 
 const routes = Router();
 
-routes.use("/users", usersRouter);
-routes.use("/sessions", sessionsRouter);
-routes.use("/meals", mealsRoutes);
-routes.use("/orders", orderMealsRoutes);
+routes.use("/users", /* #swagger.tags = ['Users'] */ usersRouter);
+routes.use("/sessions", /* #swagger.tags = ['sessions'] */  sessionsRouter);
+routes.use("/meals", /* #swagger.tags = ['Meals'] */ mealsRoutes);
+routes.use("/orders", /* #swagger.tags = ['Orders'] */ orderMealsRoutes);
 routes.use("/checkout", orderMealsRoutes);
-routes.use("/order_items", orderItemsRoutes);
-routes.use('/cart', cartRoutes)
+routes.use("/order_items", /* #swagger.tags = ['Order Items'] */  orderItemsRoutes);
+routes.use('/cart', /* #swagger.tags = ['Cart'] */  cartRoutes)
 
 
 module.exports = routes;

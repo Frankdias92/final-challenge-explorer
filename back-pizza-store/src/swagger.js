@@ -14,7 +14,8 @@ const doc = {
   definitions: {
     User: schemas.User,
     Sessions: schemas.Sessions,
-    Meals: schemas.Meals
+    Meals: schemas.Meals,
+    Orders: schemas.Orders
   }
 };
 

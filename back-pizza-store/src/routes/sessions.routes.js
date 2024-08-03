@@ -5,7 +5,7 @@ const sessionsController = new SessionsController();
 
 const sessionsRoutes = Router();
 sessionsRoutes.post("/", 
-    /* #swagger.tags = ['sessions']
+    /* #swagger.tags = ['Sessions']
         #swagger.description = Endpoint to create a new session.
         #swagger.parameters['sessions'] = {
             in: 'body',

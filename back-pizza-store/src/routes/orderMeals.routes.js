@@ -8,10 +8,32 @@ const orderMealsController = new OrderMealsController()
 
 orderMealsRoutes.use(ensureAuthenticated)
 
-orderMealsRoutes.post('/', verifyAuthorization('customer'), orderMealsController.create)
+orderMealsRoutes.post('/', 
+    /* #swagger.description = 'Endpoint to create a new order'
+        #swagger.parameters['orders'] = {
+            in: 'body',
+            description: 'Orders meals information',
+            required: true,
+            schema: { $ref: '#/definitions/Orders' }
+        }
+    */
+    verifyAuthorization('customer'), orderMealsController.create
+)
 orderMealsRoutes.get('/', orderMealsController.index)
 orderMealsRoutes.get('/:id', orderMealsController.show)
 
-orderMealsRoutes.post('/checkout', verifyAuthorization('customer'), orderMealsController.checkout)
+orderMealsRoutes.post('/checkout', 
+    /* #swagger.description = 'Endpoint to checkout order user'
+        #swagger.parameters['checkout] = {
+            in: 'body',
+            required: true,
+            description: 'Checkout order',
+            schema: {
+                $user_id: 1
+            }
+        }
+    */
+    verifyAuthorization('customer'), orderMealsController.checkout
+)
 
 module.exports = orderMealsRoutes

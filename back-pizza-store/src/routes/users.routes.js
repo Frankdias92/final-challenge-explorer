@@ -9,15 +9,15 @@ const usersController = new UsersController();
 const userValidatedController = new UserValidatedController();
 
 usersRoutes.post("/", 
-    /* #swagger.tags = ['users']
-    #swagger.description = 'Endpoint to create a new user.'
-    #swagger.parameters['users'] = {
-         in: 'body',
-         description: 'User information',
-         required: true,
-         schema: { $ref: '#/definitions/User' }
-     } 
- */  
+    /* #swagger.tags = ['Users']
+        #swagger.description = 'Endpoint to create a new user.'
+        #swagger.parameters['users'] = {
+            in: 'body',
+            description: 'User information',
+            required: true,
+            schema: { $ref: '#/definitions/User' }
+        } 
+    */  
     usersController.create
 );
 usersRoutes.get("/validated", ensureAuthenticated, userValidatedController.index);
