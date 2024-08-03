@@ -10,6 +10,13 @@
   "schemes": [
     "http"
   ],
+  "consumes": [
+    "application/json",
+    "multipart/form-data"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "paths": {
     "/users/": {
       "post": {
@@ -24,26 +31,7 @@
             "description": "User information",
             "required": true,
             "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "example": "Frank"
-                },
-                "email": {
-                  "type": "string",
-                  "example": "frank@email.com"
-                },
-                "password": {
-                  "type": "string",
-                  "example": "12345678@"
-                }
-              },
-              "required": [
-                "name",
-                "email",
-                "password"
-              ]
+              "$ref": "#/definitions/User"
             }
           }
         ],
@@ -73,7 +61,21 @@
     },
     "/sessions/": {
       "post": {
-        "description": "",
+        "tags": [
+          "sessions"
+        ],
+        "description": "Endpoint to create a new session.",
+        "parameters": [
+          {
+            "name": "sessions",
+            "in": "body",
+            "description": "User information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Sessions"
+            }
+          }
+        ],
         "responses": {
           "default": {
             "description": ""
@@ -158,12 +160,70 @@
     },
     "/meals/": {
       "post": {
-        "description": "",
+        "tags": [
+          "Meals"
+        ],
+        "description": "Endpoint to create a new meal",
+        "consumes": [
+          "multipart/form-data"
+        ],
         "parameters": [
           {
             "name": "cookie",
             "in": "header",
             "type": "string"
+          },
+          {
+            "name": "productImg",
+            "in": "formData",
+            "type": "file",
+            "required": true,
+            "description": "Image file for the meal"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "Name of the meal"
+          },
+          {
+            "name": "ingredients",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "Ingredients of the meal"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "Description of the meal"
+          },
+          {
+            "name": "price",
+            "in": "formData",
+            "type": "number",
+            "required": true,
+            "description": "Price of the meal"
+          },
+          {
+            "name": "category",
+            "in": "formData",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Category of the meal"
+          },
+          {
+            "name": "created_by",
+            "in": "formData",
+            "type": "number",
+            "required": true,
+            "description": "ID of the user who created the meal"
           }
         ],
         "responses": {
@@ -495,6 +555,75 @@
           "default": {
             "description": ""
           }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Frank"
+        },
+        "email": {
+          "type": "string",
+          "example": "frank@email.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "12345678@"
+        }
+      }
+    },
+    "Sessions": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "frank@email.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "12345678@"
+        }
+      }
+    },
+    "Meals": {
+      "type": "object",
+      "properties": {
+        "productImg": {
+          "type": "function"
+        },
+        "name": {
+          "type": "string",
+          "example": "Test Meal"
+        },
+        "ingredients": {
+          "type": "string",
+          "example": "Test ingredients"
+        },
+        "description": {
+          "type": "string",
+          "example": "Write your products description"
+        },
+        "price": {
+          "type": "number",
+          "example": 12.5
+        },
+        "category": {
+          "type": "array",
+          "example": [
+            "almoço"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "created_by": {
+          "type": "number",
+          "example": 1
         }
       }
     }

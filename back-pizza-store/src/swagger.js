@@ -1,5 +1,7 @@
 const swaggerAutogen = require('swagger-autogen')();
 
+const schemas = require('./docs/schemas')
+
 const doc = {
   info: {
     title: 'Explorer Food Documentation for Node/Express',
@@ -7,7 +9,13 @@ const doc = {
     version: '1.0.1'
   },
   host: 'localhost:3333',
-  schemes: ['http'],
+  consumes: ['application/json', 'multipart/form-data'],
+  produces: ['application/json'],
+  definitions: {
+    User: schemas.User,
+    Sessions: schemas.Sessions,
+    Meals: schemas.Meals
+  }
 };
 
 const outputFile = 'swagger-output.json';
