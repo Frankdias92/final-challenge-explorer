@@ -23,8 +23,8 @@ This project is an API for managing a pizza ordering system. It allows administr
 ## 🛠 Installation
 1. Clone the repository:
     ```sh
-    git clone https://github.com/your-username/pizza-store-api.git
-    cd pizza-store-api
+    git clone https://github.com/Frankdias92/final-challenge-explorer/
+    cd back-pizza-store
     ```
 
 2. Install dependencies:
@@ -44,7 +44,7 @@ This project is an API for managing a pizza ordering system. It allows administr
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Puzzle%20Piece.png" alt="Puzzle Piece" width="25" height="25" /> Usage
 1. Start the server:
     ```sh
-    npm run dev
+    npm run start
     ```
 
 2. The API will be available at `http://localhost:3333`.

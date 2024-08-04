@@ -19,6 +19,25 @@ class UsersController {
 
     return response.status(201).json();
   }
+  async updateUserAsAdmin(request, response) {
+    const { id } = request.params
+    const { role } = request.body
+
+    try {
+      const checkUserExists = await knex('users')
+          .where({ id })
+          .update({ role })
+
+        if (checkUserExists) {
+          return response.status(201).json({ message: 'User updated as admin' })
+        } else {
+          response.status(404).json({ error: 'User not found' })
+        }
+    } catch (err) {
+      response.status(500).json({ error: err.message })
+    }
+    
+  }
 }
 
 module.exports = UsersController;

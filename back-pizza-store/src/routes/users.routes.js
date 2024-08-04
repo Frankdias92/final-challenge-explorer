@@ -21,5 +21,7 @@ usersRoutes.post("/",
     usersController.create
 );
 usersRoutes.get("/validated", ensureAuthenticated, userValidatedController.index);
+usersRoutes.put("/:id", ensureAuthenticated, usersController.updateUserAsAdmin);
+
 
 module.exports = usersRoutes;
