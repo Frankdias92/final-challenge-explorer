@@ -1,8 +1,9 @@
-# Restaurant Management API
 
-This project is an API for managing a restaurant's users, meals, orders, and order items. It allows administrators to manage meals and users, and customers to place and manage orders.
+# Pizza Store API
 
-## Table of Contents
+This project is an API for managing a pizza ordering system. It allows administrators to manage meals and users, and customers to place and manage orders.
+
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Hook.png" alt="Hook" width="25" height="25" /> Table of Contents
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -11,18 +12,19 @@ This project is an API for managing a restaurant's users, meals, orders, and ord
 - [Database Schema](#database-schema)
 - [Running Migrations](#running-migrations)
 - [Environment Variables](#environment-variables)
+- [API Documentation](#api-documentation)
 
-## Features
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Sparkles.png" alt="Sparkles" width="25" height="25" /> Features
 - **User Management**: Create, read, update, and delete users. Differentiate between admin and customer roles.
 - **Meal Management**: Admins can create, read, update, and delete meals.
 - **Order Management**: Users can place orders, view their orders, and manage order items.
 - **Order Items Management**: Manage the relationship between orders and meals.
 
-## Installation
+## 🛠 Installation
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/restaurant-management-api.git
-    cd restaurant-management-api
+    git clone https://github.com/your-username/pizza-store-api.git
+    cd pizza-store-api
     ```
 
 2. Install dependencies:
@@ -31,23 +33,23 @@ This project is an API for managing a restaurant's users, meals, orders, and ord
     ```
 
 3. Set up the database:
-    - Ensure you have PostgreSQL installed and running.
-    - Create a `.env` file in the root directory and set your database credentials (refer to [Environment Variables](#environment-variables) section).
+    - Ensure you have SQLite installed and running.
+    - Create a `.env` file in the root directory and set your database credentials (refer to the [Environment Variables](#environment-variables) section).
 
 4. Run migrations:
     ```sh
-    npx knex migrate:latest
+    npm run migrate
     ```
 
-## Usage
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Puzzle%20Piece.png" alt="Puzzle Piece" width="25" height="25" /> Usage
 1. Start the server:
     ```sh
-    node server.js
+    npm run dev
     ```
 
-2. The API will be available at `http://localhost:3000`.
+2. The API will be available at `http://localhost:3333`.
 
-## API Endpoints
+## 📡 API Endpoints
 ### Users
 - `POST /users`: Create a new user.
 - `GET /users`: Get all users.
@@ -76,23 +78,73 @@ This project is an API for managing a restaurant's users, meals, orders, and ord
 - `PUT /order_items/:id`: Update a specific order item by ID.
 - `DELETE /order_items/:id`: Delete a specific order item by ID.
 
-## Project Structure
+### Cart
+- `POST /cart`: Add item to cart.
+- `GET /cart`: Get all items in the cart.
+- `PUT /cart/:id`: Update a specific cart item.
+- `DELETE /cart/:id`: Remove a specific cart item.
+
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Magnifying%20Glass%20Tilted%20Left.png" alt="Magnifying Glass Tilted Left" width="25" height="25" /> Project Structure
 ```
 project-root/
+├── src/
+│   ├─── configs/
+│   │   ├── auth.js
+│   │   └── upload.js
+│   ├─── controllers/
+│   │   ├── MealsController.js
+│   │   ├── UsersController.js
+│   │   ├── OrdersController.js
+│   │   ├── OrderItemsController.js
+│   │   └── CartController.js
+│   ├─── database/
+│   │   ├─── knex/
+│   │   │   ├─── migrations/
+│   │   │   │   ├── createCartItems.js
+│   │   │   │   ├── createMeals.js
+│   │   │   │   ├── createOrderItems.js
+│   │   │   │   ├── createOrders.js
+│   │   │   │   └── createUsers.js
+│   │   │   └── index.js
+│   ├─── docs/
+│   │   ├─── schemas/
+│   │   │   ├── cart.js
+│   │   │   ├── index.js
+│   │   │   ├── meals.js
+│   │   │   ├── order_items.js
+│   │   │   ├── orders.js
+│   │   │   ├── sessions.js
+│   │   │   └── user.js
+│   ├─── middlewares/
+│   │   ├── cartRoutesvalidate.js
+│   │   ├── ensureAuthenticated.js
+│   │   └── verifyAuthorization.js
+│   ├─── providers/
+│   │   └── DiskStorage.js
+│   ├─── routes/
+│   │   ├── cart.routes.js
+│   │   ├── index.js
+│   │   ├── meals.routes.js
+│   │   ├── orderItems.routes.js
+│   │   ├── orderMeals.routes.js
+│   │   ├── sessions.routes.js
+│   │   └── users.routes.js
+│   ├─── utils/
+│   │   └── AppError.js
+│   ├── server.js
+│   └── swagger.js
+├── .env
+├── .gitignore
+├── insomnia_routes.json
 ├── knexfile.js
-├── migrations/
-├── routes/
-│   ├── users.js
-│   ├── meals.js
-│   ├── orders.js
-│   └── order_items.js
-├── server.js
-└── package.json
-
-🚧 working in progress... 🚧
+├── package-lock.json
+├── package.json
+├── README.md
+├── swagger-output.json
+└── swagger.json
 ```
 
-## Database Schema
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/X-Ray.png" alt="X-Ray" width="25" height="25" /> Database Schema
 ### Users Table
 - **Columns**: `id`, `name`, `email`, `password`, `role`, `created_at`, `updated_at`
 - **Purpose**: Stores user information, including roles (`admin` or `customer`).
@@ -112,18 +164,30 @@ project-root/
 ## Running Migrations
 Run the following command to execute the database migrations:
 ```sh
-npx knex migrate:latest
+npm run migrate
 ```
 
 ## Environment Variables
-Create a `.env` file in the root directory and set the following environment variables:
+Create a `.env` file in the project root and set the following variables:
+```env
+DB_HOST=http://localhost
+DB_PORT=3333
+APP_CORS_PORT=3000
 ```
-DB_CLIENT=pg
-DB_CONNECTION=postgres://username:password@localhost:5432/your_database
-PORT=3000
+
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Test%20Tube.png" alt="Test Tube" width="25" height="25" /> API Documentation
+API documentation is automatically generated using Swagger. After starting the server, access the documentation at:
+
 ```
-Replace `username`, `password`, `localhost`, `5432`, and `your_database` with your actual database credentials.
+http://localhost:3333/api-docs
+```
 
----
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Top%20Hat.png" alt="Top Hat" width="25" height="25" /> Importing into Postman
 
-This README provides a high-level overview of the project, detailed steps for setup, and a guide to the API endpoints. Adjust the repository link, database details, and other specific information as needed.
+To streamline API testing, I have prepared a Postman import file. Here's how to import the routes:
+
+- Download the import file [here](https://github.com/Frankdias92/final-challenge-explorer/blob/main/back-pizza-store/insomnia_routes.json).
+- In Postman, go to File > Import.
+- Choose the downloaded file and import it.
+- Your Postman workspace will now contain the routes.
+

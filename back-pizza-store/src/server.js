@@ -1,3 +1,4 @@
+require("dotenv").config();
 require("express-async-errors");
 
 const cors = require("cors");
@@ -15,7 +16,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser())
 app.use(cors({
-  origin: ["http://localhost:3000", "http://127.0.0.1:3000"],
+  origin: [`${process.env.DB_HOST}:${process.env.APP_CORS_PORT}`, "http://127.0.0.1:3000"],
   credentials: true
 }));
 
@@ -41,6 +42,9 @@ app.use((err, request, response, next) => {
     });
 });
 
-
-const PORT = 3333;
-app.listen(PORT, () => console.log(`Server is running on Port ${PORT}`));
+const PORT = process.env.DB_PORT;
+app.listen(PORT, () => 
+  console.log(`Server is running on Port ${PORT}
+${process.env.DB_DATABASE} FOOD EXPLORER
+by: /in/Franklin-md`)
+);
