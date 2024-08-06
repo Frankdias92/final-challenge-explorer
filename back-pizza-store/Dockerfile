@@ -2,7 +2,7 @@
 FROM node:14
 
 # Definir o diretório de trabalho no container
-WORKDIR /usr/src/app
+WORKDIR /src/app
 
 # Copiar o package.json e package-lock.json para o diretório de trabalho
 COPY package*.json ./

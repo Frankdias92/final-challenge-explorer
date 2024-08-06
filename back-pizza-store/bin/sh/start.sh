@@ -1,3 +1,5 @@
+#!/bin/sh
+# start.sh
 # Executar migrações
 npm run migrate
 
