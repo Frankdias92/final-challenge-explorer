@@ -77,7 +77,10 @@ export function HandleWithUpdate () {
     }
 
     const handleDeletMeal = useCallback(() => {
-        DeleteMealId(Number(params.id))
+        const confirmation = 'Deseja realmente exluir esse produto?'
+        if (confirm(confirmation) === true) {
+            DeleteMealId(Number(params.id))
+        }
     }, [params, DeleteMealId])
 
     function cleanString(input: string) {

@@ -44,13 +44,15 @@ export default function ProductForm() {
 
     const handleNewProduct = useCallback(async () => {
         function handleNewProduct() {
-                const confirmation = 'Gostaria de adicionar outro produto?'
+                const confirmation = 'Produto adicionado com sucesso! Gostaria de adicionar outro produto?'
                 if (confirm(confirmation) === true) {
                     setName('')
                     setCategory([])
                     setDescription('')
                     setProductImg('')
+                    setIngredients([])
                     setPrice('')
+                    router.refresh()
                 } else {
                     router.push('/')
                 }
@@ -74,7 +76,8 @@ export default function ProductForm() {
             }
                         
             await api.post('/meals', formData)
-            const handleConfirmation = prompt(`Produto adicionado com sucesso ${handleNewProduct}`)
+            // const handleConfirmation = prompt(`Produto adicionado com sucesso`)
+            handleNewProduct()
 
         } catch (error: any) {
             alert(error.response.data.message || error.message)
