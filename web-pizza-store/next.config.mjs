@@ -33,7 +33,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'final-challenge-explorer.onrender.com',
+        hostname: 'https://backpizzastorefoodexplorer-5dmr6r9h.b4a.run/',
         pathname: '/**'
       }
     ]
