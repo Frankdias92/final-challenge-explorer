@@ -20,4 +20,4 @@ RUN chmod +x start.sh
 EXPOSE 3000
 
 # Comando para rodar o script de inicialização
-CMD ["./start.sh"]
+CMD ["./bin/sh/start.sh"]
