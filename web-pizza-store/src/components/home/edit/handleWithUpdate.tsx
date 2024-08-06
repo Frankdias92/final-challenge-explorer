@@ -65,7 +65,7 @@ export function HandleWithUpdate () {
             
             const response = await api.put(`/meals/${params.id}` , formData ) 
             if (response) {
-                router.push('/home')
+                router.push('/')
             }
             return alert('Produto atualizado com sucesso')
         } catch (error: any) {

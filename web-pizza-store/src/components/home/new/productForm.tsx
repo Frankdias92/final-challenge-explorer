@@ -43,6 +43,18 @@ export default function ProductForm() {
     }
 
     const handleNewProduct = useCallback(async () => {
+        function handleNewProduct() {
+                const confirmation = 'Gostaria de adicionar outro produto?'
+                if (confirm(confirmation) === true) {
+                    setName('')
+                    setCategory([])
+                    setDescription('')
+                    setProductImg('')
+                    setPrice('')
+                } else {
+                    router.push('/')
+                }
+            } 
         try {
             const formData = new FormData()
             formData.append('name', name)
@@ -62,11 +74,12 @@ export default function ProductForm() {
             }
                         
             await api.post('/meals', formData)
-            alert('Produto adicionado com sucesso')
+            const handleConfirmation = prompt(`Produto adicionado com sucesso ${handleNewProduct}`)
+
         } catch (error: any) {
             alert(error.response.data.message || error.message)
         }
-    }, [name, description, price, ingredients, user?.id, productImg, category])
+    }, [name, description, price, ingredients, user?.id, productImg, category, router])
 
     const handleNewCategory = useCallback((selectedOptions: MultiValue<OptionType>) => {
         setCategory(selectedOptions as OptionType[])

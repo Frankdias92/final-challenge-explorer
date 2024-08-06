@@ -17,8 +17,8 @@ export default function DesktopView () {
 
         return (
                 <section className="md:grid grid-cols-3 lg:grid-cols-4 justify-stretch
-                    gap-4 w-3/4 h-12 m-auto">
-                    <div className="flex w-full h-full">
+                    gap-4 w-3/4 h-12 ml-7 pl-8 md:ml-auto md:pl-0 md:m-auto">
+                    <div className="flex w-full h-full relative">
                         <LogoHeader />
                     </div>
                     
