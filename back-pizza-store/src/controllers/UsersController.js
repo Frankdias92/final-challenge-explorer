@@ -6,18 +6,27 @@ class UsersController {
   async create(request, response) {
     
     const { name, email, password } = request.body;
-
     const checkUserExists = await knex("users").where({ email });
 
-    if (checkUserExists.length > 0) {
-      throw new AppError("Este e-mail já está em uso.");
+    try {
+      if (checkUserExists) {
+
+        if (checkUserExists.length > 0) {
+          throw new AppError("Este e-mail já está em uso.");
+        }
+
+        const hashedPassword = await hash(password, 8);
+
+        await knex("users").insert({ name, email, password: hashedPassword });
+
+        return response.status(201).json({ message: 'Login realized' });
+      } else {
+        return response.status(404).json({ error: 'Something wrong with login' })
+      }
+    } catch (err) {
+      response.status(500).json({ err: err.message })
     }
-
-    const hashedPassword = await hash(password, 8);
-
-     await knex("users").insert({ name, email, password: hashedPassword });
-
-    return response.status(201).json();
+    
   }
   async updateUserAsAdmin(request, response) {
     const { id } = request.params
