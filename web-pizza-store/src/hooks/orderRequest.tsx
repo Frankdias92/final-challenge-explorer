@@ -218,7 +218,7 @@ function OrdersProvider({ children }: any) {
             const response = await api.delete(`/meals/${meal_id}`)
             console.log(response.data)
             if (response) {
-                router.push('/home')
+                router.push('/')
             }
         } catch (error: any) {
             console.error(error.response.data.message)

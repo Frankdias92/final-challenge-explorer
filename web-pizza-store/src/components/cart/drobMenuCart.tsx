@@ -20,7 +20,7 @@ export function DrobMenuCart ({item}: ItemProps) {
                                     // onClick={() => router.push(`home/${item.meal_id}`)}
             >
             <div className="grid grid-cols-3 justify-stretch items-center m-auto z-10">
-                <Link href={`/home/${item.meal_id}`} className="flex flex-col w-full col-span-2">
+                <Link href={`/${item.meal_id}`} className="flex flex-col w-full col-span-2">
                     <span>
                         {item.name}
                     </span>

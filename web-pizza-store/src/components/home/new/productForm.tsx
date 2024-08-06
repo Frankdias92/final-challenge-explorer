@@ -82,7 +82,7 @@ export default function ProductForm() {
 
     useEffect(() => {
         if (user?.role !== 'admin') {
-            router.push('/home')
+            router.push('/')
         }
     }, [router, user])
 

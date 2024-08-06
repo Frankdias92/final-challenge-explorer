@@ -11,7 +11,7 @@ export function LogoHeader() {
     return (
         <div className="flex w-full h-full items-center z-20">
             <Link
-                href={'/home'}
+                href={'/'}
                 className="flex min-md:w-[180px] md:flex-col items-center gap-x-2 relative">
                 <span className=" flex min-w-full items-center font-bold gap-2 text-xl">
                     <span className="text-tint-cake-400 text-4xl"><BsFillHexagonFill /></span>

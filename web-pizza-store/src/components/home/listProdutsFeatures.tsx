@@ -49,7 +49,7 @@ export function ListProductsFeatures({ meal_id, image, description, title, price
                     >
                     <div className="absolute flex right-4 top-4 text-light-300 text-2xl">
                         {user && user.role === 'admin' ?  (
-                            <PiPencilSimple  onClick={() => router.push(`/home/${meal_id}/edit`)}
+                            <PiPencilSimple  onClick={() => router.push(`/${meal_id}/edit`)}
                                 className="hover:text-light-400 hover:scale-105 duration-100 hover:cursor-pointer"
                             /> 
                         ) : (
@@ -76,7 +76,7 @@ export function ListProductsFeatures({ meal_id, image, description, title, price
                         </span>
 
                         <div className="flex flex-col items-center w-full gap-3">
-                            <Link className="flex items-center font-medium text-sm md:font-bold md:text-2xl" href={`/home/${meal_id}`}>
+                            <Link className="flex items-center font-medium text-sm md:font-bold md:text-2xl" href={`/${meal_id}`}>
                                 {title} <TbArrowBadgeRightFilled className="flex flex-1 md:text-2xl"/>
                             </Link>
 

@@ -55,7 +55,7 @@ function AuthProvider({ children }:any) {
             if (user) {
                 localStorage.setItem("@estock:user", JSON.stringify(user))
                 setData({  user }) 
-                router.push('/home')
+                router.push('/')
             } else {
                 console.log("something wrong with your informations.")
             }

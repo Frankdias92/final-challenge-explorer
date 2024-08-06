@@ -7,7 +7,7 @@ import { UseAuth } from "@/hooks/auth";
 import { PiReceipt } from "react-icons/pi";
 import { useOrders } from "@/hooks/orderRequest";
 import Link from "next/link";
-import { useSearch } from "@/app/home/searchProvider";
+import { useSearch } from "@/app/(home)/searchProvider";
 
 export default function MobiViewHeader () {
         const  { isMenuOpen, handleMenuOpen }  = UseAuth()

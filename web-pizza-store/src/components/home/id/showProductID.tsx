@@ -48,7 +48,7 @@ export function ShowProductID({ filteredProductId, user, itemValue, setItemValue
             </div>
             {user && user.role === 'admin' ? (
                 <span className="flex w-full pt-12 md:w-fit md:ml-0 px-7 md:px-0">
-                    <ButtonText text="Editar prato" size={48} onclick={() => router.push(`/home/${filteredProductId.meal_id}/edit`)} />
+                    <ButtonText text="Editar prato" size={48} onclick={() => router.push(`/${filteredProductId.meal_id}/edit`)} />
                 </span>  
             ) : (
                 <div className="flex w-full flex-col lg:flex-row justify-center items-center gap-x-4 text-lg text-white pt-12 mb-12">
