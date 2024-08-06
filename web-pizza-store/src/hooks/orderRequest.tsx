@@ -93,7 +93,7 @@ function OrdersProvider({ children }: any) {
     // GetMeals
     const GetMeals = useCallback(async() => {
         try {
-            const response = await axios.get('http://localhost:3333/meals/index')
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_DB}/meals/index`)
 
             if (response) {
                 setMeals(response.data)

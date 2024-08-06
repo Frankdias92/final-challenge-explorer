@@ -49,6 +49,7 @@ function AuthProvider({ children }:any) {
                 { email, password },
                 { withCredentials: true }
             )
+            console.log('print user id', response.data)
             const { user  } = response.data
     
             if (user) {

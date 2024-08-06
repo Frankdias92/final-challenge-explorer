@@ -69,7 +69,7 @@ export default function RetriveId () {
                             as={NextImage}
                             width={690}
                             height={690}
-                            src={`http://localhost:3333/files/${data?.productImg}`}
+                            src={`${process.env.NEXT_PUBLIC_DB}/files/${data?.productImg}`}
                             alt="Product Image"
                             className="flex"
                         />

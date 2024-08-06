@@ -69,7 +69,7 @@ export function ListProductsFeatures({ meal_id, image, description, title, price
                                 width={488}
                                 height={488}
                                 quality={100}
-                                src={`http://localhost:3333/files/${image}`}
+                                src={`${process.env.NEXT_PUBLIC_DB}/files/${image}`}
                                 alt="NextUI hero Image"
                                 className="flex bg-contain rounded-full overflow-hidden"
                             />

@@ -6,12 +6,12 @@ import { NewItem } from "@/components/forms/newItem";
 import { useOrders } from "@/hooks/orderRequest";
 
 export function HandleWithIngredients() {
-    const { ingredients, handleAddIngredients, handleRemoveIngredients } = useOrders();
+    const { ingredients } = useOrders();
     const [newIngredient, setNewIngredient] = useState<string>('');
 
     const handleAddIngredient = () => {
         if (newIngredient.trim()) {
-            handleAddIngredients(newIngredient);
+            // setIngredients(newIngredient);
             setNewIngredient('');
         }
     };
@@ -24,7 +24,7 @@ export function HandleWithIngredients() {
                         <NewItem
                             key={String(index)}
                             value={item}
-                            onClick={() => handleRemoveIngredients(item)}
+                            onClick={() => setNewIngredient('')}
                         />
                     ))}
 
