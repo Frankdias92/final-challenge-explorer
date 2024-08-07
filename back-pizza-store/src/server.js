@@ -16,7 +16,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser())
 app.use(cors({
-  origin: [`${process.env.DB_HOST_SITE}`],
+  origin: [`${process.env.DB_HOST_SITE}:3000`],
   credentials: true
 }));
 
