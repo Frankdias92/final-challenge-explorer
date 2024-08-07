@@ -4,10 +4,10 @@ services:
     build:
       context: .
     volumes:
-      - app-data:/usr/src/app/data
+      - app-data:/src/app/database
     ports:
       - "3000:3000"
-    command: ["sh", "/usr/src/app/bin/sh/start.sh"]
+    command: ["sh", "/src/app/bin/sh/start.sh"]
 
 volumes:
   app-data:

@@ -109,6 +109,7 @@ project-root/
 │   │   │   │   ├── createOrders.js
 │   │   │   │   └── createUsers.js
 │   │   │   └── index.js
+│   └── database.db
 │   ├─── docs/
 │   │   ├─── schemas/
 │   │   │   ├── cart.js
