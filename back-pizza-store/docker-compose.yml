@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+    volumes:
+      - app-data:/usr/src/app/data
+    ports:
+      - "3000:3000"
+    command: ["sh", "/usr/src/app/bin/sh/start.sh"]
+
+volumes:
+  app-data:

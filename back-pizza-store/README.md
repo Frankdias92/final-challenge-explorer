@@ -87,6 +87,9 @@ This project is an API for managing a pizza ordering system. It allows administr
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Magnifying%20Glass%20Tilted%20Left.png" alt="Magnifying Glass Tilted Left" width="25" height="25" /> Project Structure
 ```
 project-root/
+├── bin/
+│   └── sh/
+│       └── start.sh
 ├── src/
 │   ├─── configs/
 │   │   ├── auth.js
@@ -135,6 +138,8 @@ project-root/
 │   └── swagger.js
 ├── .env
 ├── .gitignore
+├── Dockerfile
+├── docker-compose.yml
 ├── insomnia_routes.json
 ├── knexfile.js
 ├── package-lock.json
