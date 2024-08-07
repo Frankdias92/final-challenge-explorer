@@ -45,8 +45,8 @@ export default function Home() {
                     <Main />
                     <Suspense fallback={<LoaderProducts />}>
                         <Features section="Refeições"/>
-                        <Features section="Pratos principais"/>
-                        <Features section="Pratos principais"/>
+                        <Features section="Sobremesas"/>
+                        <Features section="Bebidas"/>
                     </Suspense>
                 </>
             )}

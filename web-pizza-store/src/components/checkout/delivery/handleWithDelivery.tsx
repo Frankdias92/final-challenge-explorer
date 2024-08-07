@@ -34,7 +34,8 @@ export function HandleWithDelivery () {
                         🍕 NOVO PEDIDO
                         \nEntregar em: \n RUA: ${adress}, ${adressNumber}, CEP: ${cep}, \n ${neighborHood}
                         \n${groupedCartItems?.map(item =>  ` \n${item.name} ${item.quantity} x ${item.price}`)}
-                        \nValor total: R$ ${totalPrice}`;
+                        \nValor total: R$ ${totalPrice}
+                        \nRef:. ${groupedCartItems?.map(item => item.user_id)}`
 
                         const encodedMessage = encodeURIComponent(message)
                         // const groupId = 'DgHh0J2Fujo3Q4y8rGdCaw'         // Group Id

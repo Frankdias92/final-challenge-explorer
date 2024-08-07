@@ -4,11 +4,11 @@ import { FiLogOut } from "react-icons/fi";
 import { LogoHeader } from "../header/logo";
 import { ButtonText } from "../buttonText";
 import { SearchForm } from "../forms/searchForm";
-import { GoSearch } from "react-icons/go";
 import { UseAuth } from "@/hooks/auth";
 import { ReceiptCart } from "../header/receiptCart";
 import { useRouter } from "next/navigation";
-import { SearchProvider, useSearch } from "@/app/(home)/searchProvider";
+import { useSearch } from "@/app/(home)/searchProvider";
+import { FaUserCircle } from "react-icons/fa";
 
 export default function DesktopView () {
     const { searchTerm, setSearchTerm} = useSearch()
@@ -36,7 +36,9 @@ export default function DesktopView () {
                                 <ReceiptCart />
                                 )
                         }
-                        <FiLogOut className="text-4xl cursor-pointer hover:text-light-400 duration-300" onClick={signOut}/>
+                        {user ? ( <FiLogOut className="text-4xl cursor-pointer hover:text-light-400 duration-300" onClick={signOut}/> ) 
+                            : ( <FaUserCircle onClick={() => router.push('/login')} className="flex text-2xl text-light-100 ursor-pointer hover:text-light-400 duration-300"/> )
+                        } 
                     </div>
 
                 </section>

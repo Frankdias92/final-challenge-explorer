@@ -16,7 +16,7 @@ export function Main() {
                             height={412}
                             src={`${pathImg}/mask-group.png`}
                             alt="NextUI hero Image"
-                            className="flex w-[205px] h-[160px] md:w-[350px] md:h-[273px] lg:w-[632px] lg:h-[406px] rotate-[2deg] translate-y-2 -translate-x-3"
+                            className="flex w-[205px] h-[160px] md:w-[350px] md:h-[273px] lg:w-[632px] lg:h-[406px] rotate-[0deg] translate-y-3 md:-translate-x-8 translate-x-3"
                         />
                     </span>
                 </div>
