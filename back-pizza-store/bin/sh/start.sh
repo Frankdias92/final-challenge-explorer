@@ -1,5 +1,6 @@
 #!/bin/sh
-
+echo "Iniciando o servidor..."
+npm start
 # Esperar pelo PostgreSQL estar disponível
 until nc -z -v -w30 db 5432
 do
