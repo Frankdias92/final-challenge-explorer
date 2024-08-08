@@ -1,5 +1,6 @@
 #!/bin/sh
-# start.sh
+echo "Iniciando os serviços Docker..."
+docker-compose up -d --build
 
 # Esperar pelo PostgreSQL estar disponível
 until nc -z -v -w30 db 5432
