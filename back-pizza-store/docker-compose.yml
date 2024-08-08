@@ -9,6 +9,8 @@ services:
       - pgdata:/var/lib/postgresql/data
     env_file:
       - .env
+    networks:
+      - explorer-networks
 
   app:
     build:
@@ -22,6 +24,12 @@ services:
     depends_on:
       - db
     command: ["sh", "/src/app/bin/sh/start.sh"]
+    networks:
+      - explorer-networks
 
 volumes:
   pgdata:
+
+networks:
+  explorer-networks:
+    driver: bridge
