@@ -3,6 +3,7 @@ require("express-async-errors");
 
 const cors = require("cors");
 const express = require("express");
+const { Client } = require('pg')
 const routes = require("./routes");
 const uploadConfig = require('./configs/upload')
 const AppError = require("./utils/AppError");
@@ -12,6 +13,17 @@ const swaggerDocument = require("../swagger-output.json")
 
 const app = express();
 
+const client = new Client({
+  host: process.env.POSTGRES_HOST,
+  port: process.env.POSTGRES_PORT,
+  user: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
+  database: process.env.POSTGRES_DB
+})
+
+client.connect()
+  .then(() => console.log('Connect to database'))
+  .catch(err => console.error('Connection error', err.stack))
 
 app.use(express.json());
 app.use(cookieParser())
@@ -42,9 +54,9 @@ app.use((err, request, response, next) => {
     });
 });
 
-const PORT = process.env.APP_PORT || 3333;
+const PORT = process.env.APP_PORT;
 app.listen(PORT, () => 
   console.log(`Server is running on Port ${PORT}
-${process.env.DB_DATABASE} FOOD EXPLORER
+${process.env.POSTGRES_DB} FOOD EXPLORER
 by: /in/Franklin-md`)
 );
