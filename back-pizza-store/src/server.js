@@ -16,7 +16,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser())
 app.use(cors({
-  origin: [`${process.env.DB_HOST_SITE}`],
+  origin: [`${process.env.APP_CORS_ORIGIN}:${process.env.APP_CORS_PORT}`],
   credentials: true
 }));
 
@@ -42,7 +42,7 @@ app.use((err, request, response, next) => {
     });
 });
 
-const PORT = process.env.DB_PORT;
+const PORT = process.env.APP_PORT || 3333;
 app.listen(PORT, () => 
   console.log(`Server is running on Port ${PORT}
 ${process.env.DB_DATABASE} FOOD EXPLORER

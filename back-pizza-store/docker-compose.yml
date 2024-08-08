@@ -1,13 +1,27 @@
-version: '3.8'
 services:
+
+  db:
+    image: postgres:16.2-alpine3.19
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    env_file:
+      - .env
+
   app:
     build:
       context: .
+    env_file:
+      - .env
     volumes:
-      - app-data:/src/app/database
+      - .:/src/app
     ports:
-      - "3000:3000"
+      - "3333:3333"
+    depends_on:
+      - db
     command: ["sh", "/src/app/bin/sh/start.sh"]
 
 volumes:
-  app-data:
+  pgdata:

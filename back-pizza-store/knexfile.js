@@ -1,13 +1,27 @@
+require("dotenv").config();
 const path = require("path");
 
 module.exports = {
   development: {
-    client: "sqlite3",
-    connection: {
-      filename: path.resolve(__dirname, "src", "database", "database.db")
+    client: "pg",
+    connection: process.env.DATABASE_URL,
+    log: {
+      warn(message) {
+        console.warn(message);
+      },
+      error(message) {
+        console.error(message);
+      },
+      deprecate(message) {
+        console.warn(message);
+      },
+      debug(message) {
+        console.debug(message);
+      }
     },
     pool: {
-      afterCreate: (conn, cb) => conn.run("PRAGMA foreign_keys = ON", cb)
+      min: 2,
+      max: 10
     },
     migrations: {
       directory: path.resolve(__dirname, "src", "database", "knex", "migrations")
