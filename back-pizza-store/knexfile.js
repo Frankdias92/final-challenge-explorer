@@ -4,7 +4,16 @@ const path = require("path");
 module.exports = {
   development: {
     client: "pg",
-    connection: process.env.DATABASE_URL,
+    connection: {
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      ssl: {
+        rejectUnauthorized: false
+      }
+    },
     log: {
       warn(message) {
         console.warn(message);
@@ -21,7 +30,8 @@ module.exports = {
     },
     pool: {
       min: 2,
-      max: 10
+      max: 10,
+      afterCreate: (conn, cb) => conn.query("SET timezone = 'UTC' ; ", cb )
     },
     migrations: {
       directory: path.resolve(__dirname, "src", "database", "knex", "migrations")

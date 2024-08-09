@@ -2,4 +2,10 @@ node_modules
 tmp
 .env
 
+/aiven-env
+.vscode
+
 **/database.db
+/bin
+.docker-compose.yml
+Dockerfile
