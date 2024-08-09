@@ -3,8 +3,8 @@
   "version": "1.0.1",
   "main": "index.js",
   "scripts": {
-    "start": "node ./src/server.js",
-    "start:local": "knex migrate:latest && node ./src/server.js",
+    "start:local": "node ./src/server.js",
+    "start": "knex migrate:latest && node ./src/server.js",
     "dev": "nodemon ./src/server.js",
     "migrate": "knex migrate:latest",
     "swagger-autogen": "node ./src/swagger.js",

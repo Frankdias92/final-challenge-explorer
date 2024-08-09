@@ -16,4 +16,4 @@ COPY . .
 EXPOSE 3333
 
 # Comando para rodar o script de inicialização
-CMD ["npm", "start:local"]
+CMD ["npm", "start"]
