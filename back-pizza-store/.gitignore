@@ -8,5 +8,3 @@ tmp
 
 **/database.db
 /bin
-docker-compose.yml
-Dockerfile
