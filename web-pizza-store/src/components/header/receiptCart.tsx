@@ -5,10 +5,8 @@ import { CartList } from "./cartList";
 import { Suspense } from "react";
 
 export function ReceiptCart() {
-    const {showGroupedCartItems, totalCartPrice, totalCartQuantity, cart} = useOrders()
+    const {showGroupedCartItems, totalCartPrice, totalCartQuantity} = useOrders()
 
-    // console.log('print', {showGroupedCartItems, totalCartPrice, totalCartQuantity, cart})
- 
     return (
         <Suspense fallback={<p>Loading...</p>}>
             <CartList

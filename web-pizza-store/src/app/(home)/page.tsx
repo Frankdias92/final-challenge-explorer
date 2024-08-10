@@ -15,7 +15,7 @@ const Features = dynamic(() =>
         "@/components/home/features")
         .then((module) => module.Features), {
             loading: () => <LoaderProducts />,
-            ssr: false
+            ssr: true
         }
   );
 

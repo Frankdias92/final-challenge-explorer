@@ -119,7 +119,7 @@ export function HandleWithUpdate () {
                     } else {
                         console.error("Category data is not in a recognized format");
                     }
-                    setImg(`http://localhost:3333/files/${product.productImg}`)
+                    setImg(`${process.env.NEXT_PUBLIC_DB}/files/${product.productImg}`)
                     setProductImg(product.productImg)
                 }
             } catch (error) {

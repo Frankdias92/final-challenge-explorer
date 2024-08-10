@@ -17,7 +17,6 @@ type CartListProps = {
 export function CartList({totalCartQuantity, totalCartPrice, showGroupedCartItems}: CartListProps) {
     const router = useRouter()
 
-
     return (
         <Dropdown backdrop="blur"
             showArrow

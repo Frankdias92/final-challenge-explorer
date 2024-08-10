@@ -1,11 +1,9 @@
 'use client'
 
-import { color } from "framer-motion"
 import { ReactNode } from "react"
 
 interface ButtonTextProps {
     text: string
-    // link?: string
     onclick?: () => void
     size?: number
     isDisable?: boolean
