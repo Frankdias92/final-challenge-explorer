@@ -43,6 +43,7 @@ export type addDisheOnCartProps = {
 interface OrderContextProps {
     orders: OrderProps[] | null
     orderItems: OrderItemProps[] | null
+    fethMeals: (fetchMeals:ProductProps[]) => void
     fetchOrders: () => void
     fetchOrderItems: (order_id: number) => void
     addDisheOnCart: ( arg: addDisheOnCartProps ) => void
@@ -62,6 +63,7 @@ interface OrderContextProps {
 export const OrderContext = createContext<OrderContextProps>({
     orders: null,
     orderItems: null,
+    fethMeals: () => {},
     fetchOrders: () => {},
     fetchOrderItems: () => {},
     addDisheOnCart: () => {},
@@ -89,26 +91,22 @@ function OrdersProvider({ children }: any) {
     const [showGroupedCartItems, setShowGroupedCartItems] = useState<CartProps[] >([])
     const router = useRouter()
 
-    // GetMeals
-    const GetMeals = useCallback(async() => {
+    const fethMeals = useCallback(async() => {
         try {
-            fetch
-            const response = await fetch(`${process.env.NEXT_PUBLIC_DB}/meals/index` , { next: { tags: ['mealsFetch'] } })
-                .then(response => response.json())
-
+            const response = await fetch(`${process.env.NEXT_PUBLIC_DB}/meals/index`)
+                .then((response) => response.json())
             if (response) {
                 setMeals(response.data)
             }
-        } catch (error: any) {
-            console.error(error.response.data.message || error)
+        } catch (error) {
+            console.error('Erro fetch meals', error)
         }
     }, [])
 
     // CART
     const fetchCart = useCallback(async (data_id: number) => {
-        const user = localStorage.getItem('@estock:user')
         try {
-            if (!user) {
+            if (!data_id) {
                 const response = await api.get(`/cart/${data_id}`)
                 setCart(response.data)
             } else {
@@ -145,7 +143,9 @@ function OrdersProvider({ children }: any) {
 
                 if (user) {
                     const { id } = JSON.parse(user)
-                    fetchCart(id)
+                    if (!id) {
+                        fetchCart(id)
+                    }
                 }
             }   
         } catch (error) {
@@ -236,18 +236,6 @@ function OrdersProvider({ children }: any) {
         }
     }, [router])
 
-    // Filter Meals
-    const FilterMealsByNameIng = useCallback(() => {
-        try {
-            // const 
-        } catch (error) {
-            console.error('Error ao filtrar refaições', error)
-        }
-    }, [])
-    
-    useEffect(() => {
-        GetMeals()
-    }, [GetMeals])
     
     useEffect(() => {
         if (Array.isArray(cart)) {
@@ -288,6 +276,7 @@ function OrdersProvider({ children }: any) {
             value={{
                 orders,
                 orderItems,
+                fethMeals,
                 fetchOrders,
                 fetchOrderItems,
                 addDisheOnCart,
