@@ -13,25 +13,56 @@ class MealsController {
             if (!req.file) {
                 return res.status(400).json({ error: 'Dishe image is required' });
             }
+
+            let parsedIngredients = [];
+            let parsedCategory = [];
+
+            try {
+                if (typeof ingredients === 'string') {
+                    parsedIngredients = JSON.parse(ingredients);
+                }
+                if (typeof category === 'string') {
+                    parsedCategory = JSON.parse(category);
+                }
+
+                if (!Array.isArray(parsedIngredients)) {
+                    throw new Error("Ingredients is not a valid array after parsing");
+                }
+                if (!Array.isArray(parsedCategory)) {
+                    throw new Error("Category is not a valid array after parsing");
+                }
+
+            } catch (parseError) {
+                console.log("Parsing error:", parseError);
+                return res.status(400).json({ error: 'Invalid ingredients or category format' });
+            }
+
             const productImg = req.file.filename;
             const diskStorage = new DiskStorage();
             const filename = await diskStorage.saveFile(productImg);
 
-            const [meal_id] = await knex("meals").insert({
-                name,
-                description,
-                price,
-                category,
-                ingredients,
-                productImg: filename,
-                created_by
-            });
+            console.log('Before inserting into the database');
 
-            return res.json({ message: 'Dishe created successfully' });
+            const result = await knex("meals")
+                .returning("meal_id")
+                .insert({
+                    name,
+                    ingredients: JSON.stringify(parsedIngredients),
+                    description,
+                    price,
+                    category: JSON.stringify(parsedCategory),
+                    created_by,
+                    productImg: filename
+                });
+
+            const meal_id = result[0];
+            console.log('After inserting into the database, meal_id:', meal_id);
+
+            return res.json({ message: 'Dishe created successfully', meal_id });
 
         } catch (error) {
-            console.log("error creating dishe: ", error);
-            return res.status(500).json({ error: 'internal server error' });
+            console.log("Error creating dishe:", error);
+            return res.status(500).json({ error: `internal server error: ${error.message}` });
         }
     }
 
