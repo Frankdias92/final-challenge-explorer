@@ -2,25 +2,33 @@
 
 import { Main } from "@/components/home/main";
 import dynamic from "next/dynamic";
-import { ListProductsFeatures } from "@/components/home/listProdutsFeatures";
+// import { ListProductsFeatures } from "@/components/home/listProdutsFeatures";
 import { UseAuth } from "@/hooks/auth";
 import { LoaderProducts } from "../../components/loader/LoaderProducts";
 import { Suspense } from "react";
-import { Features } from "@/components/home/features";
+// import { Features } from "@/components/home/features";
 import { useSearch } from "@/app/(home)/searchProvider";
 
 
-// const Features = dynamic(() =>
-//     import(
-//         // webpackPrefetch: true
-//         /* webpackChuckName: "Features"*/
-//         "@/components/home/features")
-//         .then((module) => module.Features), {
-//             loading: () => <LoaderProducts />,
-//             ssr: true
-//         }
-//   );
+const Features = dynamic(() =>
+    import(
+        // webpackPrefetch: true
+        /* webpackChuckName: "Features"*/
+        "@/components/home/features")
+        .then((module) => module.Features), {
+            loading: () => <LoaderProducts />,
+            ssr: true
+        }
+    );
 
+const ListProductsFeatures = dynamic(() => 
+    /* webpackChuckName: ListProductsFeatures */
+    import('@/components/home/listProdutsFeatures')
+        .then((module) => module.ListProductsFeatures), {
+            loading: () => <LoaderProducts />,
+            ssr: true
+        }
+)
 
 export function HandleWithHome () {
     const { searchTerm, filteredProducts } = useSearch()
@@ -46,9 +54,6 @@ export function HandleWithHome () {
             ) : (
                 <>
                     <Main />
-                    <div className="bg-red-800 w-full">
-                        {/* {meals?.map(item => item.name)} */}test
-                    </div>
                     <Suspense fallback={<LoaderProducts />}>
                         <Features section="Refeições"/>
                         <Features section="Sobremesas"/>

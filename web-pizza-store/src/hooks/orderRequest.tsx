@@ -43,7 +43,7 @@ export type addDisheOnCartProps = {
 interface OrderContextProps {
     orders: OrderProps[] | null
     orderItems: OrderItemProps[] | null
-    fethMeals: (fetchMeals:ProductProps[]) => void
+    handleFetchMeals: (productsList: ProductProps[]) => void
     fetchOrders: () => void
     fetchOrderItems: (order_id: number) => void
     addDisheOnCart: ( arg: addDisheOnCartProps ) => void
@@ -63,7 +63,7 @@ interface OrderContextProps {
 export const OrderContext = createContext<OrderContextProps>({
     orders: null,
     orderItems: null,
-    fethMeals: () => {},
+    handleFetchMeals: () => {},
     fetchOrders: () => {},
     fetchOrderItems: () => {},
     addDisheOnCart: () => {},
@@ -91,21 +91,23 @@ function OrdersProvider({ children }: any) {
     const [showGroupedCartItems, setShowGroupedCartItems] = useState<CartProps[] >([])
     const router = useRouter()
 
-    const fethMeals = useCallback(async() => {
-        try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_DB}/meals/index`);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data = await response.json();
-            console.log('print res meals fetch:', data.data);
-            setMeals(data.data);
-        } catch (error: any) {
-            console.error('Erro fetch meals:', error.message);
-        }
-    }, []);
+    const handleFetchMeals = useCallback(async(productsList: ProductProps[]) => {
+        setMeals(productsList)
+    }, [])
+    // const fethMeals = useCallback(async() => {
+    //     try {
+    //         const response = await fetch(`${process.env.NEXT_PUBLIC_DB}/meals/index`);
+    //         if (!response.ok) {
+    //             throw new Error(`HTTP error! status: ${response.status}`);
+    //         }
+    //         const data = await response.json();
+    //         console.log('print data res', data[0])
+    //         setMeals(data);
+    //     } catch (error: any) {
+    //         console.error('Erro fetch meals:', error.message);
+    //     }
+    // }, []);
     
-
     // CART
     const fetchCart = useCallback(async (data_id: number) => {
         try {
@@ -279,7 +281,7 @@ function OrdersProvider({ children }: any) {
             value={{
                 orders,
                 orderItems,
-                fethMeals,
+                handleFetchMeals,
                 fetchOrders,
                 fetchOrderItems,
                 addDisheOnCart,

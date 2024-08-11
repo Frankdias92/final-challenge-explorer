@@ -43,20 +43,21 @@ export default function ProductForm() {
     }
 
     const handleNewProduct = useCallback(async () => {
-        function handleNewProduct() {
-                const confirmation = 'Produto adicionado com sucesso! Gostaria de adicionar outro produto?'
-                if (confirm(confirmation) === true) {
-                    setName('')
-                    setCategory([])
-                    setDescription('')
-                    setProductImg('')
-                    setIngredients([])
-                    setPrice('')
-                    router.refresh()
-                } else {
-                    router.push('/')
-                }
-            } 
+        function confirmOrReset() {
+            const confirmation = 'Produto adicionado com sucesso! Gostaria de adicionar outro produto?'
+            if (confirm(confirmation) === true) {
+                setName('')
+                setCategory([])
+                setDescription('')
+                setProductImg('')
+                setIngredients([])
+                setPrice('')
+                router.refresh()
+            } else {
+                router.push('/')
+            }
+        } 
+
         try {
             const formData = new FormData()
             formData.append('name', name)
@@ -74,11 +75,10 @@ export default function ProductForm() {
             } else {
                 formData.append('category', '[]')
             }
-                        
+            
             await api.post('/meals', formData)
             // const handleConfirmation = prompt(`Produto adicionado com sucesso`)
-            handleNewProduct()
-
+            confirmOrReset()
         } catch (error: any) {
             alert(error.response.data.message || error.message)
         }
