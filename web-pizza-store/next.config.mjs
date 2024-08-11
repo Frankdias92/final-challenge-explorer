@@ -33,7 +33,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'backpizzastorefoodexplorer-5dmr6r9h.b4a.run',
+        hostname: 'explorerfoodapi-z11gyxkf.b4a.run',
         pathname: '/**'
       }
     ]

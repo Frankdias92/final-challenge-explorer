@@ -1,5 +1,4 @@
 import { api } from "@/services/api";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
@@ -93,7 +92,9 @@ function OrdersProvider({ children }: any) {
     // GetMeals
     const GetMeals = useCallback(async() => {
         try {
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_DB}/meals/index`)
+            fetch
+            const response = await fetch(`${process.env.NEXT_PUBLIC_DB}/meals/index` , { next: { tags: ['mealsFetch'] } })
+                .then(response => response.json())
 
             if (response) {
                 setMeals(response.data)
@@ -105,15 +106,19 @@ function OrdersProvider({ children }: any) {
 
     // CART
     const fetchCart = useCallback(async (data_id: number) => {
+        const user = localStorage.getItem('@estock:user')
         try {
-            if (data_id) {
+            if (!user) {
                 const response = await api.get(`/cart/${data_id}`)
                 setCart(response.data)
+            } else {
+                return 
             }
         } catch (error) {
             console.error("Error fetching cart: ", error)
         }
     }, [])
+
     const addDisheOnCart = useCallback(async ({ user_id, meal_id, quantity }: addDisheOnCartProps) => {
         try {
             const response = await api.post(`/cart`, {
@@ -125,11 +130,11 @@ function OrdersProvider({ children }: any) {
                 const newCart = [...prevCart, response.data]
                 return newCart
             } )
-            fetchCart(user_id)
+            
         } catch (error) {
-            // console.error('Erro ao adicionar prato ao carrinho: ', error);
+            console.error('Erro ao adicionar prato ao carrinho: ', error);
         }
-    }, [fetchCart]);
+    }, []);
     const RemoveDisheOnCart = useCallback(async (cart_item_id: number) => {
         try {
             if (cart_item_id) {
@@ -168,15 +173,21 @@ function OrdersProvider({ children }: any) {
         return filteredCartItems;
     }; 
     
+    useEffect(() => {
+        if(cart){
+            const userId = cart.map(item => item.user_id)
+            fetchCart(Number(userId))
+        }
+    }, [fetchCart, cart])
 
     // Orders
     const fetchOrders = useCallback(async () => {
+        const user = localStorage.getItem("@estock:user")
         try {
-            const user = localStorage.getItem("@estock:user")
-            if (user) {
+            if (!user) {
                 const response = await api.get('/orders')
                 setOrders(response.data)
-            }
+            } else return
         } catch (error) {
             console.error("Error fetching orders: ", error)
         }
