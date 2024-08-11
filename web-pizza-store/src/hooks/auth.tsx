@@ -60,7 +60,7 @@ function AuthProvider({ children }:any) {
                 console.log("something wrong with your informations.")
             }
         } catch (error: any) {
-            alert(error.response.data.message)
+            console.log(error)
         }
     }, [router])
 

@@ -93,15 +93,18 @@ function OrdersProvider({ children }: any) {
 
     const fethMeals = useCallback(async() => {
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_DB}/meals/index`)
-                .then((response) => response.json())
-            if (response) {
-                setMeals(response.data)
+            const response = await fetch(`${process.env.NEXT_PUBLIC_DB}/meals/index`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-        } catch (error) {
-            console.error('Erro fetch meals', error)
+            const data = await response.json();
+            console.log('print res meals fetch:', data.data);
+            setMeals(data.data);
+        } catch (error: any) {
+            console.error('Erro fetch meals:', error.message);
         }
-    }, [])
+    }, []);
+    
 
     // CART
     const fetchCart = useCallback(async (data_id: number) => {

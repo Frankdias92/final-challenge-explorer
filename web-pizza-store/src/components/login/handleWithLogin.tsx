@@ -26,7 +26,7 @@ export default function HandleWithLogin() {
             return alert('Preencha os dados')
         }
         try {
-            const data = await api.post('users', { name, email, password })
+            const data = await api.post('/users', { name, email, password })
             alert('Usuário cadastrado com sucesso')
             setIsActive(true)
         } catch (error: any) {
