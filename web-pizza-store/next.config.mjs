@@ -35,6 +35,11 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'explorerfoodapi-z11gyxkf.b4a.run',
         pathname: '/**'
+      },
+      {
+        protocol: 'https',
+        hostname: 'backfooddb-fndy852s.b4a.run',
+        pathname: '/**'
       }
     ]
   }

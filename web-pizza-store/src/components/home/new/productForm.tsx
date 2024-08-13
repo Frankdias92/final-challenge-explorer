@@ -13,6 +13,8 @@ import { MultiValue } from "react-select";
 import { useOrders } from "@/hooks/orderRequest";
 import { Section } from "@/components/forms/ingredientsSection";
 import { NewItem } from "@/components/forms/newItem";
+import { LoaderProducts } from "@/components/loader/LoaderProducts";
+import { useSearch } from "@/app/(home)/searchProvider";
 
 
 export default function ProductForm() {
@@ -31,6 +33,7 @@ export default function ProductForm() {
     const [imgName, setImgName] = useState<string>('')
     const [productImg, setProductImg] = useState<File | string>('')
     const [category, setCategory] = useState<OptionType[]>([])
+    const {loading, loadingProducts} = useSearch()
 
     const router = useRouter()
 
@@ -43,6 +46,8 @@ export default function ProductForm() {
     }
 
     const handleNewProduct = useCallback(async () => {
+        loadingProducts(true)
+        
         function confirmOrReset() {
             const confirmation = 'Produto adicionado com sucesso! Gostaria de adicionar outro produto?'
             if (confirm(confirmation) === true) {
@@ -55,9 +60,9 @@ export default function ProductForm() {
                 router.refresh()
             } else {
                 router.push('/')
-            }
+            } 
         } 
-
+    
         try {
             const formData = new FormData()
             formData.append('name', name)
@@ -81,8 +86,10 @@ export default function ProductForm() {
             confirmOrReset()
         } catch (error: any) {
             alert(error.response.data.message || error.message)
+        } finally {
+            loadingProducts(false)
         }
-    }, [name, description, price, ingredients, user?.id, productImg, category, router])
+    }, [name, description, price, ingredients, user?.id, productImg, category, router, loadingProducts])
 
     const handleNewCategory = useCallback((selectedOptions: MultiValue<OptionType>) => {
         setCategory(selectedOptions as OptionType[])
@@ -104,7 +111,7 @@ export default function ProductForm() {
 
     return (
         <form className="w-full h-full justify-stretch justify-items-stretch
-            md:grid grid-cols-7 gap-x-8 items-end">
+            md:grid grid-cols-7 gap-x-8 items-end ">
             
             <div className="col-start-1 col-span-2">
                 <HandleImageUpload
@@ -183,12 +190,20 @@ export default function ProductForm() {
             </div>
 
             <div className="flex flex-col col-start-1 col-span-7 mt-8">
-                <ButtonText
-                    text="Salvar"
-                    onclick={handleNewProduct}
-                    isDisable={isDisabled}
-                    size={48}
-                />
+                {!loading ? (
+                    <ButtonText
+                        text="Salvar"
+                        onclick={handleNewProduct}
+                        isDisable={isDisabled}
+                        size={48}
+                    />
+                ) : (
+                    <div className="absolute flex m-auto left-0  top-0 w-screen h-screen items-center justify-center bg-black/80">
+                        <span className="">
+                        <LoaderProducts />
+                        </span>
+                    </div>
+                )}
             </div>
         </form>
     );

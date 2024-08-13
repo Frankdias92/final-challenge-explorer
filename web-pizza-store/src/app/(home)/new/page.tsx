@@ -5,7 +5,7 @@ import { IoIosArrowBack } from "react-icons/io";
 export default function AddNewDisher() {
     return (
         <section className="flex flex-col w-full h-fit px-8 pb-14 md:px-0
-            md:w-3/4 m-auto md:relative md:mt-10">
+            md:w-3/4 m-auto  md:mt-10">
             <Link
                 href='/'
                 className="flex items-center text-left mr-auto pt-3 font-medium md:font-bold md:text-2xl text-base text-light-300 hover:text-light-400 duration-75">

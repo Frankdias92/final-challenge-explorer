@@ -7,14 +7,21 @@ interface SearchcontextProps {
     searchTerm: string
     setSearchTerm: (term: string) => void
     filteredProducts: ProductProps[]
+    loading: boolean
+    loadingProducts: (props: boolean) => void
 }
 
 const SearchContext = createContext<SearchcontextProps | undefined>(undefined)
 
 function SearchProvider ({children}: { children: ReactNode}) {
-    const { meals } = useOrders()
-    const [searchTerm, setSearchTerm] = useState('')
     const [filteredProducts, setFilteredProducts] = useState<ProductProps[]>([])
+    const [searchTerm, setSearchTerm] = useState('')
+    const { meals } = useOrders()
+    const [loading, setLoading] = useState<boolean>(false)
+
+    function loadingProducts(props: boolean) {
+        setLoading(props)
+    }
 
     useEffect(() => {
         if (meals) {
@@ -28,7 +35,7 @@ function SearchProvider ({children}: { children: ReactNode}) {
 
 
     return (
-        <SearchContext.Provider value={{ searchTerm, setSearchTerm, filteredProducts }}>
+        <SearchContext.Provider value={{ searchTerm, setSearchTerm, filteredProducts, loading, loadingProducts }}>
             { children }
         </SearchContext.Provider>
     )

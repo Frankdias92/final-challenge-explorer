@@ -5,11 +5,12 @@ import { ProductProps } from "@/components/home/features";
 import { UseAuth } from "@/hooks/auth";
 import { useOrders } from "@/hooks/orderRequest";
 import { ShowProductID } from "@/components/home/id/showProductID";
-import { Image } from "@nextui-org/react";
-import NextImage from "next/image";
+// import { Image } from "@nextui-org/react";
+// import NextImage from "next/image";
 import Link from "next/link";
 import { IoIosArrowBack } from "react-icons/io";
 import { useCallback, useEffect, useState } from "react"
+import Image from "next/image";
 
 export default function RetriveId () {
     const [data, setData] = useState<ProductProps>();
@@ -66,11 +67,13 @@ export default function RetriveId () {
                 <div className="flex flex-col flex-wrap mt-10 md:col-span-2 lg:col-span-1">
                     <span className="flex size-[264px] md:mr-8 xl:size-[390px] items-center rounded-full overflow-hidden bg-cover my-4 drop-shadow-2xl">
                         <Image
-                            as={NextImage}
+                            loading="lazy"
+                            placeholder="blur"
+                            blurDataURL="data:'img/png"
                             width={690}
                             height={690}
                             src={`${process.env.NEXT_PUBLIC_DB}/files/${data?.productImg}`}
-                            alt="Product Image"
+                            alt={`Image do prato ${data?.name} com descrição ${data?.description}`}
                             className="flex"
                         />
                     </span>

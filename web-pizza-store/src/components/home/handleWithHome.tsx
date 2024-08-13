@@ -41,13 +41,13 @@ export function HandleWithHome () {
                 <section className="w-3/4 mt-0 m-auto flex gap-4">
                     {filteredProducts.map(product => (
                         <ListProductsFeatures 
-                            key={product.meal_id}
-                            title={product.name}
-                            description={product.description}
-                            image={product.productImg}
-                            ingredients={product.ingredients}
-                            meal_id={product.meal_id}
-                            price={product.price}
+                            key={product.meal_id || 1}
+                            title={product.name || 'Sample'}
+                            description={product.description || 'sample'}
+                            image={product.productImg || `${process.env.BLUR_DATA}`}
+                            ingredients={product.ingredients || ['test']}
+                            meal_id={product.meal_id || 1}
+                            price={product.price || 0}
                         />
                     ))}
                 </section>

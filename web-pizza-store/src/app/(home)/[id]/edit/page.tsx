@@ -14,7 +14,7 @@ export default function UpdateDisher() {
         <>
         {user?.role === 'admin' &&
         <section className="flex flex-col w-full h-fit pb-14 px-8 md:px-0 
-            md:w-3/4 m-auto md:relative md:pb-20 md:mt-10">
+            md:w-3/4 m-auto md:pb-20 md:mt-10">
             <span
                 onClick={() => router.back()}
                 className="flex items-center text-left mr-auto pt-3 font-medium md:font-bold md:text-2xl text-base text-light-300 hover:text-light-400 duration-75

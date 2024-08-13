@@ -5,8 +5,9 @@ import { UseAuth } from "@/hooks/auth";
 import { useRouter } from "next/navigation";
 import { addDisheOnCartProps, useOrders } from "@/hooks/orderRequest";
 
-import NextImage from "next/image";
-import { Image } from "@nextui-org/react";
+import Image from "next/image";
+// import NextImage from "next/image";
+// import { Image } from "@nextui-org/react";
 
 import { PiPencilSimple } from "react-icons/pi";
 import { FaHeart } from "react-icons/fa";
@@ -61,26 +62,26 @@ export function ListProductsFeatures({ meal_id, image, description, title, price
                     <div className="flex flex-col w-full h-full items-center justify-center m-auto gap-3 p-6">
                         <span className="flex items-center size-[88px] md:size-[172px]">
                             <Image
-                                as={NextImage}
-                                // priority={false}
-                                // placeholder="blur"
-                                // blurDataURL={process.env.BLUR_DATA}
-                                // loading="lazy"
+                                src={`${process.env.NEXT_PUBLIC_DB}/files/${image}`}
+                                loading="lazy"
+                                placeholder="blur"
+                                blurDataURL="data:'img/png"
                                 width={488}
                                 height={488}
-                                quality={100}
-                                src={`${process.env.NEXT_PUBLIC_DB}/files/${image}`}
-                                alt="NextUI hero Image"
+                                quality={85}
+                                alt={`Image do prato ${title} com descrição ${description}`}
                                 className="flex bg-contain rounded-full overflow-hidden"
                             />
                         </span>
 
                         <div className="flex flex-col items-center w-full gap-3">
-                            <Link className="flex items-center font-medium text-sm md:font-bold md:text-2xl" href={`/${meal_id}`}>
+                            <Link className="flex text-center truncate items-center font-medium text-sm md:font-bold md:text-2xl" href={`/${meal_id}`}>
                                 {title} <TbArrowBadgeRightFilled className="flex flex-1 md:text-2xl"/>
                             </Link>
 
-                            <span className="hidden md:flex font-roboto text-sm">{description}</span>
+                            <span className="hidden md:flex font-roboto text-sm text-center h-11 w-fit truncate text-wrap">
+                                {description}
+                            </span>
                             <span >R$ {price}</span>
 
                             {user && user.role === 'customer' &&

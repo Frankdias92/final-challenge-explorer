@@ -1,11 +1,13 @@
 'use client'
 
+import { useSearch } from "@/app/(home)/searchProvider"
 import { ButtonText } from "@/components/buttonText"
 import { Section } from "@/components/forms/ingredientsSection"
 import { LabelInput  } from "@/components/forms/inputLabel"
 import { InputSelect } from "@/components/forms/inputSelect"
 import { NewItem } from "@/components/forms/newItem"
 import { HandleImageUpload } from "@/components/home/new/handleImageUpload"
+import { LoaderProducts } from "@/components/loader/LoaderProducts"
 import { UseAuth } from "@/hooks/auth"
 import { useOrders } from "@/hooks/orderRequest"
 import { OptionType, categorys } from "@/lib/categorys"
@@ -32,6 +34,7 @@ export function HandleWithUpdate () {
     const [img, setImg] = useState<string>('')
     const [productImg, setProductImg] = useState<File | string >('')
 
+    const { loading, loadingProducts } = useSearch()
     const params = useParams()
     const router = useRouter()
 
@@ -44,6 +47,7 @@ export function HandleWithUpdate () {
     }
 
     async function handleWithUpdateDisher() {
+        loadingProducts(false)
         try {
             const formData = new FormData()
             formData.append('name', name)
@@ -70,6 +74,8 @@ export function HandleWithUpdate () {
             return alert('Produto atualizado com sucesso')
         } catch (error: any) {
             alert(error.response?.data?.message || error.message)
+        } finally {
+            
         }
     }
     function handleNewCategory(selectedOptions: MultiValue<OptionType>) {
@@ -140,7 +146,7 @@ export function HandleWithUpdate () {
     return (
         <>
             <form className="w-full h-full justify-stretch justify-items-stretch
-            md:grid grid-cols-7 gap-x-8 items-end">
+            md:grid grid-cols-7 gap-x-8 items-end relative">
                 
                 {/* INPUT FILE IMG */}
                 <div className="col-start-1 col-span-2 relative">
@@ -242,12 +248,20 @@ export function HandleWithUpdate () {
                     onclick={handleDeletMeal}
                 />
 
-            <ButtonText 
-                    text="Salvar alterações" 
-                    size={48} 
-                    isDisable={isDisabled}
-                    onclick={handleWithUpdateDisher}
-                />
+            {loading ? ( 
+                <div className="absolute flex  left-0  top-0 w-screen h-screen items-center justify-center bg-black/80">
+                    <span className="">
+                        <LoaderProducts />
+                    </span>
+                </div>
+             ) : (
+                <ButtonText 
+                        text="Salvar alterações" 
+                        size={48} 
+                        isDisable={isDisabled}
+                        onclick={handleWithUpdateDisher}
+                    />
+            )}
             </div>
         </>
     )

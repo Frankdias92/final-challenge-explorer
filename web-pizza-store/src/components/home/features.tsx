@@ -39,9 +39,10 @@ export function Features({ section }: FeaturesProps ) {
 
     useEffect(() => {
         fethMeals()
+        console.log('print meals')
     }, [fethMeals])
     
-
+    
     // - Slider configs
     const settings = {
         dots: true,
@@ -65,22 +66,37 @@ export function Features({ section }: FeaturesProps ) {
                 className="flex justify-center w-full h-full overflow-hidden pl-6 pb-11 md:pl-0 z-0"
             >
 
-                    {meals && meals.map(item => {
-                        return (
-                            (meals && 
-                                <div className="flex px-4 z-0 " key={item.meal_id}>
-                                    <ListProductsFeatures
-                                        meal_id={item.meal_id}
-                                        title={item.name}
-                                        description={item.description}
-                                        ingredients={item.ingredients}
-                                        price={item.price}
-                                        image={item.productImg}
-                                    />
-                                </div>
-                           )
-                        )
-                    })}
+                    {meals  && (
+                        meals.map(item => {
+                            return (
+                                (meals && 
+                                    <div className="flex px-4 z-0 " key={item.meal_id}>
+                                        <ListProductsFeatures
+                                            meal_id={item.meal_id}
+                                            title={item.name || 'Sample'}
+                                            description={item.description}
+                                            ingredients={item.ingredients}
+                                            price={item.price}
+                                            image={item.productImg}
+                                        />
+                                    </div>
+                            )
+                            )
+                        }) )
+}
+{/* : ( 
+                        <div className="flex px-4 z-0 " key={1}>
+                        <ListProductsFeatures
+                            meal_id={1}
+                            title={'Sample'}
+                            description={'sample test'}
+                            ingredients={['test']}
+                            price={0}
+                            image={ `${process.env.BLUR_DATA}`}
+                        />
+                    </div>
+                     )
+                }  */}
                 
             </Slider>
 
