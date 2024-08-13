@@ -94,29 +94,19 @@ function OrdersProvider({ children }: any) {
     const handleFetchMeals = useCallback(async(productsList: ProductProps[]) => {
         setMeals(productsList)
     }, [])
-    // const fethMeals = useCallback(async() => {
-    //     try {
-    //         const response = await fetch(`${process.env.NEXT_PUBLIC_DB}/meals/index`);
-    //         if (!response.ok) {
-    //             throw new Error(`HTTP error! status: ${response.status}`);
-    //         }
-    //         const data = await response.json();
-    //         console.log('print data res', data[0])
-    //         setMeals(data);
-    //     } catch (error: any) {
-    //         console.error('Erro fetch meals:', error.message);
-    //     }
-    // }, []);
     
     // CART
     const fetchCart = useCallback(async (data_id: number) => {
+        const verifyIfExistUser = localStorage.getItem('@estock:user')
         try {
-            if (!data_id) {
-                const response = await api.get(`/cart/${data_id}`)
-                setCart(response.data)
-            } else {
-                return 
-            }
+            if (verifyIfExistUser) {
+                if (!data_id) {
+                    const response = await api.get(`/cart/${data_id}`)
+                    setCart(response.data)
+                } else {
+                    return 
+                }
+            } else console.log("You are not logget")
         } catch (error) {
             console.error("Error fetching cart: ", error)
         }
@@ -124,20 +114,26 @@ function OrdersProvider({ children }: any) {
 
     const addDisheOnCart = useCallback(async ({ user_id, meal_id, quantity }: addDisheOnCartProps) => {
         try {
-            const response = await api.post(`/cart`, {
-                user_id,
-                meal_id: meal_id,
-                quantity
-            });
-            setCart(prevCart => {
-                const newCart = [...prevCart, response.data]
-                return newCart
-            } )
+            if (user_id && meal_id && quantity) {
+                const response = await api.post(`/cart`, {
+                    user_id,
+                    meal_id,
+                    quantity
+                });
+                console.log('producto adicionado', response.data)
+                
+                setCart(prevCart => {
+                    const newCart = [...prevCart, response.data]
+                    return newCart
+                } )
+            } else return console.log('print result response cart', )
+
+            fetchCart(user_id)
             
-        } catch (error) {
-            console.error('Erro ao adicionar prato ao carrinho: ', error);
+        } catch (error: any) {
+            console.error( error.response.data.message || 'Erro ao adicionar prato ao carrinho: ', error);
         }
-    }, []);
+    }, [fetchCart]);
     const RemoveDisheOnCart = useCallback(async (cart_item_id: number) => {
         try {
             if (cart_item_id) {
@@ -149,6 +145,7 @@ function OrdersProvider({ children }: any) {
                 if (user) {
                     const { id } = JSON.parse(user)
                     if (!id) {
+                        console.log('passei por aqui')
                         fetchCart(id)
                     }
                 }
@@ -163,7 +160,7 @@ function OrdersProvider({ children }: any) {
         return [];
     }
     
-        const filteredCartItems = cart.reduce((acc, item) => {
+    const filteredCartItems = cart.reduce((acc, item) => {
             const existingItem = acc.find((i) => i.meal_id === item.meal_id);
             if (existingItem) {
                 existingItem.quantity += item.quantity;
@@ -173,17 +170,18 @@ function OrdersProvider({ children }: any) {
             }
             return acc;
         }, [] as CartProps[]);
-    
+
         // console.log('Itens do carrinho agrupados:', filteredCartItems);
         return filteredCartItems;
     }; 
     
-    useEffect(() => {
-        if(cart){
-            const userId = cart.map(item => item.user_id)
-            fetchCart(Number(userId))
-        }
-    }, [fetchCart, cart])
+    // useEffect(() => {
+
+    //     if(userId){
+    //         console.log('print user cart', userId[0])
+    //         // fetchCart(Number(userId))
+    //     }
+    // }, [fetchCart, cart])
 
     // Orders
     const fetchOrders = useCallback(async () => {
@@ -270,6 +268,7 @@ function OrdersProvider({ children }: any) {
         const user = localStorage.getItem('@estock:user')
         if (user) {
             const { id } = JSON.parse(user)
+            console.log('passei por aqui linha 261')
             fetchOrders()
             fetchCart(id)
         }

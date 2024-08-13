@@ -7,24 +7,27 @@ import { ButtonText } from "@/components/buttonText";
 import { useRouter } from "next/navigation";
 import { useOrders } from "@/hooks/orderRequest";
 import Link from "next/link";
+import { UseAuth } from "@/hooks/auth";
 
 type ShowProductIDProps = {
     filteredProductId: ProductProps
-    user: any
     itemValue: number
     setItemValue: (value: number) => void
 };
 
-export function ShowProductID({ filteredProductId, user, itemValue, setItemValue }: ShowProductIDProps) {
+export function ShowProductID({ filteredProductId, itemValue, setItemValue }: ShowProductIDProps) {
     const { addDisheOnCart } = useOrders();
+    const { user } = UseAuth()
     const router = useRouter();
 
     function handleAddDicherOnCart() {
-        addDisheOnCart({
-            user_id: user?.id as number,
-            meal_id: filteredProductId.meal_id as number,
-            quantity: itemValue
-        });
+        if (user) {
+            addDisheOnCart({
+                user_id: user?.id as number,
+                meal_id: filteredProductId.meal_id as number,
+                quantity: itemValue
+            });
+        } else return alert('Você não está registrado ainda')
     }
 
     return (
@@ -59,7 +62,7 @@ export function ShowProductID({ filteredProductId, user, itemValue, setItemValue
                         <GoPlus className="text-6xl" onClick={() => setItemValue(itemValue + 1)} />
                     </span>
                     <Link 
-                        href={'/checkout'}
+                        href={`${user ? '/checkout' : '/login'}`}
                         onClick={handleAddDicherOnCart}
                         className="flex w-full min-w-[180px] items-center justify-center h-11 gap-2 rounded-md text-white text-xs bg-tint-tomato-400 hover:bg-tint-tomato-300 duration-75"
                     >

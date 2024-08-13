@@ -20,7 +20,6 @@ export interface ProductProps {
     productImg: string
 }
 
-
 export function Features({ section }: FeaturesProps ) {
     const { meals, handleFetchMeals } = useOrders()
 
@@ -39,7 +38,6 @@ export function Features({ section }: FeaturesProps ) {
 
     useEffect(() => {
         fethMeals()
-        console.log('print meals')
     }, [fethMeals])
     
     

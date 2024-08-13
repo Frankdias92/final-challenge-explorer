@@ -5,8 +5,6 @@ import { ProductProps } from "@/components/home/features";
 import { UseAuth } from "@/hooks/auth";
 import { useOrders } from "@/hooks/orderRequest";
 import { ShowProductID } from "@/components/home/id/showProductID";
-// import { Image } from "@nextui-org/react";
-// import NextImage from "next/image";
 import Link from "next/link";
 import { IoIosArrowBack } from "react-icons/io";
 import { useCallback, useEffect, useState } from "react"
@@ -83,7 +81,6 @@ export default function RetriveId () {
                         filteredProductId={data}
                         itemValue={itemValue}
                         setItemValue={handleSetItemValue}
-                        user={user}
                     />
                 )}
             </div>

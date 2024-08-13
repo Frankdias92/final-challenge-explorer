@@ -6,6 +6,7 @@ import { Suspense } from "react";
 
 export function ReceiptCart() {
     const {showGroupedCartItems, totalCartPrice, totalCartQuantity} = useOrders()
+    console.log('print', totalCartQuantity)
 
     return (
         <Suspense fallback={<p>Loading...</p>}>
