@@ -7,6 +7,7 @@ import { ButtonText } from "../buttonText";
 import { useRouter } from "next/navigation";
 import { DrobMenuCart } from "../cart/drobMenuCart";
 import { CartProps } from "@/hooks/cartOrder";
+import { useEffect } from "react";
 
 type CartListProps = {
     totalCartQuantity: number
@@ -16,6 +17,10 @@ type CartListProps = {
 
 export function CartList({totalCartQuantity, totalCartPrice, showGroupedCartItems}: CartListProps) {
     const router = useRouter()
+
+    useEffect(() => {
+        console.log('update on click')
+    }, [totalCartQuantity, totalCartPrice, showGroupedCartItems])
 
     return (
         <Dropdown backdrop="blur"

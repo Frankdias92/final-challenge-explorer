@@ -91,7 +91,6 @@ function CartProvider({ children }: CartProviderProps) {
                     }];
                     return updatedCart
                 }
-    
                 // Atualize o estado do carrinho com o carrinho atualizado
                 setCart( updatedCart )
             } else {
@@ -160,11 +159,9 @@ function CartProvider({ children }: CartProviderProps) {
     const totalPrice = Number(groupedCartItems.reduce((sum, item) => sum + item.price, 0).toFixed(2))
 
     
-
-
     useEffect(() => {
         if (user) {
-            console.log('fetch cart', user.id)
+            console.log('just checking')
             fetchCart(user.id)
         }
     }, [fetchCart, user])
@@ -183,7 +180,7 @@ function CartProvider({ children }: CartProviderProps) {
         } else {
             console.error('Cart is not an array: ', cart);
         }
-        console.log('print cart', cart)
+        console.log('checking cart on update', cart)
     }, [cart]);
 
 
