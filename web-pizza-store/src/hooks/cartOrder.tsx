@@ -1,5 +1,7 @@
 import { api } from "@/services/api";
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from "react";
+import { UseAuth, User } from "./auth";
+import { Item } from "@radix-ui/react-select";
 
 interface CartProviderProps {
     children: ReactNode
@@ -25,7 +27,7 @@ interface CartContextProps {
     RemoveDisheOnCart: ( art_item_id: number ) => void
     RemoveOrderId: (order_item_id: number) => void
     showGroupedCartItems: CartProps[] | []
-    // groupedCartItems: CartProps[] | null
+    groupedCartItems: CartProps[] | null
     totalCartQuantity: number | 0
     totalCartPrice: number | 0
     totalPrice: number | 0
@@ -36,7 +38,7 @@ export const CartContext = createContext<CartContextProps>({
     addDisheOnCart: () => {},
     RemoveDisheOnCart: () => {},
     RemoveOrderId: () => {},
-    // groupedCartItems: null,
+    groupedCartItems: null,
     cart: null,
     totalPrice: 0,
     totalCartQuantity: 0,
@@ -50,28 +52,26 @@ function CartProvider({ children }: CartProviderProps) {
     const [totalCartPrice, setTotalCartPrice] = useState<number>(0)
     const [showGroupedCartItems, setShowGroupedCartItems] = useState<CartProps[] >([])
 
-
+    const { user } = UseAuth()
+    
     const fetchCart = useCallback(async (data_id: number) => {
-        const verifyIfExistUser = localStorage.getItem('@estock:user')
         try {
-            if (verifyIfExistUser) {
-                // if (!data_id) {
+            if (user) {
+                if (data_id) {
                     const response = await api.get(`/cart/${data_id}`)
                     setCart(response.data)
-                // } else {
-                //     return 
-                // }
+                }
             } else console.log("You are not logget")
         } catch (error) {
             console.error("Error fetching cart: ", error)
         }
-    }, [])
+    }, [user])
     const addDisheOnCart = useCallback(async ({ user_id, meal_id, quantity }: addDisheOnCartProps) => {
         try {
             if (user_id && meal_id && quantity > 0) {
                 // Verifique se o item já está no carrinho
                 const existingItem = cart.find(item => item.meal_id === meal_id);
-                let updatedCart;
+                let updatedCart: CartProps[];
     
                 if (existingItem) {
                     // Se o item já está no carrinho, apenas atualize a quantidade
@@ -85,11 +85,15 @@ function CartProvider({ children }: CartProviderProps) {
                         meal_id,
                         quantity
                     });
-                    updatedCart = [...cart, response.data];
+                    updatedCart = [...cart, {
+                        ...response.data,
+                        price: Number(response.data)
+                    }];
+                    return updatedCart
                 }
     
                 // Atualize o estado do carrinho com o carrinho atualizado
-                setCart(updatedCart);
+                setCart( updatedCart )
             } else {
                 console.log('Dados inválidos para adicionar ao carrinho.');
             }
@@ -159,12 +163,11 @@ function CartProvider({ children }: CartProviderProps) {
 
 
     useEffect(() => {
-        const userId = cart.map(item => item.user_id)
-        if (userId) {
-            console.log('fetch cart', userId)
-            fetchCart(userId[0])
+        if (user) {
+            console.log('fetch cart', user.id)
+            fetchCart(user.id)
         }
-    }, [fetchCart, cart])
+    }, [fetchCart, user])
 
     useEffect(() => {
         const calculateTotals = () => {
@@ -180,6 +183,7 @@ function CartProvider({ children }: CartProviderProps) {
         } else {
             console.error('Cart is not an array: ', cart);
         }
+        console.log('print cart', cart)
     }, [cart]);
 
 
@@ -190,7 +194,7 @@ function CartProvider({ children }: CartProviderProps) {
                 RemoveDisheOnCart,
                 RemoveOrderId,
                 cart,
-                // groupedCartItems,
+                groupedCartItems,
                 totalPrice,
                 totalCartQuantity,
                 totalCartPrice,

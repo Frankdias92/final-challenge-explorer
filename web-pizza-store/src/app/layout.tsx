@@ -23,9 +23,7 @@ export default function RootLayout({
       </Head>
       <body className={`${roboto.variable} ${poppins.variable} ${dmSans.variable} relative bg-dark-700 overflow-x-hidden`}>
         <Providers>
-          {/* <CartProvider> */}
             {children}
-          {/* </CartProvider> */}
         </Providers>
       </body>
     </html>

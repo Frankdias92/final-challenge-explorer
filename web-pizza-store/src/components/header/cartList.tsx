@@ -70,7 +70,7 @@ export function CartList({totalCartQuantity, totalCartPrice, showGroupedCartItem
                 }}
             >
                 <DropdownSection title='Seu Carrinho'>
-                    <DropdownItem key='new' className="flex bg-dark-300 p-4 rounded-lg">
+                    <DropdownItem key='cart' className="flex bg-dark-300 p-4 rounded-lg">
                         <div className="flex text-light-100 justify-between items-center">
                             <div className="flex items-center gap-2">
                                 <PiReceipt className="flex text-4xl text-center" />

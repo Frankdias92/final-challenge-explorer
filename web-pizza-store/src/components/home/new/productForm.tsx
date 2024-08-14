@@ -10,7 +10,6 @@ import { useRouter } from "next/navigation";
 import { HandleImageUpload } from "./handleImageUpload";
 import { HandleCategorySelect } from "./handleCategorySelect";
 import { MultiValue } from "react-select";
-import { useOrders } from "@/hooks/orderRequest";
 import { Section } from "@/components/forms/ingredientsSection";
 import { NewItem } from "@/components/forms/newItem";
 import { LoaderProducts } from "@/components/loader/LoaderProducts";
@@ -21,7 +20,7 @@ export default function ProductForm() {
     const { user } = UseAuth()
 
     const [name, setName] = useState<string>('')
-    const [price, setPrice] = useState<number | string>('R$ 00,00')
+    const [price, setPrice] = useState<number>(0)
 
     const [ingredients, setIngredients] = useState<string[]>([])
     const [newIngredientes, setNewIngredientes] = useState<string>('')
@@ -56,7 +55,7 @@ export default function ProductForm() {
                 setDescription('')
                 setProductImg('')
                 setIngredients([])
-                setPrice('')
+                setPrice
                 router.refresh()
             } else {
                 router.push('/')
@@ -67,7 +66,7 @@ export default function ProductForm() {
             const formData = new FormData()
             formData.append('name', name)
             formData.append('description', description)
-            formData.append('price', price.toString())
+            formData.append('price', JSON.stringify(price))
             formData.append('ingredients', JSON.stringify(ingredients))
             formData.append('created_by', String(user?.id))
             
