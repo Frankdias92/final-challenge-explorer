@@ -9,9 +9,11 @@ interface CartProvider {
 export function CartProvider({ children }: CartProvider) {
     return (
         <>
+        <CartProvider>
             <SearchProvider>
                 {children}
             </SearchProvider>
+        </CartProvider>
         </>
     )
 }

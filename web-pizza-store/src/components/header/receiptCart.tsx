@@ -1,11 +1,12 @@
 'use client'
 
-import { useOrders } from "@/hooks/orderRequest";
+// import { useOrders } from "@/hooks/orderRequest";
 import { CartList } from "./cartList";
 import { Suspense } from "react";
+import { useCart } from "@/hooks/cartOrder";
 
 export function ReceiptCart() {
-    const {showGroupedCartItems, totalCartPrice, totalCartQuantity} = useOrders()
+    const {showGroupedCartItems, totalCartPrice, totalCartQuantity,} = useCart()
     console.log('print', totalCartQuantity)
 
     return (
