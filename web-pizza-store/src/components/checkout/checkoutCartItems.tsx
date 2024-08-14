@@ -1,6 +1,6 @@
 'use client'
 
-import { useOrders } from "@/hooks/orderRequest";
+import { useCart } from "@/hooks/cartOrder";
 import { api } from "@/services/api";
 import { Image } from "@nextui-org/react"
 import NextImage from "next/image";
@@ -17,7 +17,7 @@ type CheckoutItems = {
 
 export function CheckoutCartItems ({ image, label, price, quantity, cart_item_id }: CheckoutItems) {
     const [productImg, setProductImg] = useState<string>('')
-    const { RemoveDisheOnCart } = useOrders()
+    const { RemoveDisheOnCart } = useCart()
 
     const fetchImgCard = useCallback(async () => {
         try {

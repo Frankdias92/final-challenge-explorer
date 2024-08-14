@@ -5,9 +5,9 @@ import { GoDash, GoPlus } from "react-icons/go";
 import { PiReceipt } from "react-icons/pi";
 import { ButtonText } from "@/components/buttonText";
 import { useRouter } from "next/navigation";
-import { useOrders } from "@/hooks/orderRequest";
 import Link from "next/link";
 import { UseAuth } from "@/hooks/auth";
+import { useCart } from "@/hooks/cartOrder";
 
 type ShowProductIDProps = {
     filteredProductId: ProductProps
@@ -16,7 +16,7 @@ type ShowProductIDProps = {
 };
 
 export function ShowProductID({ filteredProductId, itemValue, setItemValue }: ShowProductIDProps) {
-    const { addDisheOnCart } = useOrders();
+    const { addDisheOnCart } = useCart();
     const { user } = UseAuth()
     const router = useRouter();
 

@@ -5,13 +5,13 @@ import { CgClose } from "react-icons/cg";
 import { FiMenu } from "react-icons/fi";
 import { UseAuth } from "@/hooks/auth";
 import { PiReceipt } from "react-icons/pi";
-import { useOrders } from "@/hooks/orderRequest";
 import Link from "next/link";
 import { useSearch } from "@/app/(home)/searchProvider";
+import { useCart } from "@/hooks/cartOrder";
 
 export default function MobiViewHeader () {
         const  { isMenuOpen, handleMenuOpen }  = UseAuth()
-        const { totalCartQuantity } = useOrders()
+        const { totalCartQuantity } = useCart()
         const { setSearchTerm } = useSearch()
 
         const closeDropMenu = () => {

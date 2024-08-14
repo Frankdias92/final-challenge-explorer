@@ -1,6 +1,6 @@
 'use client'
 
-import { CartProps, useOrders } from "@/hooks/orderRequest";
+import { CartProps, useCart } from "@/hooks/cartOrder";
 import Link from "next/link";
 import { IoBagRemove } from "react-icons/io5";
 
@@ -9,7 +9,7 @@ interface ItemProps {
 }
 
 export function DrobMenuCart ({item}: ItemProps) {
-    const { RemoveDisheOnCart } = useOrders()
+    const { RemoveDisheOnCart } = useCart()
 
     function removingItemCart() {
         RemoveDisheOnCart(item.cart_item_id)

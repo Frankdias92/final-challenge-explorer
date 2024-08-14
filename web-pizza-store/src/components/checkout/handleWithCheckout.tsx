@@ -2,12 +2,12 @@
 
 import { ButtonReturn } from "@/components/buttonReturn"
 import { CheckoutCartItems } from "@/components/checkout/checkoutCartItems"
-import { useOrders } from "@/hooks/orderRequest"
 import { ButtonText } from "../buttonText"
 import { useRouter } from "next/navigation"
+import { useCart } from "@/hooks/cartOrder"
 
 export function HandleWithCheckout () {
-        const { groupedCartItems, totalPrice } = useOrders()
+        const { groupedCartItems, totalPrice } = useCart()
         const router = useRouter()
 
         console.log('print groups', groupedCartItems)

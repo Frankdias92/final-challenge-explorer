@@ -3,12 +3,8 @@
 import { useState } from "react";
 import { UseAuth } from "@/hooks/auth";
 import { useRouter } from "next/navigation";
-import { addDisheOnCartProps, useOrders } from "@/hooks/orderRequest";
 
 import Image from "next/image";
-// import NextImage from "next/image";
-// import { Image } from "@nextui-org/react";
-
 import { PiPencilSimple } from "react-icons/pi";
 import { FaHeart } from "react-icons/fa";
 import { GoDash, GoPlus } from "react-icons/go";
@@ -17,6 +13,7 @@ import { TbArrowBadgeRightFilled } from "react-icons/tb";
 import { ButtonText } from "../buttonText";
 import Link from "next/link";
 import { CiHeart } from "react-icons/ci";
+import { addDisheOnCartProps, useCart } from "@/hooks/cartOrder";
 
 interface productList {
     meal_id: number
@@ -31,7 +28,7 @@ export function ListProductsFeatures({ meal_id, image, description, title, price
     const [itemValue, setItemValue] = useState<number>(1);
     // const [data, setData] = useState<DataProps>();
     const [isFavorite, setIsFavorite] = useState(false);
-    const { addDisheOnCart } = useOrders()
+    const { addDisheOnCart } = useCart()
     const router = useRouter();
     const { user } = UseAuth();
 

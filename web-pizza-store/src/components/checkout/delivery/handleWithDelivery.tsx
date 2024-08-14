@@ -2,7 +2,7 @@
 
 import { ButtonText } from "@/components/buttonText"
 import { LabelInput } from "@/components/forms/inputLabel"
-import { useOrders } from "@/hooks/orderRequest"
+import { useCart } from "@/hooks/cartOrder"
 import axios from "axios"
 import { useEffect, useState } from "react"
 
@@ -21,7 +21,7 @@ export function HandleWithDelivery () {
         const [neighborHood, setNeighborHood] = useState<string>('')
         const [location, setLocation] = useState<string>('')
 
-        const { groupedCartItems, totalPrice } = useOrders()
+        const { groupedCartItems, totalPrice } = useCart()
         // const router = useRouter()
 
         function handleWithFinalStep() {

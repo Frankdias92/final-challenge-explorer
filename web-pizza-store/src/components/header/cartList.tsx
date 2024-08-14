@@ -6,7 +6,7 @@ import { PiReceipt } from "react-icons/pi";
 import { ButtonText } from "../buttonText";
 import { useRouter } from "next/navigation";
 import { DrobMenuCart } from "../cart/drobMenuCart";
-import { CartProps } from "@/hooks/orderRequest";
+import { CartProps } from "@/hooks/cartOrder";
 
 type CartListProps = {
     totalCartQuantity: number

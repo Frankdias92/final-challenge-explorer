@@ -1,12 +1,13 @@
 'use client'
 
-import { ListProductsFeatures } from "./listProdutsFeatures";
 
 import Slider from "react-slick"
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+
 import { useOrders } from "@/hooks/orderRequest";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
+import { ListProductsFeatures } from "./listProdutsFeatures";
 
 interface FeaturesProps {
     section: string
@@ -64,38 +65,25 @@ export function Features({ section }: FeaturesProps ) {
                 className="flex justify-center w-full h-full overflow-hidden pl-6 pb-11 md:pl-0 z-0"
             >
 
-                    {meals  && (
-                        meals.map(item => {
-                            return (
-                                (meals && 
-                                    <div className="flex px-4 z-0 " key={item.meal_id}>
-                                        <ListProductsFeatures
-                                            meal_id={item.meal_id}
-                                            title={item.name || 'Sample'}
-                                            description={item.description}
-                                            ingredients={item.ingredients}
-                                            price={item.price}
-                                            image={item.productImg}
-                                        />
-                                    </div>
-                            )
-                            )
-                        }) )
-}
-{/* : ( 
-                        <div className="flex px-4 z-0 " key={1}>
-                        <ListProductsFeatures
-                            meal_id={1}
-                            title={'Sample'}
-                            description={'sample test'}
-                            ingredients={['test']}
-                            price={0}
-                            image={ `${process.env.BLUR_DATA}`}
-                        />
-                    </div>
-                     )
-                }  */}
-                
+                {meals  && (
+                    meals.map(item => {
+                        return (
+                            (meals && 
+                                <div className="flex px-4 z-0 " key={item.meal_id}>
+                                    <ListProductsFeatures
+                                        meal_id={item.meal_id}
+                                        title={item.name || 'Sample'}
+                                        description={item.description}
+                                        ingredients={item.ingredients}
+                                        price={item.price}
+                                        image={item.productImg}
+                                    />
+                                </div>
+                        )
+                        )
+                    }) )
+                }
+
             </Slider>
 
             <div className="hidden lg:flex bg-gradient-to-r from-dark-700 to-dark-700/0 w-[233px] h-full absolute left-0 top-0 z-10 pointer-events-none"/>
