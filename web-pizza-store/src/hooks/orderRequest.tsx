@@ -114,26 +114,35 @@ function OrdersProvider({ children }: any) {
 
     const addDisheOnCart = useCallback(async ({ user_id, meal_id, quantity }: addDisheOnCartProps) => {
         try {
-            if (user_id && meal_id && quantity) {
-                const response = await api.post(`/cart`, {
-                    user_id,
-                    meal_id,
-                    quantity
-                });
-                console.log('producto adicionado', response.data)
-                
-                setCart(prevCart => {
-                    const newCart = [...prevCart, response.data]
-                    return newCart
-                } )
-            } else return console.log('print result response cart', )
-
-            fetchCart(user_id)
-            
+            if (user_id && meal_id && quantity > 0) {
+                // Verifique se o item já está no carrinho
+                const existingItem = cart.find(item => item.meal_id === meal_id);
+                let updatedCart;
+    
+                if (existingItem) {
+                    // Se o item já está no carrinho, apenas atualize a quantidade
+                    updatedCart = cart.map(item =>
+                        item.meal_id === meal_id ? { ...item, quantity: item.quantity + quantity } : item
+                    );
+                } else {
+                    // Se o item é novo, adicione-o ao carrinho
+                    const response = await api.post(`/cart`, {
+                        user_id,
+                        meal_id,
+                        quantity
+                    });
+                    updatedCart = [...cart, response.data];
+                }
+    
+                // Atualize o estado do carrinho com o carrinho atualizado
+                setCart(updatedCart);
+            } else {
+                console.log('Dados inválidos para adicionar ao carrinho.');
+            }
         } catch (error: any) {
-            console.error( error.response.data.message || 'Erro ao adicionar prato ao carrinho: ', error);
+            console.error(error.response?.data?.message || 'Erro ao adicionar prato ao carrinho: ', error);
         }
-    }, [fetchCart]);
+    }, [cart]);
     const RemoveDisheOnCart = useCallback(async (cart_item_id: number) => {
         try {
             if (cart_item_id) {
