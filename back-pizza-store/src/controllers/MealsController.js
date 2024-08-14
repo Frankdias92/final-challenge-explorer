@@ -8,7 +8,8 @@ const DiskStorage = require('../providers/DiskStorage')
 class MealsController {
     async create(req, res) {
         try {
-            const { name, ingredients, description, price, category, created_by } = req.body;
+            const { name, ingredients, description, category, created_by } = req.body;
+            const price = Number(req.body.price)
 
             if (!req.file) {
                 return res.status(400).json({ error: 'Dishe image is required' });
