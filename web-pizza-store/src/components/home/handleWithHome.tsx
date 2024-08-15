@@ -2,11 +2,9 @@
 
 import { Main } from "@/components/home/main";
 import dynamic from "next/dynamic";
-// import { ListProductsFeatures } from "@/components/home/listProdutsFeatures";
 import { UseAuth } from "@/hooks/auth";
 import { LoaderProducts } from "../../components/loader/LoaderProducts";
 import { Suspense } from "react";
-// import { Features } from "@/components/home/features";
 import { useSearch } from "@/app/(home)/searchProvider";
 
 

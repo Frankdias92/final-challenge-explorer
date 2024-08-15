@@ -21,7 +21,7 @@ export function HandleWithDelivery () {
         const [neighborHood, setNeighborHood] = useState<string>('')
         const [location, setLocation] = useState<string>('')
 
-        const { groupedCartItems, totalPrice } = useCart()
+        const { showGroupedCartItems, totalPrice } = useCart()
         // const router = useRouter()
 
         function handleWithFinalStep() {
@@ -33,9 +33,9 @@ export function HandleWithDelivery () {
                 const message = `
                         🍕 NOVO PEDIDO
                         \nEntregar em: \n RUA: ${adress}, ${adressNumber}, CEP: ${cep}, \n ${neighborHood}
-                        \n${groupedCartItems?.map(item =>  ` \n${item.name} ${item.quantity} x ${item.price}`)}
+                        \n${showGroupedCartItems?.map(item =>  ` \n${item.name} ${item.quantity} x ${item.price}`)}
                         \nValor total: R$ ${totalPrice}
-                        \nRef:. ${groupedCartItems?.map(item => item.user_id)}`
+                        \nRef:. ${showGroupedCartItems?.map(item => item.user_id)}`
 
                         const encodedMessage = encodeURIComponent(message)
                         // const groupId = 'DgHh0J2Fujo3Q4y8rGdCaw'         // Group Id

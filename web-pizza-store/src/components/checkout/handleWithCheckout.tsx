@@ -5,12 +5,15 @@ import { CheckoutCartItems } from "@/components/checkout/checkoutCartItems"
 import { ButtonText } from "../buttonText"
 import { useRouter } from "next/navigation"
 import { useCart } from "@/hooks/cartOrder"
+import { useEffect } from "react"
 
 export function HandleWithCheckout () {
-        const { groupedCartItems, totalPrice } = useCart()
+        const { showGroupedCartItems  } = useCart()
         const router = useRouter()
 
-        console.log('print groups', groupedCartItems)
+        useEffect(() => {
+                console.log('test props', {showGroupedCartItems})
+        }, [showGroupedCartItems])
         return (
                 <section className="flex flex-col w-full h-full text-light-100 font-poppins py-8">
 
@@ -20,13 +23,14 @@ export function HandleWithCheckout () {
 
                                         <>Cart Items</>
 
-                                        {groupedCartItems && groupedCartItems.length > 0 ? (
-                                                groupedCartItems.map(item => (
+                                        {showGroupedCartItems && showGroupedCartItems.length > 0 ? (
+                                                showGroupedCartItems.map(item => (
                                                         <CheckoutCartItems 
                                                                 key={item.cart_item_id}
                                                                 cart_item_id={item.cart_item_id}
-                                                                image={item.meal_id}
-                                                                label={item.name}
+                                                                productImg={item.meal_id}
+                                                                name={item.name}
+                                                                description={item.description}
                                                                 price={item.price}
                                                                 quantity={item.quantity}
                                                         />
@@ -38,13 +42,13 @@ export function HandleWithCheckout () {
                                         <>Pagamento</>
                                         <div className="flex w-full justify-between p-2 bg-dark-500 rounded-lg">
                                                 <text>Valor Total:</text>
-                                                <text>R$ {totalPrice}</text>
+                                                <text>R$ {'totalPrice'}</text>
                                         </div>
 
                                 </div>
                         </div>
 
-                        {groupedCartItems && groupedCartItems.length > 0 &&
+                        {showGroupedCartItems && showGroupedCartItems.length > 0 &&
                         <span className="flex w-full xl:hidden mt-8">
                                 <ButtonText text="Adicionar endereço" onclick={() => router.push('/checkout/delivery')} size={48}/>
                         </span>

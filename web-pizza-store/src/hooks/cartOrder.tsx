@@ -15,6 +15,7 @@ export interface CartProps {
     description: string
     price: number
     category: string
+    productImg: string
 }
 export type addDisheOnCartProps = {
     user_id: number
@@ -28,22 +29,24 @@ interface CartContextProps {
     RemoveOrderId: (order_item_id: number) => void
     showGroupedCartItems: CartProps[] | []
     groupedCartItems: CartProps[] | null
-    totalCartQuantity: number | 0
-    totalCartPrice: number | 0
-    totalPrice: number | 0
+    totalCartQuantity: number
+    totalCartPrice: number
+    totalPrice: number
     cart: CartProps[] | null
+    fetchCart: (data_id: number) => void
 }
 
 export const CartContext = createContext<CartContextProps>({
     addDisheOnCart: () => {},
     RemoveDisheOnCart: () => {},
     RemoveOrderId: () => {},
+    totalPrice: 0,
     groupedCartItems: null,
     cart: null,
-    totalPrice: 0,
     totalCartQuantity: 0,
     totalCartPrice: 0,
     showGroupedCartItems: [],
+    fetchCart: () => {}
 })
 
 function CartProvider({ children }: CartProviderProps) {
@@ -53,58 +56,82 @@ function CartProvider({ children }: CartProviderProps) {
     const [showGroupedCartItems, setShowGroupedCartItems] = useState<CartProps[] >([])
 
     const { user } = UseAuth()
+
+    const getFilteredCartItems = useCallback(
+        (cart: CartProps[]): CartProps[] => {
+            const filteredCartItems = cart.reduce((acc, item) => {
+                const existingItem = acc.find(i => i.meal_id === item.meal_id);
+                if (existingItem) {
+                    existingItem.quantity += item.quantity;
+                    existingItem.price += item.price * item.quantity;
+                } else {
+                    acc.push({ ...item, price: item.price * item.quantity });
+                }
+                return acc;
+            }, [] as CartProps[]);
+
+            return filteredCartItems;
+        },
+        []
+    )
+    
     
     const fetchCart = useCallback(async (data_id: number) => {
         try {
             if (user) {
-                if (data_id) {
-                    const response = await api.get(`/cart/${data_id}`)
-                    setCart(response.data)
-                }
-            } else console.log("You are not logget")
+                const response = await api.get(`/cart/${data_id}`)
+                setCart(response.data)
+            }
         } catch (error) {
             console.error("Error fetching cart: ", error)
         }
     }, [user])
-    const addDisheOnCart = useCallback(async ({ user_id, meal_id, quantity }: addDisheOnCartProps) => {
-        try {
-            if (user_id && meal_id && quantity > 0) {
-                // Verifique se o item já está no carrinho
-                const existingItem = cart.find(item => item.meal_id === meal_id);
-                let updatedCart: CartProps[];
-    
-                if (existingItem) {
-                    // Se o item já está no carrinho, apenas atualize a quantidade
-                    updatedCart = cart.map(item =>
-                        item.meal_id === meal_id ? { ...item, quantity: item.quantity + quantity } : item
-                    );
+
+    const addDisheOnCart = useCallback(
+        async ({ user_id, meal_id, quantity }: addDisheOnCartProps) => {
+            try {
+                if (user_id && meal_id && quantity > 0) {
+                    // Verifique se o item já está no carrinho
+                    const existingItem = cart.find(item => item.meal_id === meal_id);
+                    let updatedCart: CartProps[];
+        
+                    if (existingItem) {
+                        // Se o item já está no carrinho, apenas atualize a quantidade
+                        updatedCart = cart.map(item =>
+                            item.meal_id === meal_id ? { ...item, quantity: item.quantity + quantity } : item
+                        );
+                    } else {
+                        // Se o item é novo, adicione-o ao carrinho
+                        const response = await api.post(`/cart`, {
+                            user_id,
+                            meal_id,
+                            quantity
+                        });
+                        updatedCart = [...cart, {
+                            ...response.data,
+                            price: Number(response.data)
+                        }];
+                        return updatedCart
+                    }
+
+                    console.log('print order')
+                    
+                    // Atualize o estado do carrinho com o carrinho atualizado
+                    return setCart(updatedCart)
                 } else {
-                    // Se o item é novo, adicione-o ao carrinho
-                    const response = await api.post(`/cart`, {
-                        user_id,
-                        meal_id,
-                        quantity
-                    });
-                    updatedCart = [...cart, {
-                        ...response.data,
-                        price: Number(response.data)
-                    }];
-                    return updatedCart
+                    console.log('Dados inválidos para adicionar ao carrinho.');
                 }
-                // Atualize o estado do carrinho com o carrinho atualizado
-                setCart( updatedCart )
-            } else {
-                console.log('Dados inválidos para adicionar ao carrinho.');
+                fetchCart(user_id)
+            } catch (error: any) {
+                console.error(error.response?.data?.message || 'Erro ao adicionar prato ao carrinho: ', error);
             }
-        } catch (error: any) {
-            console.error(error.response?.data?.message || 'Erro ao adicionar prato ao carrinho: ', error);
-        }
-    }, [cart]);
+    }, [cart, fetchCart]);
+
     const RemoveDisheOnCart = useCallback(async (cart_item_id: number) => {
         try {
             if (cart_item_id) {
                 await api.delete(`/cart/${cart_item_id}`)
-                setCart(prevCart => prevCart?.filter(item => item.cart_item_id !== cart_item_id) || null)
+                setCart(prevCart => prevCart?.filter(item => item.cart_item_id !== cart_item_id))
 
                 const user = localStorage.getItem('@estock:user')
 
@@ -120,6 +147,7 @@ function CartProvider({ children }: CartProviderProps) {
             console.error('Error to removing the item: ', error)
         }
     }, [fetchCart])
+    
     const RemoveOrderId = useCallback(async (order_item_id: number) => {
         try {
             if (order_item_id) {
@@ -137,51 +165,37 @@ function CartProvider({ children }: CartProviderProps) {
         }
     }, [fetchCart])
 
-    const getFilteredCartItems = (cart: CartProps[]): CartProps[] => {
-        if (!Array.isArray(cart)) {
-            console.error('Cart is not an array: ', cart);
-            return [];
-        }        
-        const filteredCartItems = cart.reduce((acc, item) => {
-            const existingItem = acc.find((i) => i.meal_id === item.meal_id);
-            if (existingItem) {
-                existingItem.quantity += item.quantity;
-                existingItem.price += item.price * item.quantity;
-            } else {
-                acc.push({ ...item, price: item.price * item.quantity });
-            }
-            return acc;
-        }, [] as CartProps[]);
 
-        return filteredCartItems;
-    }
     const groupedCartItems = getFilteredCartItems(cart)
     const totalPrice = Number(groupedCartItems.reduce((sum, item) => sum + item.price, 0).toFixed(2))
 
-    
+
     useEffect(() => {
         if (user) {
-            console.log('just checking')
             fetchCart(user.id)
         }
+        console.log('render first time')
     }, [fetchCart, user])
 
     useEffect(() => {
-        const calculateTotals = () => {
-            const totalPrc = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-            const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
-            setTotalCartQuantity(totalQty);
-            setTotalCartPrice(totalPrc);
+        if (cart.length > 0) {
+            const calculateTotals = () => {
+                const totalPrc = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+                const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+                setTotalCartQuantity(totalQty);
+                setTotalCartPrice(totalPrc);
+            }
+            
+            if (Array.isArray(cart)) {
+                calculateTotals();
+                setShowGroupedCartItems(getFilteredCartItems(cart));
+            } else {
+                console.error('Cart is not an array: ', cart);
+            }
+            // console.log('checking cart on update', cart)
         }
-        
-        if (Array.isArray(cart)) {
-            calculateTotals();
-            setShowGroupedCartItems(getFilteredCartItems(cart));
-        } else {
-            console.error('Cart is not an array: ', cart);
-        }
-        console.log('checking cart on update', cart)
-    }, [cart]);
+        // fetchCart(2)
+    }, [cart, getFilteredCartItems, fetchCart]);
 
 
     return (
@@ -191,11 +205,12 @@ function CartProvider({ children }: CartProviderProps) {
                 RemoveDisheOnCart,
                 RemoveOrderId,
                 cart,
-                groupedCartItems,
-                totalPrice,
                 totalCartQuantity,
                 totalCartPrice,
-                showGroupedCartItems
+                totalPrice,
+                groupedCartItems,
+                showGroupedCartItems,
+                fetchCart
             }}
         >
             {children}

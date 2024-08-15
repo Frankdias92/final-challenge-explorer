@@ -1,39 +1,39 @@
 'use client'
 
-import { useCart } from "@/hooks/cartOrder";
+import { CartProps, useCart } from "@/hooks/cartOrder";
 import { api } from "@/services/api";
 import { Image } from "@nextui-org/react"
 import NextImage from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IoBagRemove } from "react-icons/io5";
 
 type CheckoutItems = {
     cart_item_id: number
-    image: number
-    label: string
+    productImg: number
+    name: string
+    description: string
     price: number
     quantity: number
 }
 
-export function CheckoutCartItems ({ image, label, price, quantity, cart_item_id }: CheckoutItems) {
-    const [productImg, setProductImg] = useState<string>('')
+export function CheckoutCartItems ({ productImg, name, description, price, quantity, cart_item_id }: CheckoutItems) {
+    const [imageParams, setImageParams] = useState<string>('')
     const { RemoveDisheOnCart } = useCart()
 
-    const fetchImgCard = useCallback(async () => {
-        try {
-            if (image) {
-                const response = await api.get(`/meals/${image}`)
-                setProductImg(response.data[0].productImg)
-                // console.log('pass throw')
-            }
-        } catch (error) {
-                console.error('Error ao buscar image do produto ', error)
-        }
-}, [image])
-
     useEffect(() => {
-            fetchImgCard()
-    }, [fetchImgCard])
+        try {
+            const fetchProductImage = async() => {
+                const response = await api.get(`${process.env.NEXT_PUBLIC_DB}/meals/${productImg}`)
+                const data:CartProps[] = response.data
+                if (data) {
+                    setImageParams(data[0].productImg)
+                }
+            }
+            fetchProductImage()
+        } catch (error) {
+            console.error('Failed to get product image', error)
+        }
+    }, [productImg])
     
     return (
         <div className="flex w-full h-48 border-b-dark-500 border-b-4 p-4 gap-4">
@@ -43,8 +43,8 @@ export function CheckoutCartItems ({ image, label, price, quantity, cart_item_id
                         width={690}
                         height={690}
                         quality={100}
-                        src={`${process.env.NEXT_PUBLIC_URL_FILES}/${productImg}` /* || 'http://localhost:3000/_next/image?url=http%3A%2F%2Flocalhost%3A3333%2Ffiles%2F44d6d72e16447cb98ec4-63c83ebeef5ea2f341f3dd4c_OG-perpetuo.jpg&w=640&q=75' */}
-                        alt={`Imagem de ${label}`}
+                        src={`${process.env.NEXT_PUBLIC_URL_FILES}/${imageParams}` /* || 'http://localhost:3000/_next/image?url=http%3A%2F%2Flocalhost%3A3333%2Ffiles%2F44d6d72e16447cb98ec4-63c83ebeef5ea2f341f3dd4c_OG-perpetuo.jpg&w=640&q=75' */}
+                        alt={`Imagem de ${name}`}
                         className="flex rounded-full w-48"
                     />
             </div>
@@ -52,10 +52,10 @@ export function CheckoutCartItems ({ image, label, price, quantity, cart_item_id
             <div className="flex flex-col w-full justify-between mt-0 py-8 text-light-100">
                 <div className="flex flex-col leading-6 ">
                     <h3 className="flex font-semibold font-roboto text-xl">
-                        {label}
+                        {name}
                     </h3>
                     <p className="font-poppins text-base text-light-300">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam minus sapiente nulla eius.
+                        {description}
                     </p>
                 </div>
 

@@ -6,8 +6,9 @@ import { PiReceipt } from "react-icons/pi";
 import { ButtonText } from "../buttonText";
 import { useRouter } from "next/navigation";
 import { DrobMenuCart } from "../cart/drobMenuCart";
-import { CartProps } from "@/hooks/cartOrder";
+import { CartProps, useCart } from "@/hooks/cartOrder";
 import { useEffect } from "react";
+// import { useEffect } from "react";
 
 type CartListProps = {
     totalCartQuantity: number
@@ -15,12 +16,13 @@ type CartListProps = {
     showGroupedCartItems: CartProps[]
 }
 
-export function CartList({totalCartQuantity, totalCartPrice, showGroupedCartItems}: CartListProps) {
+export function CartList() {
     const router = useRouter()
+    const {showGroupedCartItems, totalCartQuantity, totalCartPrice, groupedCartItems} = useCart()
 
-    useEffect(() => {
-        console.log('update on click')
-    }, [totalCartQuantity, totalCartPrice, showGroupedCartItems])
+    // useEffect(() => {
+    //     console.log('print cart list', showGroupedCartItems[0], groupedCartItems)
+    // }, [showGroupedCartItems, groupedCartItems])
 
     return (
         <Dropdown backdrop="blur"

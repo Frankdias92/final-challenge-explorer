@@ -1,6 +1,5 @@
 'use client'
 
-
 import Slider from "react-slick"
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -8,6 +7,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import { useOrders } from "@/hooks/orderRequest";
 import { useCallback, useEffect } from "react";
 import { ListProductsFeatures } from "./listProdutsFeatures";
+import { useCart } from "@/hooks/cartOrder";
 
 interface FeaturesProps {
     section: string
@@ -24,23 +24,29 @@ export interface ProductProps {
 export function Features({ section }: FeaturesProps ) {
     const { meals, handleFetchMeals } = useOrders()
 
-    const fethMeals = useCallback(async() => {
-        try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_DB}/meals/index`);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data = await response.json();
-            handleFetchMeals(data);
-        } catch (error: any) {
-            console.error('Erro fetch meals:', error.message);
-        }
-    }, [handleFetchMeals]);
-
-    useEffect(() => {
-        fethMeals()
-    }, [fethMeals])
     
+    useEffect(() => {
+        try {
+            const fethMeals = async() => {
+                try {
+                    const response = await fetch(`${process.env.NEXT_PUBLIC_DB}/meals/index`, {cache: 'force-cache'});
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    handleFetchMeals(data);
+                } catch (error: any) {
+                    console.error('Erro fetch meals:', error.message);
+                }
+            };
+            
+            fethMeals()
+        } catch (error) {
+            console.error('Failed to get meals', error)
+        }
+
+        
+    }, [handleFetchMeals])
     
     // - Slider configs
     const settings = {
@@ -79,7 +85,7 @@ export function Features({ section }: FeaturesProps ) {
                                         image={item.productImg}
                                     />
                                 </div>
-                        )
+                            )
                         )
                     }) )
                 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { UseAuth } from "@/hooks/auth";
 import { useRouter } from "next/navigation";
 
@@ -10,35 +10,53 @@ import { FaHeart } from "react-icons/fa";
 import { GoDash, GoPlus } from "react-icons/go";
 import { TbArrowBadgeRightFilled } from "react-icons/tb";
 
-import { ButtonText } from "../buttonText";
 import Link from "next/link";
 import { CiHeart } from "react-icons/ci";
-import { addDisheOnCartProps, useCart } from "@/hooks/cartOrder";
+import { useCart } from "@/hooks/cartOrder";
+import dynamic from "next/dynamic";
+import { LoaderProducts } from "../loader/LoaderProducts";
 
+const ButtonText = dynamic(() => 
+    import(
+        /*  webpackChuckName: '../buttonText' */
+        '../buttonText'
+    )
+    .then((module) => module.ButtonText), {
+        loading: () => <LoaderProducts />,
+        ssr: false
+    }
+)
+
+interface DisherProps {
+    user_id: number
+    meal_id: number
+    quantity: number
+}
 interface productList {
     meal_id: number
     image: string 
     description: string
     title: string 
     price: number 
-    ingredients: string[]
+    ingredients?: string[]
 }
 
-export function ListProductsFeatures({ meal_id, image, description, title, price, ingredients }: productList) {
+export function ListProductsFeatures({ meal_id, image, description, title, price }: productList) {
     const [itemValue, setItemValue] = useState<number>(1);
-    // const [data, setData] = useState<DataProps>();
     const [isFavorite, setIsFavorite] = useState(false);
-    const { addDisheOnCart } = useCart()
-    const router = useRouter();
+    const { addDisheOnCart, cart, fetchCart } = useCart()
     const { user } = UseAuth();
+    const router = useRouter();
 
-    function handleAddDicherOnCart({user_id, meal_id, quantity}: addDisheOnCartProps) {
+    
+    const handleAddDicherOnCart = useCallback(async({user_id, meal_id, quantity}: DisherProps) => {
         addDisheOnCart({
             user_id, 
             meal_id, 
             quantity
         })
-    }
+        fetchCart(user_id)
+    }, [addDisheOnCart, fetchCart])
 
     return (
         <>
