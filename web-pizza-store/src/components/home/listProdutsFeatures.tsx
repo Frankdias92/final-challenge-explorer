@@ -12,9 +12,9 @@ import { TbArrowBadgeRightFilled } from "react-icons/tb";
 
 import Link from "next/link";
 import { CiHeart } from "react-icons/ci";
-import { useCart } from "@/hooks/cartOrder";
 import dynamic from "next/dynamic";
 import { LoaderProducts } from "../loader/LoaderProducts";
+import { useOrders } from "@/hooks/orderRequest";
 
 const ButtonText = dynamic(() => 
     import(
@@ -44,7 +44,8 @@ interface productList {
 export function ListProductsFeatures({ meal_id, image, description, title, price }: productList) {
     const [itemValue, setItemValue] = useState<number>(1);
     const [isFavorite, setIsFavorite] = useState(false);
-    const { addDisheOnCart, cart, fetchCart } = useCart()
+    // const { addDisheOnCart, cart, fetchCart } = useCart()
+    const { addDisheOnCart, cart, fetchOrderItems } = useOrders()
     const { user } = UseAuth();
     const router = useRouter();
 
@@ -55,8 +56,8 @@ export function ListProductsFeatures({ meal_id, image, description, title, price
             meal_id, 
             quantity
         })
-        fetchCart(user_id)
-    }, [addDisheOnCart, fetchCart])
+        fetchOrderItems(user_id)
+    }, [addDisheOnCart, fetchOrderItems])
 
     return (
         <>

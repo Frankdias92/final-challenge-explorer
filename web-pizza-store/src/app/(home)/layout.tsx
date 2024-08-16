@@ -1,7 +1,7 @@
 import { Footer } from "@/components/home/footer";
 import Header from "@/components/home/header";
 import { Metadata } from "next";
-import { ProviderHomeCart } from './ProviderHomeCart'
+import { SearchProvider } from "./searchProvider";
 
 export const metadata: Metadata = {
     title: "Home | Food explorer",
@@ -15,12 +15,13 @@ export const metadata: Metadata = {
   }>) {
     
     return (
-      <ProviderHomeCart >
+      // <ProviderHomeCart >
+      <SearchProvider>
         <section className="flex flex-col w-full min-h-screen justify-between">
           <Header />
             {children}
           <Footer />
         </section>
-      </ProviderHomeCart>
+      </SearchProvider>
     );
   }

@@ -1,6 +1,6 @@
 'use client'
 
-import { CartProps, useCart } from "@/hooks/cartOrder";
+import { CartProps, useOrders } from "@/hooks/orderRequest";
 import { api } from "@/services/api";
 import { Image } from "@nextui-org/react"
 import NextImage from "next/image";
@@ -18,13 +18,13 @@ type CheckoutItems = {
 
 export function CheckoutCartItems ({ productImg, name, description, price, quantity, cart_item_id }: CheckoutItems) {
     const [imageParams, setImageParams] = useState<string>('')
-    const { RemoveDisheOnCart } = useCart()
+    const { RemoveDisheOnCart } = useOrders()
 
     useEffect(() => {
         try {
             const fetchProductImage = async() => {
                 const response = await api.get(`${process.env.NEXT_PUBLIC_DB}/meals/${productImg}`)
-                const data:CartProps[] = response.data
+                const data = response.data
                 if (data) {
                     setImageParams(data[0].productImg)
                 }

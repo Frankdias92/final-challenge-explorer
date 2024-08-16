@@ -4,11 +4,12 @@ import { ButtonReturn } from "@/components/buttonReturn"
 import { CheckoutCartItems } from "@/components/checkout/checkoutCartItems"
 import { ButtonText } from "../buttonText"
 import { useRouter } from "next/navigation"
-import { useCart } from "@/hooks/cartOrder"
 import { useEffect } from "react"
+import { useOrders } from "@/hooks/orderRequest"
 
 export function HandleWithCheckout () {
-        const { showGroupedCartItems  } = useCart()
+        // const { showGroupedCartItems  } = useCart()
+        const {showGroupedCartItems } = useOrders()
         const router = useRouter()
 
         useEffect(() => {
