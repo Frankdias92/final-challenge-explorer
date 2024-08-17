@@ -158,7 +158,7 @@ function OrdersProvider({ children }: any) {
             if (existingItem) {
                 existingItem.quantity += item.quantity;
             } else {
-                acc.push(item);
+                acc.push({ ...item });
             }
             return acc;
         }, [] as CartProps[]);
@@ -167,7 +167,7 @@ function OrdersProvider({ children }: any) {
     useEffect(() => {
         if (cart) {
             const groupedItems = getFilteredCartItems(cart);
-            const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalQty = groupedItems.reduce((sum, item) => sum + item.quantity, 0);
             const totalPrc = groupedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
             
             setCartSummary({
@@ -207,7 +207,7 @@ function OrdersProvider({ children }: any) {
             const { id } = JSON.parse(user);
             if (id) {
                 fetchOrders();
-                fetchCart(id);
+                // fetchCart(id);
                 console.log('if user fetchCart')
             }
         }
