@@ -47,7 +47,7 @@ export function HandleWithUpdate () {
     }
 
     async function handleWithUpdateDisher() {
-        loadingProducts(false)
+        loadingProducts(true)
         try {
             const formData = new FormData()
             formData.append('name', name)
@@ -75,7 +75,7 @@ export function HandleWithUpdate () {
         } catch (error: any) {
             alert(error.response?.data?.message || error.message)
         } finally {
-            
+            loadingProducts(false)
         }
     }
     function handleNewCategory(selectedOptions: MultiValue<OptionType>) {
@@ -135,6 +135,7 @@ export function HandleWithUpdate () {
         getDisheId()
     }, [params, setIngredients, meals])
 
+
     useEffect(() => {
         if (!img || !name || !category || !price || !description || !ingredients) {
             setIsDisabled(true)
@@ -145,124 +146,132 @@ export function HandleWithUpdate () {
 
     return (
         <>
-            <form className="w-full h-full justify-stretch justify-items-stretch
-            md:grid grid-cols-7 gap-x-8 items-end relative">
-                
-                {/* INPUT FILE IMG */}
-                <div className="col-start-1 col-span-2 relative">
-                    <HandleImageUpload 
-                        productImg={productImg}
-                        setProductImg={setProductImg}
-                        setImgName={setImgName}
-                        setImg={setImg}
-                        >
-                        {productImg && <span className="flex gap-2 items-center h-12">./ {img.split('-')[1]}</span>}
-                    </HandleImageUpload>
-                </div>
-                {/* END OF FILE IMG */}
-                
-                {/* name */}
-                <div className="flex flex-col flex-1 col-start-3 col-span-2">
-                    <LabelInput 
-                        label="Nome" 
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        type="text" 
-                        placeholder="Ex.: Salada Ceasar"
-                        size={48}
-                    />
-                </div>
+        {user ? (
+            <>
+                <form className="w-full h-full justify-stretch justify-items-stretch
+                    md:grid grid-cols-7 gap-x-8 items-end relative">
+                    
+                    {/* INPUT FILE IMG */}
+                    <div className="col-start-1 col-span-2 relative z-10">
+                        <HandleImageUpload 
+                            productImg={productImg}
+                            setProductImg={setProductImg}
+                            setImgName={setImgName}
+                            setImg={setImg}
+                            >
+                            {productImg && <span className="flex gap-2 items-center h-12">./ {img.split('-')[1]}</span>}
+                        </HandleImageUpload>
+                    </div>
+                    {/* END OF FILE IMG */}
+                    
+                    {/* name */}
+                    <div className="flex flex-col flex-1 col-start-3 col-span-2">
+                        <LabelInput 
+                            label="Nome" 
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            type="text" 
+                            placeholder="Ex.: Salada Ceasar"
+                            size={48}
+                        />
+                    </div>
 
-                {/* category */}
-                <div className="flex h-full flex-col col-span-3">
-                    <label className="flex gap-2 w-full h-full text-xs text-light-400 font-roboto pt-8">
-                        Categoria
-                    </label>    
-                    <InputSelect 
-                        category={category}
-                        handleNewCategory={handleNewCategory}
-                        size={56}
-                    />
-                </div>
+                    {/* category */}
+                    <div className="flex h-full flex-col col-span-3">
+                        <label className="flex gap-2 w-full h-full text-xs text-light-400 font-roboto pt-8">
+                            Categoria
+                        </label>    
+                        <InputSelect 
+                            category={category}
+                            handleNewCategory={handleNewCategory}
+                            size={56}
+                        />
+                    </div>
 
-                {/* INGREDIENTS */}
-                <div className="flex w-full h-full flex-col col-start-1 col-span-5 justify-end">
-                    <Section title="Ingredientes">
-                        <div className="flex flex-wrap justify-start gap-4">
-                            {Array.isArray(ingredients) && ingredients.map((item, index) => {
-                                return (
-                                    <NewItem 
-                                        key={String(index)}
-                                        value={item}
-                                        onClick={() => handleRemoveIngredients(item)}
-                                    />
-                                )
-                            })}
-                            
-                            <NewItem 
-                                isNew
-                                value={newIngredientes}
-                                placeholder='Adicionar'
-                                onChange={(e) => setNewIngredientes(e.target.value)}
-                                onClick={handleAddIngredients}
-                            />
-                        </div>
-                    </Section>
-                </div>       
-                {/* INGREDIENTS */}          
-                
-                {/*  price */}
-                <div className="flex w-full flex-col col-start-6 col-span-2">
-                    <LabelInput 
-                        label="Preço" 
-                        value={price}
-                        onChange={(e) => setPrice(Number(e.target.value))}
-                        type="Number"
-                        placeholder="R$ 00,00"
-                        size={48}
-                    />
-                </div>
-                
-                {/*  description */}
-                <div className="flex h-fit flex-col col-start-1 col-span-7">
-                    <label className="flex flex-col w-full h-full mt-8 text-xs text-light-400 font-roboto">
-                        Descrição
-                    </label>
-                    <textarea
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        placeholder="Fale brevemente sobre o prato, seus ingredientes e composição"
-                        className="flex w-full h-[172px] text-light-500  font-roboto mt-2 shadow bg-dark-200 appearance-none border-none rounded-lg py-2 px-3 leading-tight
-                        focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 overflow-hidden mb-8 placeholder:text-light-400 hover:placeholder:text-light-500 duration-300 antialiased"
-                    />
-                </div>
+                    {/* INGREDIENTS */}
+                    <div className="flex w-full h-full flex-col col-start-1 col-span-5 justify-end">
+                        <Section title="Ingredientes">
+                            <div className="flex flex-wrap justify-start gap-4">
+                                {Array.isArray(ingredients) && ingredients.map((item, index) => {
+                                    return (
+                                        <NewItem 
+                                            key={String(index)}
+                                            value={item}
+                                            onClick={() => handleRemoveIngredients(item)}
+                                        />
+                                    )
+                                })}
+                                
+                                <NewItem 
+                                    isNew
+                                    value={newIngredientes}
+                                    placeholder='Adicionar'
+                                    onChange={(e) => setNewIngredientes(e.target.value)}
+                                    onClick={handleAddIngredients}
+                                />
+                            </div>
+                        </Section>
+                    </div>       
+                    {/* INGREDIENTS */}          
+                    
+                    {/*  price */}
+                    <div className="flex w-full flex-col col-start-6 col-span-2">
+                        <LabelInput 
+                            label="Preço" 
+                            value={price}
+                            onChange={(e) => setPrice(Number(e.target.value))}
+                            type="Number"
+                            placeholder="R$ 00,00"
+                            size={48}
+                        />
+                    </div>
+                    
+                    {/*  description */}
+                    <div className="flex h-fit flex-col col-start-1 col-span-7">
+                        <label className="flex flex-col w-full h-full mt-8 text-xs text-light-400 font-roboto">
+                            Descrição
+                        </label>
+                        <textarea
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            placeholder="Fale brevemente sobre o prato, seus ingredientes e composição"
+                            className="flex w-full h-[172px] text-light-500  font-roboto mt-2 shadow bg-dark-200 appearance-none border-none rounded-lg py-2 px-3 leading-tight
+                            focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-light-700 overflow-hidden mb-8 placeholder:text-light-400 hover:placeholder:text-light-500 duration-300 antialiased"
+                        />
+                    </div>
 
-            </form>
+                </form>
 
-            <div className="flex m-auto w-full md:mr-0 md:w-fit gap-x-12 gap-y-4 flex-col sm:flex-row">
-                <ButtonText 
-                    text="Excluir prato" 
-                    size={48} 
-                    // isDisable={isDisabled}
-                    colorDark={true}
-                    onclick={handleDeletMeal}
-                />
-
-            {loading ? ( 
-                <div className="absolute flex  left-0  top-0 w-screen h-screen items-center justify-center bg-black/80">
-                    <span className="">
-                        <LoaderProducts />
-                    </span>
-                </div>
-             ) : (
-                <ButtonText 
-                        text="Salvar alterações" 
+                <div className="flex m-auto w-full md:mr-0 md:w-fit gap-x-12 gap-y-4 flex-col sm:flex-row">
+                    <ButtonText 
+                        text="Excluir prato" 
                         size={48} 
-                        isDisable={isDisabled}
-                        onclick={handleWithUpdateDisher}
+                        // isDisable={isDisabled}
+                        colorDark={true}
+                        onclick={handleDeletMeal}
                     />
+
+                    {loading ? ( 
+                        <div className="absolute flex  left-0  top-0 w-screen h-screen items-center justify-center bg-black/80 z-50">
+                            <span className="">
+                                <LoaderProducts />
+                            </span>
+                        </div>
+                    ) : (
+                        <ButtonText 
+                                text="Salvar alterações" 
+                                size={48} 
+                                isDisable={isDisabled}
+                                onclick={handleWithUpdateDisher}
+                            />
+                    )}
+                </div>
+
+            </>
+
+            ) : (
+            <span className="flex mt-auto text-2xl font-bold text-red-600 hover:cursor-pointer" onClick={() => router.push('/')}>Você não tem permissão!</span>
             )}
-            </div>
         </>
     )
 }

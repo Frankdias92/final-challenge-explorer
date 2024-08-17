@@ -175,7 +175,6 @@ function OrdersProvider({ children }: any) {
                 totalPrice: totalPrc,
                 groupedItems: groupedItems
             });
-            console.log('show total quantity: ', totalQty)
         } else {
             console.error('Cart is not an array: ', cart);
         }

@@ -64,7 +64,7 @@ export default function RetriveId () {
                 <div className="flex flex-col flex-wrap mt-10 md:col-span-2 lg:col-span-1">
                     <span className="flex size-[264px] md:mr-8 xl:size-[390px] items-center rounded-full overflow-hidden bg-cover my-4 drop-shadow-2xl">
                         <Image
-                            loading="lazy"
+                            // loading="lazy"
                             placeholder="blur"
                             blurDataURL="data:'img/png"
                             width={690}

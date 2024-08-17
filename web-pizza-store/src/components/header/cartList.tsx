@@ -19,10 +19,6 @@ type CartListProps = {
 export function CartList({totalCartQuantity, totalCartPrice, showGroupedCartItems}: CartListProps) {
     const router = useRouter()
 
-    useEffect(() => {
-        console.log('print without quantity',)
-    }, [])
-
     return (
         <Dropdown backdrop="blur"
             showArrow

@@ -28,7 +28,7 @@ export function Features({ section }: FeaturesProps ) {
         try {
             const fethMeals = async() => {
                 try {
-                    const response = await fetch(`${process.env.NEXT_PUBLIC_DB}/meals/index`, {cache: 'force-cache'});
+                    const response = await fetch(`${process.env.NEXT_PUBLIC_DB}/meals/index`, {cache: 'default'});
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }

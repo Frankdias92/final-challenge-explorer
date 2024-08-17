@@ -90,7 +90,7 @@ export function ListProductsFeatures({ meal_id, image, description, title, price
                         blurDataURL="data:'img/png"
                         width={488}
                         height={488}
-                        quality={85}
+                        // quality={85}
                         alt={`Image do prato ${title} com descrição ${description}`}
                         className="flex bg-contain rounded-full overflow-hidden"
                     />

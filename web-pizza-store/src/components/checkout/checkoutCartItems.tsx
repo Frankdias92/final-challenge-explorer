@@ -1,8 +1,7 @@
 
-import { CartProps, useOrders } from "@/hooks/orderRequest";
+import { useOrders } from "@/hooks/orderRequest";
 import { api } from "@/services/api";
-import { Image } from "@nextui-org/react"
-import NextImage from "next/image";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { IoBagRemove } from "react-icons/io5";
 
@@ -38,7 +37,9 @@ export function CheckoutCartItems ({ productImg, name, description, price, quant
         <div className="flex w-full h-48 border-b-dark-500 border-b-4 p-4 gap-4">
             <div className="flex h-full items-center">
                 <Image
-                        as={NextImage}
+                        loading="lazy"
+                        placeholder="blur"
+                        blurDataURL="data:'img/png"
                         width={690}
                         height={690}
                         quality={100}

@@ -42,8 +42,8 @@ export function HandleWithCheckout () {
 
                                         <>Pagamento</>
                                         <div className="flex w-full justify-between p-2 bg-dark-500 rounded-lg">
-                                                <text>Valor Total:</text>
-                                                <text>R$ {cartSummary.totalPrice}</text>
+                                                <p>Valor Total:</p>
+                                                <p>R$ {cartSummary.totalPrice}</p>
                                         </div>
 
                                 </div>
