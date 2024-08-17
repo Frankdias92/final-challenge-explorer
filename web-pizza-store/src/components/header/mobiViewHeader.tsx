@@ -7,11 +7,11 @@ import { UseAuth } from "@/hooks/auth";
 import { PiReceipt } from "react-icons/pi";
 import Link from "next/link";
 import { useSearch } from "@/app/(home)/searchProvider";
-import { useCart } from "@/hooks/cartOrder";
+import { useOrders } from "@/hooks/orderRequest";
 
 export default function MobiViewHeader () {
         const  { isMenuOpen, handleMenuOpen }  = UseAuth()
-        const { totalCartQuantity } = useCart()
+        const { cartSummary } = useOrders()
         const { setSearchTerm } = useSearch()
 
         const closeDropMenu = () => {
@@ -49,7 +49,7 @@ export default function MobiViewHeader () {
                                 <PiReceipt className="flex text-4xl mx-3" />
                                 <span className="flex w-6 h-6 p-2 justify-center items-center rounded-full bg-tint-tomato-400 absolute -top-1 right-1">
                                     <span className="flex items-center justify-center font-medium text-sm">
-                                        {totalCartQuantity}
+                                        {cartSummary.totalQuantity || 0}
                                     </span>
                                 </span>
                             </Link>

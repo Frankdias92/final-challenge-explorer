@@ -9,12 +9,12 @@ import { useOrders } from "@/hooks/orderRequest"
 
 export function HandleWithCheckout () {
         // const { showGroupedCartItems  } = useCart()
-        const {showGroupedCartItems } = useOrders()
+        const { cartSummary } = useOrders()
         const router = useRouter()
 
         useEffect(() => {
-                console.log('test props', {showGroupedCartItems})
-        }, [showGroupedCartItems])
+                console.log('test props', {cartSummary})
+        }, [cartSummary])
         return (
                 <section className="flex flex-col w-full h-full text-light-100 font-poppins py-8">
 
@@ -24,8 +24,8 @@ export function HandleWithCheckout () {
 
                                         <>Cart Items</>
 
-                                        {showGroupedCartItems && showGroupedCartItems.length > 0 ? (
-                                                showGroupedCartItems.map(item => (
+                                        {cartSummary.groupedItems && cartSummary.groupedItems.length > 0 ? (
+                                                cartSummary.groupedItems.map(item => (
                                                         <CheckoutCartItems 
                                                                 key={item.cart_item_id}
                                                                 cart_item_id={item.cart_item_id}
@@ -49,7 +49,7 @@ export function HandleWithCheckout () {
                                 </div>
                         </div>
 
-                        {showGroupedCartItems && showGroupedCartItems.length > 0 &&
+                        {cartSummary.groupedItems && cartSummary.groupedItems.length > 0 &&
                         <span className="flex w-full xl:hidden mt-8">
                                 <ButtonText text="Adicionar endereço" onclick={() => router.push('/checkout/delivery')} size={48}/>
                         </span>

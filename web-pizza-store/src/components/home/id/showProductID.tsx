@@ -7,7 +7,7 @@ import { ButtonText } from "@/components/buttonText";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { UseAuth } from "@/hooks/auth";
-import { useCart } from "@/hooks/cartOrder";
+import { useOrders } from "@/hooks/orderRequest";
 
 type ShowProductIDProps = {
     filteredProductId: ProductProps
@@ -16,7 +16,7 @@ type ShowProductIDProps = {
 };
 
 export function ShowProductID({ filteredProductId, itemValue, setItemValue }: ShowProductIDProps) {
-    const { addDisheOnCart } = useCart();
+    const { addDisheOnCart } = useOrders();
     const { user } = UseAuth()
     const router = useRouter();
 

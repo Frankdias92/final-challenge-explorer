@@ -2,7 +2,7 @@
 
 import { ButtonText } from "@/components/buttonText"
 import { LabelInput } from "@/components/forms/inputLabel"
-import { useCart } from "@/hooks/cartOrder"
+import { useOrders } from "@/hooks/orderRequest"
 import axios from "axios"
 import { useEffect, useState } from "react"
 
@@ -21,7 +21,7 @@ export function HandleWithDelivery () {
         const [neighborHood, setNeighborHood] = useState<string>('')
         const [location, setLocation] = useState<string>('')
 
-        const { showGroupedCartItems, totalPrice } = useCart()
+        const { cartSummary } = useOrders()
         // const router = useRouter()
 
         function handleWithFinalStep() {
@@ -33,9 +33,9 @@ export function HandleWithDelivery () {
                 const message = `
                         🍕 NOVO PEDIDO
                         \nEntregar em: \n RUA: ${adress}, ${adressNumber}, CEP: ${cep}, \n ${neighborHood}
-                        \n${showGroupedCartItems?.map(item =>  ` \n${item.name} ${item.quantity} x ${item.price}`)}
-                        \nValor total: R$ ${totalPrice}
-                        \nRef:. ${showGroupedCartItems?.map(item => item.user_id)}`
+                        \n${cartSummary.groupedItems?.map(item =>  ` \n${item.name} ${item.quantity} x ${item.price}`)}
+                        \nValor total: R$ ${cartSummary.totalPrice}
+                        \nRef:. ${cartSummary.groupedItems?.map(item => item.user_id)}`
 
                         const encodedMessage = encodeURIComponent(message)
                         // const groupId = 'DgHh0J2Fujo3Q4y8rGdCaw'         // Group Id

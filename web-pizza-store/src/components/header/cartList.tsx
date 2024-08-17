@@ -1,14 +1,14 @@
-'use client'
 
-import { Dropdown, DropdownTrigger, DropdownMenu, Button, DropdownSection } from "@nextui-org/react";
-import { DropdownItem } from "@nextui-org/react";
-import { PiReceipt } from "react-icons/pi";
-import { ButtonText } from "../buttonText";
 import { useRouter } from "next/navigation";
-import { DrobMenuCart } from "../cart/drobMenuCart";
-import { CartProps, useCart } from "@/hooks/cartOrder";
 import { useEffect } from "react";
-// import { useEffect } from "react";
+import { 
+    Dropdown, DropdownItem, DropdownTrigger, DropdownMenu, Button, DropdownSection 
+} from "@nextui-org/react";
+
+import { CartProps } from "@/hooks/orderRequest";
+import { PiReceipt } from "react-icons/pi";
+import { DrobMenuCart } from "../cart/drobMenuCart";
+import { ButtonText } from "../buttonText";
 
 type CartListProps = {
     totalCartQuantity: number
@@ -16,13 +16,12 @@ type CartListProps = {
     showGroupedCartItems: CartProps[]
 }
 
-export function CartList() {
+export function CartList({totalCartQuantity, totalCartPrice, showGroupedCartItems}: CartListProps) {
     const router = useRouter()
-    const {showGroupedCartItems, totalCartQuantity, totalCartPrice, groupedCartItems} = useCart()
 
-    // useEffect(() => {
-    //     console.log('print cart list', showGroupedCartItems[0], groupedCartItems)
-    // }, [showGroupedCartItems, groupedCartItems])
+    useEffect(() => {
+        console.log('print without quantity',)
+    }, [])
 
     return (
         <Dropdown backdrop="blur"
@@ -39,7 +38,7 @@ export function CartList() {
                         <PiReceipt className="text-4xl" />
                         <span>
                             pedidos 
-                            ({totalCartQuantity})
+                            ({totalCartQuantity || 0})
                         </span>
                     </span>
 
@@ -49,7 +48,7 @@ export function CartList() {
                         <span className="flex w-6 h-6 p-2 justify-center items-center rounded-full bg-tint-tomato-400 absolute -top-1 right-1
                             ">
                             <span className="flex items-center justify-center font-medium text-sm">
-                                {totalCartQuantity}
+                                {totalCartQuantity || 0}
                             </span>
                         </span>
                     </span>
@@ -82,7 +81,7 @@ export function CartList() {
                             <div className="flex items-center gap-2">
                                 <PiReceipt className="flex text-4xl text-center" />
                                 <span className="flex size-6 text-xs justify-center items-center bg-tint-tomato-400 rounded-full">
-                                    {totalCartQuantity}
+                                    {totalCartQuantity || 0}
                                 </span>
                             </div>
                             <span className="flex text-light-500">

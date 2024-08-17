@@ -5,9 +5,8 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 import { useOrders } from "@/hooks/orderRequest";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { ListProductsFeatures } from "./listProdutsFeatures";
-import { useCart } from "@/hooks/cartOrder";
 
 interface FeaturesProps {
     section: string
