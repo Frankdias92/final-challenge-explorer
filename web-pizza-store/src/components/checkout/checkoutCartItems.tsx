@@ -1,4 +1,3 @@
-'use client'
 
 import { CartProps, useOrders } from "@/hooks/orderRequest";
 import { api } from "@/services/api";
@@ -65,7 +64,7 @@ export function CheckoutCartItems ({ productImg, name, description, price, quant
             </div>
 
             <div className="flex flex-col m-auto min-w-fit h-full py-8 justify-end items-end">
-                <IoBagRemove className="h-full text-2xl hover:text-light-400 cursor-pointer"
+                <IoBagRemove className="h-full text-2xl hover:text-light-400 hover:cursor-pointer"
                     onClick={() => RemoveDisheOnCart(cart_item_id)}
                 />
                 <p className="flex w-full items-center bg-dark-600 text-light-500 text-xs font-roboto px-2 rounded-md">

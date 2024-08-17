@@ -21,7 +21,7 @@ export default function RootLayout({
       <Head>
         <link rel="icon" href="/favicon.ico" sizes="32x32" type="image/x-icon" />
       </Head>
-      <body className={`${roboto.variable} ${poppins.variable} ${dmSans.variable} relative bg-dark-700 overflow-x-hidden`}>
+      <body className={`${roboto.variable} ${poppins.variable} ${dmSans.variable} relative bg-dark-700 overscroll-x-none`}>
         <Providers>
             {children}
         </Providers>

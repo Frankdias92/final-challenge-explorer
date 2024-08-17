@@ -19,7 +19,7 @@ export function DrobMenuCart ({item}: ItemProps) {
     
     return (
         <li className="hover:bg-dark-100 rounded-md p-2 z-10 "
-                onClick={() => router.push(`home/${item.meal_id}`)}
+                onClick={() => router.push(`/${item.meal_id}`)}
             >
             <div className="grid grid-cols-3 justify-stretch items-center m-auto z-10">
                 <Link href={`/${item.meal_id}`} className="flex flex-col w-full col-span-2">

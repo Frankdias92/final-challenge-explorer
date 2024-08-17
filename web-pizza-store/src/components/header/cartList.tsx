@@ -55,7 +55,7 @@ export function CartList({totalCartQuantity, totalCartPrice, showGroupedCartItem
                 </Button>
             </DropdownTrigger>
             <DropdownMenu 
-                closeOnSelect={false}
+                closeOnSelect={true}
                 variant="faded" 
                 aria-label="Static Actions" 
                 className="max-h-[550px]"

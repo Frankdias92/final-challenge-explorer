@@ -19,7 +19,7 @@ export function MenuDrop() {
     const router = useRouter()
 
     function handleClickNewDishe() {
-        router.push('/home/new')
+        router.push('/new')
         handleMenuOpen(false)
     }
 
@@ -75,7 +75,11 @@ export function MenuDrop() {
                         ) : (
                             <div className="flex flex-col w-full text-light-300">
                                 { user?.role === 'admin' && <ParagraphDivision text="Novo prato" onClick={handleClickNewDishe}/>}
-                                <ParagraphDivision text="Sair" onClick={handleSignOutRouter}/>
+                                {!user ? (
+                                    <ParagraphDivision text="Fazer Login" onClick={() => router.push('/login')}/>
+                                ) : (
+                                    <ParagraphDivision text="Sair" onClick={handleSignOutRouter}/>
+                                )}
                             </div>
                         )}     
                     </div>

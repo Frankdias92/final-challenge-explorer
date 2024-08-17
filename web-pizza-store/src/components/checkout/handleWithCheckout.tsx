@@ -12,9 +12,9 @@ export function HandleWithCheckout () {
         const { cartSummary } = useOrders()
         const router = useRouter()
 
-        useEffect(() => {
-                console.log('test props', {cartSummary})
-        }, [cartSummary])
+        // useEffect(() => {
+        //         console.log('test props', {cartSummary})
+        // }, [cartSummary])
         return (
                 <section className="flex flex-col w-full h-full text-light-100 font-poppins py-8">
 
@@ -43,7 +43,7 @@ export function HandleWithCheckout () {
                                         <>Pagamento</>
                                         <div className="flex w-full justify-between p-2 bg-dark-500 rounded-lg">
                                                 <text>Valor Total:</text>
-                                                <text>R$ {'totalPrice'}</text>
+                                                <text>R$ {cartSummary.totalPrice}</text>
                                         </div>
 
                                 </div>

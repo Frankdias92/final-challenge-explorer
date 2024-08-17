@@ -51,9 +51,9 @@ export default function ProductForm() {
             const confirmation = 'Produto adicionado com sucesso! Gostaria de adicionar outro produto?'
             if (confirm(confirmation) === true) {
                 setName('')
-                setCategory([])
                 setDescription('')
                 setProductImg('')
+                setCategory([])
                 setIngredients([])
                 setPrice
                 router.refresh()

@@ -1,14 +1,14 @@
 'use client'
 
-import { useParams } from "next/navigation";
-import { ProductProps } from "@/components/home/features";
-import { UseAuth } from "@/hooks/auth";
-import { useOrders } from "@/hooks/orderRequest";
-import { ShowProductID } from "@/components/home/id/showProductID";
-import Link from "next/link";
-import { IoIosArrowBack } from "react-icons/io";
 import { useCallback, useEffect, useState } from "react"
+import { useParams } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
+
+import { ShowProductID } from "@/components/home/id/showProductID";
+import { ProductProps } from "@/components/home/features";
+import { useOrders } from "@/hooks/orderRequest";
+import { IoIosArrowBack } from "react-icons/io";
 
 export default function RetriveId () {
     const [data, setData] = useState<ProductProps>();
@@ -16,7 +16,6 @@ export default function RetriveId () {
     const [loading, setLoading] = useState<boolean>(true)
     const { meals } = useOrders();
     const params = useParams();
-    const { user } = UseAuth();
     
     const meal_id = Number(params.id);
 
