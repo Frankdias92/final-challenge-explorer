@@ -14,6 +14,11 @@ This project is an API for managing a pizza ordering system. It allows administr
 - [Environment Variables](#environment-variables)
 - [API Documentation](#api-documentation)
 
+### Data Model for Meal Ordering System
+This diagram provides a visual representation of how the database entities are structured and how they interact with each other in the **Pizza Store** application.
+
+<img src="../assets-readme/dataModelforMealOrdering.png" alt="Data Model for Meal Ordering System" width="auto" />
+
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Sparkles.png" alt="Sparkles" width="25" height="25" /> Features
 - **User Management**: Create, read, update, and delete users. Differentiate between admin and customer roles.
 - **Meal Management**: Admins can create, read, update, and delete meals.
@@ -22,22 +27,21 @@ This project is an API for managing a pizza ordering system. It allows administr
 
 ## 🛠 Installation
 ### Config Environment Variables
-- Rename file `.env.exemple` to `.env`
+- Rename file `.env.example` to `.env`
 
-- Let's run this command below to create a container
+- Let's run this command below to create a container:
     ```sh
     docker-compose up -d
     ```
-- Check if is running:
+- Check if it is running:
     ```sh
     docker-compose ps
     ```    
-- You should see this if everything goes well
+- You should see this if everything goes well:
 
- <img src="../assets-readme/Screenshot_2024-08-17-22-07-43_1920x1080.png" alt="Puzzle Piece" width="auto" />
+ <img src="../assets-readme/Screenshot_2024-08-17-22-07-43_1920x1080.png" alt="Docker Compose Running" width="auto" />
 
-
-- The API will be available at `http://localhost:3333`.
+- API is available at [http://localhost:3333](http://localhost:3333) after starting the server.
 
 ## 📡 API Endpoints
 ### Users
@@ -73,7 +77,6 @@ This project is an API for managing a pizza ordering system. It allows administr
 - `GET /cart`: Get all items in the cart.
 - `PUT /cart/:id`: Update a specific cart item.
 - `DELETE /cart/:id`: Remove a specific cart item.
-
 
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Magnifying%20Glass%20Tilted%20Left.png" alt="Magnifying Glass Tilted Left" width="25" height="25" /> Project Structure
 
@@ -148,44 +151,53 @@ project-root/
 ```
 </details>
 
-## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/X-Ray.png" alt="X-Ray" width="25" height="25" /> Database Schema
+### Database Schema
+The database consists of the following tables:
+
 ### Users Table
-- **Columns**: `id`, `name`, `email`, `password`, `role`, `created_at`, `updated_at`
-- **Purpose**: Stores user information, including roles (`admin` or `customer`).
+| Column Name | Data Type | Description |
+| ---------------- | ---------------- | -------------------------------------- |
+| id | INTEGER | Primary key |
+| name | TEXT | User's name |
+| email | TEXT | User's email (must be unique) |
+| password | TEXT | User's encrypted password |
+| role | ENUM ("admin", "customer") | User's role, default is "customer" |
+| created_at | TIMESTAMP | Timestamp when the user was created |
+| updated_at | TIMESTAMP | Timestamp when the user was last updated |
 
 ### Meals Table
-- **Columns**: `meal_id`, `name`, `description`, `price`, `category`, `created_by`
-- **Purpose**: Stores meal information and references the admin who created the meal.
+| Column Name | Data Type | Description |
+| ---------------- | ---------------- | -------------------------------------- |
+| meal_id | INTEGER | Primary key |
+| name | TEXT | Name of the meal |
+| description | TEXT | Description of the meal |
+| price | DECIMAL (10, 2) | Price of the meal |
+| category | TEXT | Category of the meal |
+| created_by | INTEGER | Foreign key to users table (references id) |
 
-### Cart Items Table
-- **Columns**: `order_item_id`, `order_id`, `meal_id`, `quantity`
-- **Purpose**: Relates orders with meals and stores the quantity of each meal in an order.
+### Orders Table
+| Column Name | Data Type | Description |
+| ---------------- | ---------------- | -------------------------------------- |
+| order_id | INTEGER | Primary key |
+| user_id | INTEGER | Foreign key to users table (references id) |
+| order_date | TIMESTAMP | Timestamp when the order was placed |
+| total_price | DECIMAL (10, 2) | Total price of the order |
 
-<!-- use in the future -->
-<!-- ### Orders Table
-- **Columns**: `order_id`, `user_id`, `order_date`, `total_price`
-- **Purpose**: Stores order information and references the user who placed the order. -->
+### Order Items Table
+| Column Name | Data Type | Description |
+| ---------------- | ---------------- | -------------------------------------- |
+| order_item_id | INTEGER | Primary key |
+| order_id | INTEGER | Foreign key to orders table (references order_id) |
+| meal_id | INTEGER | Foreign key to meals table (references meal_id) |
+| quantity | INTEGER | Quantity of the meal ordered |
 
-## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Test%20Tube.png" alt="Test Tube" width="25" height="25" /> API Documentation
-API documentation is automatically generated using Swagger. After starting the server, access the documentation at:
 
-```
-http://localhost:3333/api-docs
-```
+## Environment Variables
+To run this project, you will need to rename the file `.env.exemple` environment to `.env`
 
-## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Top%20Hat.png" alt="Top Hat" width="25" height="25" /> Importing into Postman
+## API Documentation
+- Swagger is available at [http://localhost:3333/api-docs](http://localhost:3333/api-docs) after starting the server.
 
-To streamline API testing, I have prepared a Postman import file. Here's how to import the routes:
+## License
 
-- Download the import file [here](https://github.com/Frankdias92/final-challenge-explorer/blob/main/back-pizza-store/insomnia_routes.json).
-- In Postman, go to File > Import.
-- Choose the downloaded file and import it.
-- Your Postman workspace will now contain the routes.
-
-## Examples
-- Installation
-    - video here
-- Create a user
-    - video here
-- Make a user to admin
-    - video here
+This project is licensed under the MIT License. See the [LICENSE](../licence.md) file for more details.

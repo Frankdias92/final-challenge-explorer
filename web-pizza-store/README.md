@@ -19,6 +19,12 @@ This project is the user interface for the pizza ordering application developed 
 
 The application is an interactive digital menu for a fictitious restaurant, allowing users to view dishes, place orders and interact with the system. 
 
+## User Flow for Order
+
+This flowchart illustrates the user's journey from visiting the homepage, adding items to the cart, logging in, and completing the order process, including delivery and confirmation steps.
+
+<img src="../assets-readme/userFlowForOrder.png" alt="User Flow for Order Completion" width="auto" />
+
 ## Features
 
 - Login screen and user registration.
@@ -30,8 +36,6 @@ The application is an interactive digital menu for a fictitious restaurant, allo
 - Marking dishes as favorites.
 - Responsive interface optimized for mobile devices.
 - Animations and transitions for a fluid user experience.
-
-
 
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Magnifying%20Glass%20Tilted%20Left.png" alt="Magnifying Glass Tilted Left" width="25" height="25" /> Project Structure
 
@@ -177,4 +181,4 @@ For more details on the API and the back-end, see the [back-pizza-store README](
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+This project is licensed under the MIT License. See the [LICENSE](../licence.md) file for more details.
