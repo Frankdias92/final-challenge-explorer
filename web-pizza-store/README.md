@@ -26,19 +26,11 @@ The application is an interactive digital menu for a fictitious restaurant, allo
 - Search for dishes by name and ingredients.
 - Full details of each dish when clicked on.
 - Functionality for adding dishes to the cart, adjusting quantities and deleting items.
-- Order page with summary and payment methods.
+- Checkout page with summary and adress to delivery.
 - Marking dishes as favorites.
 - Responsive interface optimized for mobile devices.
 - Animations and transitions for a fluid user experience.
 
-## Technologies Used
-
-- **React**: Main library for building the interface.
-- **Next.js**: React framework for server-side rendering and optimization.
-- **Tailwind CSS**: CSS framework for styles.
-- **TypeScript**: Language to ensure static typing.
-- **Axios**: Library for making HTTP calls.
-- **JWT**: For secure authentication.
 
 
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Magnifying%20Glass%20Tilted%20Left.png" alt="Magnifying Glass Tilted Left" width="25" height="25" /> Project Structure

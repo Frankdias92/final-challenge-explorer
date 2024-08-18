@@ -10,9 +10,32 @@ This repository contains two main parts of the project: the back-end and the fro
 
 ```
 final-challenge-explorer
-   ├── back-pizza-store # Back-end source code
-   └── web-pizza-store # Front-end source code
+   ├── assets-readme        | assets for readme
+   ├── back-pizza-store     | Back-end source code
+   └── web-pizza-store      | Front-end source code
 ```
+
+## Technologies Used
+
+### On Front-End
+- **React**: Main library for building the interface.
+- **Next.js**: React framework for server-side rendering and optimization.
+- **Tailwind CSS**: CSS framework for styles.
+- **TypeScript**: Language to ensure static typing.
+- **Axios**: Library for making HTTP calls.
+- **JWT**: For secure authentication.
+
+### On the Back-End
+- **DOCKER-COMPOSE**: For containerization 
+- **BCRYPTJS**: Encrypt sensive data
+- **EXPRESS**: 
+- **CORS**: For containerization 
+- **KNEX**: For containerization 
+- **POSTGRES**: For containerization 
+- **MULTER**: For containerization 
+- **SWAGGER**: For containerization 
+
+## Description
 
 ### back-pizza-store
 
@@ -37,7 +60,7 @@ final-challenge-explorer
 
 3. Access the deployment of the applications:
    - Front-end: [final-challenge.vercel.app](https://final-challenge-explorer.vercel.app).
-   - Back-end: [food-explorer-api](https://explorerfoodapi-z11gyxkf.b4a.run/meals/index).
+   - Back-end: [food-explorer-api](https://backfooddb-fndy852s.b4a.run/meals/index).
 
 
 ## License

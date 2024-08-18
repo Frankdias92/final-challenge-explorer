@@ -21,33 +21,23 @@ This project is an API for managing a pizza ordering system. It allows administr
 - **Order Items Management**: Manage the relationship between orders and meals.
 
 ## 🛠 Installation
-1. Clone the repository:
+### Config Environment Variables
+- Rename file `.env.exemple` to `.env`
+
+- Let's run this command below to create a container
     ```sh
-    git clone https://github.com/Frankdias92/final-challenge-explorer/
-    cd back-pizza-store
+    docker-compose up -d
     ```
-
-2. Install dependencies:
+- Check if is running:
     ```sh
-    npm install
-    ```
+    docker-compose ps
+    ```    
+- You should see this if everything goes well
 
-3. Set up the database:
-    - Ensure you have SQLite installed and running.
-    - Create a `.env` file in the root directory and set your database credentials (refer to the [Environment Variables](#environment-variables) section).
+ <img src="../assets-readme/Screenshot_2024-08-17-22-07-43_1920x1080.png" alt="Puzzle Piece" width="auto" />
 
-4. Run migrations:
-    ```sh
-    npm run migrate
-    ```
 
-## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Puzzle%20Piece.png" alt="Puzzle Piece" width="25" height="25" /> Usage
-1. Start the server:
-    ```sh
-    npm run start
-    ```
-
-2. The API will be available at `http://localhost:3333`.
+- The API will be available at `http://localhost:3333`.
 
 ## 📡 API Endpoints
 ### Users
@@ -84,7 +74,14 @@ This project is an API for managing a pizza ordering system. It allows administr
 - `PUT /cart/:id`: Update a specific cart item.
 - `DELETE /cart/:id`: Remove a specific cart item.
 
+
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Magnifying%20Glass%20Tilted%20Left.png" alt="Magnifying Glass Tilted Left" width="25" height="25" /> Project Structure
+
+<details>
+<summary> 
+ Click to expand <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Ladder.png" alt="Ladder" width="20" height="20" />
+</summary>
+
 ```
 project-root/
 ├── bin/
@@ -149,6 +146,7 @@ project-root/
 ├── swagger-output.json
 └── swagger.json
 ```
+</details>
 
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/X-Ray.png" alt="X-Ray" width="25" height="25" /> Database Schema
 ### Users Table
@@ -159,27 +157,14 @@ project-root/
 - **Columns**: `meal_id`, `name`, `description`, `price`, `category`, `created_by`
 - **Purpose**: Stores meal information and references the admin who created the meal.
 
-### Orders Table
-- **Columns**: `order_id`, `user_id`, `order_date`, `total_price`
-- **Purpose**: Stores order information and references the user who placed the order.
-
-### Order Items Table
+### Cart Items Table
 - **Columns**: `order_item_id`, `order_id`, `meal_id`, `quantity`
 - **Purpose**: Relates orders with meals and stores the quantity of each meal in an order.
 
-## Running Migrations
-Run the following command to execute the database migrations:
-```sh
-npm run migrate
-```
-
-## Environment Variables
-Create a `.env` file in the project root and set the following variables:
-```env
-DB_HOST=http://localhost
-DB_PORT=3333
-APP_CORS_PORT=3000
-```
+<!-- use in the future -->
+<!-- ### Orders Table
+- **Columns**: `order_id`, `user_id`, `order_date`, `total_price`
+- **Purpose**: Stores order information and references the user who placed the order. -->
 
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Test%20Tube.png" alt="Test Tube" width="25" height="25" /> API Documentation
 API documentation is automatically generated using Swagger. After starting the server, access the documentation at:
@@ -197,3 +182,10 @@ To streamline API testing, I have prepared a Postman import file. Here's how to 
 - Choose the downloaded file and import it.
 - Your Postman workspace will now contain the routes.
 
+## Examples
+- Installation
+    - video here
+- Create a user
+    - video here
+- Make a user to admin
+    - video here
