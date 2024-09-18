@@ -20,9 +20,9 @@ const client = new Client({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   // disable to run local
-  // ssl: {
-  //   rejectUnauthorized: false
-  // }
+  ssl: {
+    rejectUnauthorized: false
+  }
 })
 
 client.connect()
