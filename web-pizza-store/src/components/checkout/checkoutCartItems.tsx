@@ -37,13 +37,14 @@ export function CheckoutCartItems ({ productImg, name, description, price, quant
         <div className="flex w-full h-48 border-b-dark-500 border-b-4 p-4 gap-4">
             <div className="flex h-full items-center">
                 <Image
-                        loading="lazy"
-                        placeholder="blur"
-                        blurDataURL="data:'img/png"
+                        // loading="lazy"
+                        // placeholder="blur"
+                        // blurDataURL="data:'img/png"
                         width={690}
                         height={690}
                         quality={100}
-                        src={`${process.env.NEXT_PUBLIC_URL_FILES}/${imageParams}` /* || 'http://localhost:3000/_next/image?url=http%3A%2F%2Flocalhost%3A3333%2Ffiles%2F44d6d72e16447cb98ec4-63c83ebeef5ea2f341f3dd4c_OG-perpetuo.jpg&w=640&q=75' */}
+                        priority
+                        src={`${process.env.NEXT_PUBLIC_URL_FILES}/${imageParams}`}
                         alt={`Imagem de ${name}`}
                         className="flex rounded-full w-48"
                     />

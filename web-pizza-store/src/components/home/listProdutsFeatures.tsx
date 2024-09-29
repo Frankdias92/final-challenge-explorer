@@ -84,13 +84,14 @@ export function ListProductsFeatures({ meal_id, image, description, title, price
             <div className="flex flex-col w-full h-full items-center justify-center m-auto gap-3 p-6">
                 <span className="flex items-center size-[88px] md:size-[172px]">
                     <Image
-                        src={`${process.env.NEXT_PUBLIC_DB}/files/${image}`}
-                        loading="lazy"
-                        placeholder="blur"
-                        blurDataURL="data:'img/png"
+                        src={`${process.env.NEXT_PUBLIC_URL_FILES}/${image}`}
+                        // loading="lazy"
+                        // placeholder="blur"
+                        // blurDataURL="data:'img/png"
                         width={488}
                         height={488}
-                        // quality={85}
+                        quality={85}
+                        priority
                         alt={`Image do prato ${title} com descrição ${description}`}
                         className="flex bg-contain rounded-full overflow-hidden"
                     />
