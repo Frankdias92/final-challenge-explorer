@@ -1,10 +1,15 @@
 import { Image } from "@nextui-org/react";
 import NextImage from "next/image";
+import { useEffect } from "react";
 
 export function Main() {
     const pathImg = 'https://raw.githubusercontent.com/Frankdias92/final-challenge-explorer/main/web-pizza-store/src/assets'
 
-
+    
+    useEffect(() => {
+        alert('The database for this project has been disabled.')
+    }, [])
+    
     return (
         <section className="flex w-full md:w-3/4 m-auto px-6 md:px-0 mt-11 ">
             <div className="flex w-full h-[120px] lg:h-[260px] justify-end px-2 bg-gradient-to-b from-gradient-200-to to-gradient-200-stop rounded-[3px] antialiased ">

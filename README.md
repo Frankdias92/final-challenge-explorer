@@ -1,6 +1,7 @@
-# Final Challenge Explorer
+# Final Challenge Explorer 
+> 🚧 The database for this project has been disabled.
 
-<img src="./web-pizza-store/src/assets/imgs/cover-readme.png" alt="Puzzle Piece" width="auto" />
+<img src="./web-pizza-store/src/assets/imgs/ThumbnailFoodExplorer.png" alt="Puzzle Piece" width="auto" />
 
 Welcome to the **Final Challenge Explorer** repository!
 

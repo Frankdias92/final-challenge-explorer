@@ -1,5 +1,9 @@
 # Web Pizza Store
 
+> 🚧 The database for this project has been disabled.
+
+<img src="./src/assets/imgs/ThumbnailFoodExplorer.png" alt="Puzzle Piece" width="auto" />
+
 Welcome to the repository for the front-end of the **Web Pizza Store** application!
 
 This project is the user interface for the pizza ordering application developed as part of the final Explorer training challenge at Rocketseat.
